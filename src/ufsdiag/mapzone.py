@@ -1,0 +1,56 @@
+MAP_ZONE_HTML = """<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Carte d'identification du périmètre</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style> html, body, #map { height: 100%; margin: 0; } </style>
+</head>
+<body>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const map = L.map("map");
+L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution: "&copy; OpenStreetMap (ODbL)", maxZoom: 19
+}).addTo(map);
+
+const overlays = {};
+
+fetch("zone.geojson").then(r => r.json()).then(z => {
+  const l = L.geoJSON(z, {
+    style: { color: "#c0392b", weight: 3, fillColor: "#e74c3c", fillOpacity: 0.25 },
+    onEachFeature: (f, ly) => ly.bindPopup(`<b>${f.properties.nom || "Zone d'étude"}</b><br>${f.properties.detail || ""}`)
+  });
+  overlays["Périmètre de la zone d'étude"] = l;
+  l.addTo(map);
+  map.fitBounds(l.getBounds(), { padding: [30, 30] });
+});
+
+fetch("point_ancrage.geojson").then(r => r.json()).then(p => {
+  const l = L.geoJSON(p, {
+    pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 10, color: "#fff", weight: 2, fillColor: "#2c3e50", fillOpacity: 1 }),
+    onEachFeature: (f, ly) => ly.bindPopup(`<b>Point d'ancrage</b><br>${f.properties.adresse || ""}<br>${f.properties.detail || ""}`)
+  });
+  overlays["Point d'ancrage (adresse)"] = l;
+  l.addTo(map);
+});
+
+fetch("pois.geojson").then(r => r.json()).then(pois => {
+  const l = L.geoJSON(pois, {
+    pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, color: "#fff", weight: 1, fillColor: "#27ae60", fillOpacity: 0.8 }),
+    onEachFeature: (f, ly) => ly.bindPopup(`<b>${f.properties.name}</b><br>${f.properties.category}`)
+  });
+  overlays["Équipements (POI)"] = l;
+  l.addTo(map);
+  L.control.layers(null, overlays, { collapsed: false }).addTo(map);
+});
+</script>
+</body>
+</html>
+"""
+
+
+def write_map_zone(out_dir):
+    with open(out_dir + "/map_zone.html", "w", encoding="utf-8") as f:
+        f.write(MAP_ZONE_HTML)

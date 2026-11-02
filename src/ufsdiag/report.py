@@ -144,8 +144,10 @@ def render_zone_html(perimeter, zone_info, point_info, cats):
 </table>"""
     return f"""
 <h2>1. Où se trouve-t-on ? Périmètre et zone d'étude</h2>
+<iframe src="map_zone.html" style="width:100%;height:480px;border:1px solid #ccc;"></iframe>
+<p><small>Carte d'identification : en rouge le périmètre de la zone d'étude, en bleu foncé le point d'ancrage, en vert les équipements recensés.</small></p>
 <p>{esc(perimeter.get('description', ''))}<br>
-Bbox WGS84 : sud {bbox['south']}, ouest {bbox['west']}, nord {bbox['north']}, est {bbox['east']} — {len(zone_info['categories']) and '' or ''}maillage de {perimeter['grid_cell_m']} m.</p>
+Bbox WGS84 : sud {bbox['south']}, ouest {bbox['west']}, nord {bbox['north']}, est {bbox['east']} — maillage de {perimeter['grid_cell_m']} m.</p>
 {zone_html}
 {point_html}
 """

@@ -25,6 +25,7 @@ from ufsdiag.isadora import build_checklist
 from ufsdiag.kickoff import build_kickoff
 from ufsdiag.report import render_report
 from ufsdiag.mapview import write_map
+from ufsdiag.mapzone import write_map_zone
 from ufsdiag import network as net
 from ufsdiag.eqis import compute_eqis_block, compute_scenario_marche
 from ufsdiag import zone as zonemod
@@ -224,6 +225,28 @@ def main():
             json.dump(kickoff, f, ensure_ascii=False, indent=2)
 
     write_map(args.out)
+    write_map_zone(args.out)
+    # GeoJSON pour la carte d'identification (section 1)
+    if zone_file and os.path.exists(zone_file):
+        polygons, zprops, zname = zonemod.load_zone(zone_file)
+        zfc = {"type": "FeatureCollection", "features": []}
+        for poly in polygons:
+            zfc["features"].append({
+                "type": "Feature",
+                "properties": {"nom": (zone_cfg or {}).get("nom", "Zone d'étude"),
+                               "detail": f"Source : {(zone_cfg or {}).get('source', '')} — {zonemod.polygon_area_m2(polygons)/1e6:.3f} km²"},
+                "geometry": {"type": "Polygon", "coordinates": poly},
+            })
+        with open(os.path.join(args.out, "zone.geojson"), "w", encoding="utf-8") as f:
+            json.dump(zfc, f, ensure_ascii=False)
+    if pa:
+        pfc = {"type": "FeatureCollection", "features": [{
+            "type": "Feature",
+            "properties": {"adresse": pa.get("adresse"), "detail": "Géocodage Photon/BAN (Métropole de Lyon)"},
+            "geometry": {"type": "Point", "coordinates": [pa["lon"], pa["lat"]]},
+        }]}
+        with open(os.path.join(args.out, "point_ancrage.geojson"), "w", encoding="utf-8") as f:
+            json.dump(pfc, f, ensure_ascii=False)
 
     if eqis_block:
         with open(os.path.join(args.out, "eqis.json"), "w", encoding="utf-8") as f:

@@ -1,11 +1,11 @@
-# ufs-diagnostic — prototype de diagnostic territorial « Urbanisme Favorable à la Santé » (v0.7)
+# ufs-diagnostic — prototype de diagnostic territorial « Urbanisme Favorable à la Santé » (v0.7.1)
 
 Outil libre (EUPL-1.2) qui enchaîne, pour un périmètre donné (quartier, rue) :
 
 0. **Fiche de démarrage du projet** — les questions de cadrage à se poser avant tout livrable
    (objectif, périmètre, données/acteurs, méthode/livrables, budget/compétences/cadre réglementaire/contraintes),
    avec réponses éditables dans `config/project_<cas>.json` ;
-1. **Où se trouve-t-on : périmètre + zone définie** (ex. QPV Les Buers, polygone ANCT) avec indicateurs calculés DANS la zone
+1. **Carte d'identification en tête de rapport** (`map_zone.html` : polygone de la zone, point d'ancrage, POI) + **où se trouve-t-on : périmètre + zone définie** (ex. QPV Les Buers, polygone ANCT) avec indicateurs calculés DANS la zone
    (effectifs, densités /km² et /10 000 hab, distance moyenne au plus proche par le réseau) ; **point d'ancrage** (adresse géocodée)
    pour les distances d'une personne précise ;
 2. **Données ouvertes souveraines** (WFS Métropole de Lyon / data.gouv.fr-magOSM) ;

@@ -1,0 +1,1 @@
+{"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"adresse": "130 rue Anatole France, 69100 Villeurbanne", "detail": "Géocodage Photon/BAN (Métropole de Lyon)"}, "geometry": {"type": "Point", "coordinates": [4.8823724, 45.7686273]}}]}
