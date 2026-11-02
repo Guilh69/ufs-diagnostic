@@ -151,7 +151,7 @@ Bbox WGS84 : sud {bbox['south']}, ouest {bbox['west']}, nord {bbox['north']}, es
 """
 
 
-def render_report(perimeter, cells, summary, checklist, cats, kickoff=None, eqis=None, scenario=None, zone_info=None, point_info=None, out_map="map.html"):
+def render_report(perimeter, cells, summary, checklist, cats, kickoff=None, eqis=None, scenario=None, zone_info=None, point_info=None, bruit_info=None, out_map="map.html"):
     n_cells = len(cells)
     bbox = perimeter["bbox"]
     radius = perimeter["walk_radius_m"]
@@ -191,6 +191,17 @@ def render_report(perimeter, cells, summary, checklist, cats, kickoff=None, eqis
     kickoff_html = render_kickoff_html(kickoff) if kickoff else ""
     eqis_html = render_eqis_html(eqis, scenario) if eqis else ""
     zone_html = render_zone_html(perimeter, zone_info, point_info, cats)
+    if zone_info and zone_info.get("pct_mailles_avec_espace_vert_300m") is not None:
+        zone_html += (f"<p><strong>Proxy îlot de fraîcheur (ICU)</strong> : {zone_info['pct_mailles_avec_espace_vert_300m']}% des mailles de la zone "
+                      f"ont un espace vert à ≤ 300 m à pied (réseau). <small>{esc(zone_info.get('icu_note',''))}</small></p>")
+    if bruit_info:
+        s = summary.get("exposition_bruit_routier")
+        extra = ""
+        if s and "pct_cells_reseau" in s:
+            extra = f" ; par le réseau : {s['pct_cells_reseau']}% des mailles à ≤{radius} m, médiane {s['median_min_dist_reseau_m']} m"
+        zone_html += (f"<p><strong>Exposition au bruit routier</strong> (proxy) : {bruit_info['nb_troncons_infotrafic']} voies à trafic recensées ; "
+                      f"{s['pct_cells']}% des mailles à ≤{radius} m d'une voie à trafic à vol d'oiseau{extra}. "
+                      f"<small>{esc(bruit_info['note'])}</small></p>")
     iso_note = (f"Isochrone piéton ~{iso_m} m calculée sur le réseau routier ({perimeter.get('network',{}).get('nb_troncons','?')} tronçons) "
                 f"et affichée sur la carte (<code>isochrone.geojson</code>).") if iso_m else ""
 

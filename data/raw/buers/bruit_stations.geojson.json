@@ -1,0 +1,29 @@
+{
+ "name": "Stations observatoire acoustique (bruit) proches des Buers - DataGrandLyon, couche acoucite:bruit.stations_observatoire_acoustique, Licence Ouverte",
+ "stations": [
+  {
+   "dist_m": 614,
+   "lon": 4.879509,
+   "lat": 45.76951904,
+   "props": {
+    "gid": 5142,
+    "id_station": "BF06",
+    "nom_localisation": "Villeurbanne Zola",
+    "debut_mesures": "2007-07-12",
+    "fin_mesures": null
+   }
+  },
+  {
+   "dist_m": 1397,
+   "lon": 4.898517,
+   "lat": 45.77491004,
+   "props": {
+    "gid": 5162,
+    "id_station": "DF25",
+    "nom_localisation": "Périphérique - Cusset",
+    "debut_mesures": "2019-01-27",
+    "fin_mesures": null
+   }
+  }
+ ]
+}

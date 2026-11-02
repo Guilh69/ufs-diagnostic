@@ -38,5 +38,15 @@
     "median_min_dist_reseau_m": 567,
     "cells_within_radius_reseau": 91,
     "pct_cells_reseau": 70.0
+  },
+  "exposition_bruit_routier": {
+    "nb_pois": 25,
+    "cells_within_radius": 106,
+    "pct_cells": 81.5,
+    "median_min_dist_m": 470,
+    "radius_m": 800,
+    "median_min_dist_reseau_m": 1460,
+    "cells_within_radius_reseau": 35,
+    "pct_cells_reseau": 26.9
   }
 }

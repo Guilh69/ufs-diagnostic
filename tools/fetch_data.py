@@ -38,7 +38,7 @@ def fetch_network(case, out_dir):
     feats, seen = [], set()
     for tile in CASES[case]["tiles"]:
         fc = wfs(BASE, "pvo_patrimoine_voirie.pvotronconwebcriter", tile, 2000,
-                 "the_geom,longueur,libelle,sens")
+                 "the_geom,longueur,libelle,sens,infotrafic,nombrevoies")
         for f in fc.get("features", []):
             if f["id"] not in seen:
                 seen.add(f["id"])

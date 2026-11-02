@@ -36,6 +36,14 @@
         "dist_moyenne_reseau_m": 515,
         "dist_mediane_reseau_m": 468,
         "pct_mailles_zone_a_le_radius": 83.3
+      },
+      "exposition_bruit_routier": {
+        "nb_dans_zone": 0,
+        "densite_par_km2": 0.0,
+        "pour_10000_hab": 0.0,
+        "dist_moyenne_reseau_m": 2775,
+        "dist_mediane_reseau_m": 2310,
+        "pct_mailles_zone_a_le_radius": 0.0
       }
     },
     "nom": "QPV Les Buers (QN06921M), Villeurbanne",
@@ -62,6 +70,11 @@
       "min_dist_vol_m": 170,
       "min_dist_reseau_m": 401,
       "plus_proche": "Pharmacie Daviet"
+    },
+    "exposition_bruit_routier": {
+      "min_dist_vol_m": 702,
+      "min_dist_reseau_m": 1569,
+      "plus_proche": "CRS DE LA REPUBLIQUE"
     },
     "_adresse": "130 rue Anatole France, 69100 Villeurbanne",
     "_lon": 4.8823724,

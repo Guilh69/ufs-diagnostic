@@ -1,4 +1,4 @@
-# ufs-diagnostic — prototype de diagnostic territorial « Urbanisme Favorable à la Santé » (v0.5)
+# ufs-diagnostic — prototype de diagnostic territorial « Urbanisme Favorable à la Santé » (v0.6)
 
 Outil libre (EUPL-1.2) qui enchaîne, pour un périmètre donné (quartier, rue) :
 
@@ -74,6 +74,11 @@ Point d'ancrage « 130 rue Anatole France » : alimentation bio à 0 m (vol d'oi
 
 Lecture : dans le QPV strict, les équipements sont en lisière — la distance moyenne réseau est le bon indicateur pour dire « on trouve X à ~Y m en moyenne dans cette zone ».
 
+## Résultats v0.6 — bruit (proxy) et îlot de fraîcheur (proxy)
+
+- **Exposition au bruit routier** (proxy : 25 voies à ≥ 2 voies, champ `infotrafic`/`nombrevoies` du réseau CRITER) : au point d'ancrage (130 rue Anatole France), la grande voie la plus proche est à **702 m à vol d'oiseau / 1 569 m par le réseau** (Cours de la République) — le cœur du QPV est à l'écart des axes bruyants. Source Lden/Ln 2022 officielle (raster GL_Rte_Lden, cartes stratégiques de bruit Métropole de Lyon) documentée pour le v0.7 ; seuils UE : Lden > 68 dB(A), Ln > 62 dB(A).
+- **Proxy îlot de fraîcheur (ICU)** : **16,7 %** des mailles de la zone QPV ont un espace vert à ≤ 300 m à pied (réseau). Source ICU officielle : Diaclimap (Cerema) / LST Copernicus — v0.7.
+
 ## Résultats v0.5 — EQIS multi-polluants (Villeurbanne, 163 684 hab)
 
 | Polluant | Source | C (µg/m³) | Décès attribuables/an |
@@ -105,7 +110,7 @@ Seuils de référence : UE 2024 = 20, UE 2030 = 10, OMS 2021 = 5 µg/m³.
 
 ## Feuille de route
 
-- v0.6 : AirQ+ (OMS) en moteur EQIS complet, bruit Lden/Ln branché, ICU Diaclimap, plus d'indicateurs Odissé/Géodes, gabarits personnalisables, version web (GeoNode/MapStore + plugin QGIS).
+- v0.7 : Lden/Ln 2022 (raster) et ICU Diaclimap branchés, AirQ+ complet, plus d'indicateurs Odissé/Géodes, gabarits personnalisables. v1.0 : version web (GeoNode/PostGIS + MapStore, hébergement souverain UE) + plugin QGIS.
 - v1.0 : version web (GeoNode/PostGIS + MapStore, hébergement souverain UE) + plugin QGIS, pour le Club UFS AURA.
 
 ## Licence

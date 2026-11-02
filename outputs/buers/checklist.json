@@ -28,8 +28,10 @@
     "type": "conception",
     "title": "Exposition des populations",
     "desc": "Proposer une implantation des espaces bâtis et des espaces de vie limitant l'exposition des populations, notamment les publics vulnérables et défavorisés, aux polluants et nuisances.",
-    "status": "À expertiser sur le terrain",
-    "evidence": []
+    "status": "Données favorables disponibles",
+    "evidence": [
+      "exposition_bruit_routier : 25 objets recensés, 81.5% des mailles à moins de 800 m à vol d'oiseau (médiane 470 m) ; par le réseau : 26.9% à ≤800 m (médiane 1460 m)"
+    ]
   },
   {
     "key": 5,

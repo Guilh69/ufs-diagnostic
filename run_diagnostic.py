@@ -91,6 +91,37 @@ def main():
     else:
         print("[reseau] pas de reseau_routier.geojson : distances réseau ignorées (voir tools/fetch_data.py)")
 
+    # --- v0.6 : proxy exposition bruit routier (tronçons infotrafic=1 du réseau CRITER) ---
+    bruit_info = None
+    if adj is not None:
+        def _is_noisy(f):
+            pr = f.get("properties") or {}
+            if str(pr.get("infotrafic")) != "1":
+                return False
+            nv = pr.get("nombrevoies")
+            try:
+                return nv is None or int(nv) >= 2
+            except (TypeError, ValueError):
+                return True
+        noisy = [f for f in load_geojson(net_file) if _is_noisy(f)]
+        if noisy:
+            bruit_pois = []
+            for f in noisy:
+                coords = f["geometry"]["coordinates"]
+                mid = coords[len(coords) // 2]
+                bruit_pois.append({"name": (f.get("properties") or {}).get("libelle", "?"),
+                                   "lon": mid[0], "lat": mid[1], "props": f.get("properties") or {}})
+            pois_by_cat["exposition_bruit_routier"] = bruit_pois
+            cat_to_key["exposition_bruit_routier"] = 4
+            cells = compute_indicators(cells, pois_by_cat, radius)
+            net_min_by_cat["exposition_bruit_routier"] = net.network_distances_to_pois(adj, edges, cells, bruit_pois)
+            cells = attach_network(cells, net_min_by_cat, radius)
+            bruit_info = {
+                "nb_troncons_infotrafic": len(noisy),
+                "note": "proxy : distance aux voies à trafic (infotrafic=1, réseau CRITER). Source Lden/Ln 2022 officielle : raster GL_Rte_Lden (DataGrandLyon, cartes stratégiques de bruit) — à brancher en v0.7. Seuils UE : Lden > 68 dB(A), Ln > 62 dB(A) = dépassement.",
+            }
+            print(f"[bruit] proxy: {len(noisy)} tronçons infotrafic=1")
+
     summary = summarize(cells, pois_by_cat, radius, net_min_by_cat)
     checklist = build_checklist(args.keys, summary, cat_to_key)
 
@@ -197,8 +228,19 @@ def main():
         with open(os.path.join(args.out, "eqis.json"), "w", encoding="utf-8") as f:
             json.dump({"eqis": eqis_block, "scenario_marche": scenario_marche}, f, ensure_ascii=False, indent=2)
 
+    # proxy ICU : part des mailles de la zone avec un espace vert à <= 300 m réseau
+    if zone_info and net_min_by_cat.get("espaces_verts"):
+        idx = {c["id"]: i for i, c in enumerate(cells)}
+        polygons, _, _ = zonemod.load_zone(zone_file)
+        zcells = [c for c in cells if zonemod.point_in_polygons(c["lon"], c["lat"], polygons)]
+        n_ok = sum(1 for c in zcells if net_min_by_cat["espaces_verts"][idx[c["id"]]] is not None
+                   and net_min_by_cat["espaces_verts"][idx[c["id"]]] <= 300)
+        zone_info["pct_mailles_avec_espace_vert_300m"] = round(100.0 * n_ok / len(zcells), 1) if zcells else None
+        zone_info["icu_note"] = "proxy îlot de fraîcheur : part de la zone avec un espace vert à ≤ 300 m à pied (réseau). Source ICU officielle : Diaclimap (Cerema) / LST Copernicus — à brancher en v0.7."
+        print(f"[icu-proxy] {zone_info['pct_mailles_avec_espace_vert_300m']}% des mailles de la zone avec espace vert à ≤300 m")
+
     report = render_report(perimeter, cells, summary, checklist, cats, kickoff=kickoff, eqis=eqis_block,
-                           scenario=scenario_marche, zone_info=zone_info, point_info=point_info)
+                           scenario=scenario_marche, zone_info=zone_info, point_info=point_info, bruit_info=bruit_info)
     with open(os.path.join(args.out, "report.html"), "w", encoding="utf-8") as f:
         f.write(report)
     html_to_docx(report, os.path.join(args.out, "rapport.docx"))
