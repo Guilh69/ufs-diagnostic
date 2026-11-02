@@ -1,0 +1,23 @@
+{
+  "alimentation_locale_bio": {
+    "nb_pois": 9,
+    "cells_within_radius": 130,
+    "pct_cells": 100.0,
+    "median_min_dist_m": 365,
+    "radius_m": 800
+  },
+  "espaces_verts": {
+    "nb_pois": 26,
+    "cells_within_radius": 130,
+    "pct_cells": 100.0,
+    "median_min_dist_m": 160,
+    "radius_m": 800
+  },
+  "eau_potable": {
+    "nb_pois": 6,
+    "cells_within_radius": 123,
+    "pct_cells": 94.6,
+    "median_min_dist_m": 450,
+    "radius_m": 800
+  }
+}

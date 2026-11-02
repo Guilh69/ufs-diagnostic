@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Diagnostic UFS — Quartier des Buers, Villeurbanne (Métropole de Lyon)</title>
+<style>
+ body { font-family: 'Segoe UI', Arial, sans-serif; margin: 2rem auto; max-width: 1100px; color: #1a1a1a; line-height: 1.5; }
+ h1 { color: #0b5d3b; border-bottom: 3px solid #0b5d3b; padding-bottom: .3rem; }
+ h2 { color: #0b5d3b; margin-top: 2rem; }
+ table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+ th, td { border: 1px solid #ccc; padding: .45rem .6rem; text-align: left; vertical-align: top; font-size: .92rem; }
+ th { background: #e8f3ec; }
+ .badge { background: #0b5d3b; color: #fff; border-radius: 4px; padding: .1rem .5rem; font-size: .85rem; }
+ .warn { background: #fff8e1; border-left: 4px solid #f0a500; padding: .8rem 1rem; }
+ iframe { width: 100%; height: 520px; border: 1px solid #ccc; }
+ footer { margin-top: 3rem; font-size: .8rem; color: #666; border-top: 1px solid #ccc; padding-top: 1rem; }
+</style>
+</head>
+<body>
+<h1>Diagnostic territorial — Urbanisme Favorable à la Santé</h1>
+<p><span class="badge">PROTOTYPE</span> <strong>Quartier des Buers, Villeurbanne (Métropole de Lyon)</strong> — généré le 2026-11-02 par <code>ufs-diagnostic</code> (logiciel libre, licence EUPL-1.2).</p>
+
+<div class="warn"><strong>Limites du prototype :</strong> distances à vol d'oiseau (pas d'isochrones réseau — voir Valhalla/pgRouting en v2), maillage régulier de 150 m, rayon de marche de 800 m (~10 min), parcs réduits à leur centroïde. Les données OSM/collectivités sont collaboratives : vérifier sur le terrain (clef 2 ISadOrA).</div>
+
+<h2>1. Périmètre d'étude</h2>
+<p>Quartier en politique de la ville, périmètre test du prototype (EIS documentée dans la littérature : revue Pollution Atmosphérique).<br>
+Bbox WGS84 : sud 45.768, ouest 4.868, nord 45.782, est 4.893 — soit 130 mailles de 150 m.
+Score moyen d'accès aux équipements de santé/bien-être : <strong>0.99</strong> / 1.</p>
+
+<h2>2. Données mobilisées et sources (open data souveraines)</h2>
+<table><tr><th>Donnée</th><th>Source (WFS / portail)</th><th>Licence</th></tr>
+<tr><td>Points d&#x27;eau potable (bornes-fontaines)</td><td>Métropole de Lyon via data.gouv.fr, couche WFS metropole-de-lyon:adr_voie_lieu.adrbornefontaine_latest</td><td>ODbL (OSM + communes)</td></tr>
+<tr><td>Producteurs locaux / alimentation bio</td><td>DataGrandLyon, couche WFS metropole-de-lyon:eco_economie.ecomangerlocal_latest</td><td>Licence Ouverte 2.0</td></tr>
+<tr><td>Parcs et jardins</td><td>Ville de Villeurbanne via DataGrandLyon, couche WFS ville-de-villeurbanne:villeurbanne.parcjardin</td><td>Licence Ouverte 2.0</td></tr>
+<tr><td>Commerces bio (NAF 4729Z)</td><td>Base Sirene géolocalisée Métropole de Lyon, couche WFS metropole-de-lyon:insee.sirene (filtre activitenaf=&#x27;4729Z&#x27;)</td><td>Licence Ouverte 2.0 - non retenu ici (0 objet géocodé dans le périmètre test)</td></tr>
+</table>
+
+<h2>3. Indicateurs de proximité (rayon 800 m)</h2>
+<table><tr><th>Catégorie</th><th>Nb objets</th><th>Mailles desservies</th><th>% mailles</th><th>Dist. médiane au plus proche</th></tr>
+<tr><td>Alimentation locale / bio (producteurs, AMAP, magasins de producteurs)</td><td>9</td><td>130 / 130</td><td>100.0%</td><td>365 m</td></tr>
+<tr><td>Commerces de détail de produits bio (NAF 4729Z)</td><td colspan='4'><em>donnée non disponible dans le périmètre</em></td></tr>
+<tr><td>Espaces verts / parcs et jardins</td><td>26</td><td>130 / 130</td><td>100.0%</td><td>160 m</td></tr>
+<tr><td>Points d&#x27;eau potable (bornes-fontaines)</td><td>6</td><td>123 / 130</td><td>94.6%</td><td>450 m</td></tr>
+</table>
+<p>Détail par maille : <code>indicators.geojson</code> (score d'accès par catégorie, 0–1).</p>
+
+<h2>4. Carte</h2>
+<iframe src="map.html"></iframe>
+
+<h2>5. Checklist ISadOrA — 15 clefs opérationnelles</h2>
+<table><tr><th>Clef</th><th>Objectif</th><th>Statut</th><th>Éléments chiffrés disponibles</th></tr>
+<tr><td>1</td><td><strong>Gouvernance et santé</strong><br><small>Mettre en place une instance santé pour impulser et accompagner la prise en compte de la santé tout au long de l&#x27;élaboration de l&#x27;opération d&#x27;aménagement.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>2</td><td><strong>Portrait de santé et de l&#x27;environnement</strong><br><small>Réaliser un portrait de santé et de l&#x27;environnement du quartier et/ou du territoire, notamment en vue de ne pas aggraver voire réduire d&#x27;éventuelles inégalités de santé.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>3</td><td><strong>Démarches participatives</strong><br><small>Mettre en place une démarche participative en précisant ses objectifs et ses modalités.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>4</td><td><strong>Exposition des populations</strong><br><small>Proposer une implantation des espaces bâtis et des espaces de vie limitant l&#x27;exposition des populations, notamment les publics vulnérables et défavorisés, aux polluants et nuisances.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>5</td><td><strong>Qualité des logements</strong><br><small>Travailler sur la qualité des logements, autant du point de vue de leur conception que de l&#x27;impact de l&#x27;environnement extérieur sur les conditions d&#x27;habitat intérieur.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>6</td><td><strong>Mobilités actives et PMR</strong><br><small>Concevoir un projet favorable aux mobilités actives et aux personnes à mobilité réduite (PMR).</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>7</td><td><strong>Accessibilité, emplois, commerces, équipements, services</strong><br><small>Favoriser l&#x27;accessibilité à l&#x27;emploi, aux commerces, équipements et services, notamment en programmant une partie de cette offre au sein du projet.</small></td><td>Données favorables disponibles</td><td><small>• alimentation_locale_bio : 9 objets recensés, 100.0% des mailles à moins de 800 m (distance médiane au plus proche : 365 m)</small></td></tr>
+<tr><td>8</td><td><strong>Cohésion sociale</strong><br><small>Proposer une programmation et une répartition des logements et des espaces publics qui favorisent la cohésion sociale.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>9</td><td><strong>Cinq sens et identité du lieu</strong><br><small>Prendre en compte les 5 sens et l&#x27;identité du lieu dans la conception des différents espaces du projet et leurs usages.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>10</td><td><strong>Fonctions sociales des interfaces et des espaces communs</strong><br><small>Valoriser la fonction sociale des espaces d&#x27;interface et des espaces communs au sein de l&#x27;îlot et du bâtiment.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>11</td><td><strong>Fonctions des espaces publics</strong><br><small>Aménager les espaces publics pour assurer une diversité et une complémentarité des fonctions (sociale, circulatoire, stimulation de l&#x27;appareil perceptif, environnementale) génératrices de santé et de bien-être.</small></td><td>Données favorables disponibles</td><td><small>• eau_potable : 6 objets recensés, 94.6% des mailles à moins de 800 m (distance médiane au plus proche : 450 m)</small></td></tr>
+<tr><td>12</td><td><strong>Espaces verts</strong><br><small>Intégrer une multiplicité d&#x27;espaces verts à différentes échelles du projet en préservant et valorisant au maximum les espaces à caractère naturel et les sols de qualité déjà présents sur le site et en assurant une complémentarité et une continuité entre ces espaces.</small></td><td>Données favorables disponibles</td><td><small>• espaces_verts : 26 objets recensés, 100.0% des mailles à moins de 800 m (distance médiane au plus proche : 160 m)</small></td></tr>
+<tr><td>13</td><td><strong>Agriculture urbaine</strong><br><small>Réserver des espaces pour promouvoir différentes formes d&#x27;agriculture urbaine, en adéquation avec la qualité des sols.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>14</td><td><strong>Îlots de chaleur urbains</strong><br><small>Lutter contre les îlots de chaleur urbains à l&#x27;échelle du projet, en créant notamment des îlots de fraîcheur refuges.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>15</td><td><strong>Gestion des eaux pluviales</strong><br><small>Favoriser une récupération de l&#x27;eau de pluie et une gestion des eaux pluviales en surface, par la mise en place de techniques alternatives, permettant une diversité des fonctions dont la gestion du risque inondation.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+</table>
+
+<h2>6. Pistes EQIS (évaluation quantitative) à brancher</h2>
+<ul>
+<li>Qualité de l'air : EQIS-PA selon le guide Santé publique France avec <a href="https://www.who.int/europe/fr/tools-and-toolkits/airq---software-tool-for-health-risk-assessment-of-air-pollution">AirQ+ (OMS)</a> (PM2,5, NO2, O3) sur le périmètre.</li>
+<li>Mobilités actives : <a href="https://www.who.int/europe/tools-and-toolkits/health-economic-assessment-tool-for-walking-and-cycling">HEAT (OMS)</a> pour chiffrer les bénéfices sanitaires de la marche/du vélo.</li>
+<li>Scénarios : ITHIM / UTOPHIA (ISGlobal) pour comparer des variantes d'aménagement.</li>
+<li>Données santé : <a href="https://geodes.santepubliquefrance.fr/">Géodes (SPF)</a>, <a href="https://odisse.santepubliquefrance.fr/pages/accueil/">Odissé</a>, ARS AURA (DatARA), INSEE Filosofi (IRIS).</li>
+</ul>
+
+<h2>7. Bibliographie et référentiels</h2>
+<ul>
+<li><a href="https://www.aurba.org/productions/isadora-un-outil-daide-a-lintegration-de-la-sante-dans-les-operations-damenagement/">Guide ISadOrA (EHESP / a-urba, 2020) - 15 clefs opérationnelles</a></li>
+<li><a href="https://www.ecoquartiers.logement.gouv.fr/assets/articles/documents/guide-isadora-partie-1.pdf">Guide ISadOrA, partie 1 (PDF officiel)</a></li>
+<li><a href="https://www.ecoquartiers.logement.gouv.fr/assets/articles/documents/guide-isadora-partie-2.pdf">Guide ISadOrA, partie 2 (PDF officiel)</a></li>
+<li><a href="https://www.ehesp.fr/wp-content/uploads/2014/09/guide-agir-urbanisme-sante-2014-v2-opt.pdf">EHESP/DGS, Agir pour un urbanisme favorable à la santé (2014)</a></li>
+<li><a href="https://agirpourlatransition.ademe.fr/collectivites/conseils/urbanisme/ufs">ADEME, page Urbanisme favorable à la santé (UFS)</a></li>
+<li><a href="https://agirpourlatransition.ademe.fr/collectivites/aides-financieres/catalogue-rex/retours-experience-urbanisme-favorable-sante">ADEME / CGDD, Expé URBA SanTé (8 territoires, 2024-2025)</a></li>
+<li><a href="https://www.cerema.fr/fr/centre-ressources/boutique/nature-ville-serie-fiches">Cerema, fiches Nature en ville (fiche 3 : santé)</a></li>
+<li><a href="https://www.cerema.fr/fr/actualites/ilots-chaleur-agir-territoires-adapter-villes-au-changement">Cerema, îlots de chaleur urbains / Diaclimap</a></li>
+<li><a href="https://www.hcsp.fr/explore.cgi/avisrapportsdomaine?clefr=638">HCSP, intégration de la santé dans les documents de planification (2018)</a></li>
+<li><a href="https://www.santepubliquefrance.fr/content/download/233580/2517739">Santé publique France, guide EQIS pollution de l&#x27;air (2019)</a></li>
+<li><a href="https://www.who.int/europe/fr/tools-and-toolkits/airq---software-tool-for-health-risk-assessment-of-air-pollution">OMS/Europe, AirQ+ (logiciel libre de quantification)</a></li>
+<li><a href="https://www.who.int/europe/publications/i/item/9789289058377">OMS/Europe, HEAT marche et vélo (mise à jour 2024)</a></li>
+<li><a href="https://unhabitat.org/sites/default/files/2022/03/21235_french_integrating_health_in_urban_and_territorial_planning_2_1.pdf">ONU-Habitat &amp; OMS, Integrating health in urban and territorial planning (2020)</a></li>
+<li><a href="https://journals.sagepub.com/doi/10.1177/1466424006070466">Barton &amp; Grant, A health map for the local human habitat (2006)</a></li>
+<li><a href="https://www.peren-revues.fr/pollutionatmospherique/6681">Revue Pollution Atmosphérique, EIS des quartiers des Buers (Villeurbanne) et Parc Zénith (Lyon 3)</a></li>
+<li><a href="https://geodes.santepubliquefrance.fr/">Géodes, observatoire cartographique SPF (&gt;300 indicateurs)</a></li>
+<li><a href="https://www.data.gouv.fr/datasets/bornes-fontaine-de-la-metropole-de-lyon">data.gouv.fr, Bornes fontaine de la Métropole de Lyon</a></li>
+<li><a href="https://www.data.gouv.fr/datasets/producteurs-locaux-geolocalises-de-la-metropole-de-lyon">DataGrandLyon, Producteurs locaux géolocalisés</a></li>
+<li><a href="https://www.data.gouv.fr/datasets/base-sirene-de-la-metropole-de-lyon">DataGrandLyon, Base Sirene de la Métropole de Lyon</a></li>
+<li><a href="https://www.data.gouv.fr/datasets/localisation-des-pharmacies-dans-openstreetmap/">data.gouv.fr / magOSM, Localisation des pharmacies dans OSM (extrait quotidien)</a></li>
+</ul>
+
+<footer>ufs-diagnostic v0.1 — prototype open source (EUPL-1.2). Données : voir section 2 (ODbL / Licence Ouverte). Ce rapport est un appui au diagnostic (clef 2 ISadOrA), pas un avis sanitaire réglementaire (EIS ARS).</footer>
+</body>
+</html>

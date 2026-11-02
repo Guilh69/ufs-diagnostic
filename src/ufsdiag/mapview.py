@@ -1,0 +1,70 @@
+MAP_HTML = """<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Carte diagnostic UFS</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+ html, body, #map {{ height: 100%; margin: 0; }}
+ .legend {{ background: #fff; padding: 8px 12px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,.3); font-size: 12px; }}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const CAT_COLORS = { alimentation_locale_bio: "#e67e22", commerces_bio_sirene: "#8e44ad", espaces_verts: "#27ae60", eau_potable: "#2980b9" };
+const CAT_LABELS = { alimentation_locale_bio: "Alimentation locale/bio", commerces_bio_sirene: "Commerce bio (Sirene 4729Z)", espaces_verts: "Espaces verts", eau_potable: "Eau potable" };
+
+const map = L.map("map");
+L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution: "&copy; OpenStreetMap (ODbL)", maxZoom: 19
+}).addTo(map);
+
+const overlays = {};
+
+fetch("indicators.geojson").then(r => r.json()).then(cells => {
+  const layer = L.geoJSON(cells, {
+    style: f => {
+      const s = f.properties.score;
+      const color = s === null ? "#999" : s > 0.66 ? "#2ecc71" : s > 0.33 ? "#f1c40f" : "#e74c3c";
+      return { color: "#555", weight: 1, fillColor: color, fillOpacity: 0.55 };
+    },
+    onEachFeature: (f, l) => {
+      const p = f.properties;
+      let html = `<b>${p.id}</b> — score ${p.score}<br>`;
+      for (const [k, v] of Object.entries(p.indicators || {})) {
+        html += `${CAT_LABELS[k] || k} : ${v.count_within} à ≤${p.radius_m || 800}m, min ${v.min_dist_m} m<br>`;
+      }
+      l.bindPopup(html);
+    }
+  });
+  overlays["Mailles (score d'accès)"] = layer;
+  layer.addTo(map);
+  map.fitBounds(layer.getBounds());
+});
+
+fetch("pois.geojson").then(r => r.json()).then(pois => {
+  const byCat = {};
+  pois.features.forEach(f => { (byCat[f.properties.category] = byCat[f.properties.category] || []).push(f); });
+  for (const [cat, feats] of Object.entries(byCat)) {
+    const layer = L.geoJSON({ type: "FeatureCollection", features: feats }, {
+      pointToLayer: (f, latlng) => L.circleMarker(latlng, {
+        radius: 6, color: "#fff", weight: 1, fillColor: CAT_COLORS[cat] || "#333", fillOpacity: 0.9
+      }),
+      onEachFeature: (f, l) => l.bindPopup(`<b>${f.properties.name}</b><br>${CAT_LABELS[cat] || cat}<br><small>${f.properties.detail || ""}</small>`)
+    });
+    overlays[CAT_LABELS[cat] || cat] = layer;
+    layer.addTo(map);
+  }
+  L.control.layers(null, overlays, { collapsed: false }).addTo(map);
+});
+</script>
+</body>
+</html>
+"""
+
+
+def write_map(out_dir):
+    with open(out_dir + "/map.html", "w", encoding="utf-8") as f:
+        f.write(MAP_HTML)

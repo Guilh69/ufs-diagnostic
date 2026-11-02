@@ -1,0 +1,12 @@
+{
+  "type": "FeatureCollection",
+  "name": "Bornes fontaines eau potable - quartier des Buers (source: Métropole de Lyon / data.gouv.fr 'bornes-fontaine-de-la-metropole-de-lyon', couche metropole-de-lyon:adr_voie_lieu.adrbornefontaine_latest, licence ODbL, requête WFS bbox=45.768,4.868,45.782,4.893)",
+  "features": [
+    {"type": "Feature", "properties": {"commune": "Villeurbanne", "insee": "69266", "source": "Open Street Map"}, "geometry": {"type": "Point", "coordinates": [4.8832262, 45.78089764]}},
+    {"type": "Feature", "properties": {"commune": "Villeurbanne", "insee": "69266", "source": "Open Street Map"}, "geometry": {"type": "Point", "coordinates": [4.8702886, 45.77120164]}},
+    {"type": "Feature", "properties": {"commune": "Villeurbanne", "insee": "69266", "source": "Open Street Map"}, "geometry": {"type": "Point", "coordinates": [4.887932, 45.76885824]}},
+    {"type": "Feature", "properties": {"commune": "Villeurbanne", "insee": "69266", "source": "Open Street Map"}, "geometry": {"type": "Point", "coordinates": [4.8886843, 45.76940134]}},
+    {"type": "Feature", "properties": {"commune": "Villeurbanne", "insee": "69266", "source": "Open Street Map"}, "geometry": {"type": "Point", "coordinates": [4.8708363, 45.77076104]}},
+    {"type": "Feature", "properties": {"commune": "Villeurbanne", "insee": "69266", "source": "Open Street Map"}, "geometry": {"type": "Point", "coordinates": [4.8732142, 45.77216844]}}
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "name": "Quartier des Buers, Villeurbanne (Métropole de Lyon)",
+  "description": "Quartier en politique de la ville, périmètre test du prototype (EIS documentée dans la littérature : revue Pollution Atmosphérique).",
+  "bbox": { "south": 45.768, "west": 4.868, "north": 45.782, "east": 4.893 },
+  "grid_cell_m": 150,
+  "walk_radius_m": 800,
+  "note_walk_radius": "800 m ≈ 10 min de marche à 4,8 km/h (référence 15-min city / score de marchabilité)"
+}
