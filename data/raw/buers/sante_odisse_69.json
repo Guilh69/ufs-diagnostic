@@ -1,0 +1,49 @@
+{
+ "dataset": "Odissé (SPF) perinatalite-mortalite-infantile-et-mortinatalite-departement",
+ "source": "https://odisse.santepubliquefrance.fr",
+ "dep": "69",
+ "records": [
+  {
+   "annees": "2020-2024",
+   "libgeo": "Rhône",
+   "dep": "69",
+   "mortinatalite_globale": 891,
+   "tx1000_mortinatalite_globale": 7.789,
+   "mortinatalite_induite": 340,
+   "tx1000_mortinatalite_induite": 2.972,
+   "mortinatalite_spontanee": 551,
+   "tx1000_mortinatalite_spontanee": 4.817,
+   "mortalite_perinatale": 1082,
+   "tx1000_mortalite_perinatale": 9.459,
+   "mortalite_infantile": 416,
+   "tx1000_mortalite_infantile": 3.643,
+   "mortalite_neonatale_precoce": 191,
+   "tx1000_mortalite_neonatale_precoce": 1.673,
+   "mortalite_neonatale_tardive": 112,
+   "tx1000_mortalite_neonatale_tardive": 0.981,
+   "mortalite_post_neonatale": 113,
+   "tx1000_mortalite_post_neonatale": 0.99
+  },
+  {
+   "annees": "2015-2019",
+   "libgeo": "Rhône",
+   "dep": "69",
+   "mortinatalite_globale": 987,
+   "tx1000_mortinatalite_globale": 7.619,
+   "mortinatalite_induite": 398,
+   "tx1000_mortinatalite_induite": 3.072,
+   "mortinatalite_spontanee": 589,
+   "tx1000_mortinatalite_spontanee": 4.547,
+   "mortalite_perinatale": 1218,
+   "tx1000_mortalite_perinatale": 9.402,
+   "mortalite_infantile": 436,
+   "tx1000_mortalite_infantile": 3.38,
+   "mortalite_neonatale_precoce": 221,
+   "tx1000_mortalite_neonatale_precoce": 1.713,
+   "mortalite_neonatale_tardive": 96,
+   "tx1000_mortalite_neonatale_tardive": 0.744,
+   "mortalite_post_neonatale": 119,
+   "tx1000_mortalite_post_neonatale": 0.922
+  }
+ ]
+}

@@ -1,4 +1,4 @@
-# ufs-diagnostic — prototype de diagnostic territorial « Urbanisme Favorable à la Santé » (v0.4)
+# ufs-diagnostic — prototype de diagnostic territorial « Urbanisme Favorable à la Santé » (v0.5)
 
 Outil libre (EUPL-1.2) qui enchaîne, pour un périmètre donné (quartier, rue) :
 
@@ -74,6 +74,18 @@ Point d'ancrage « 130 rue Anatole France » : alimentation bio à 0 m (vol d'oi
 
 Lecture : dans le QPV strict, les équipements sont en lisière — la distance moyenne réseau est le bon indicateur pour dire « on trouve X à ~Y m en moyenne dans cette zone ».
 
+## Résultats v0.5 — EQIS multi-polluants (Villeurbanne, 163 684 hab)
+
+| Polluant | Source | C (µg/m³) | Décès attribuables/an |
+|---|---|---|---|
+| PM2,5 | modèle communal Atmo AURA 2016-2018 | 14,8 | 86,2 |
+| PM2,5 | moyenne stations 2024 | 8,2 | 29,0 |
+| NO2 | stations fond 2024 | 15,9 | 26,2 |
+| NO2 | stations trafic 2024 (dont Lyon Périphérique, Villeurbanne : 39,5) | 32,6 | 97,2 |
+
+Croisement santé : mortalité infantile Rhône (69) = 3,643 ‰ (Odissé/SPF 2020-2024). Export **rapport.docx** (stdlib, sans dépendance).
+Bruit (cartes Lden/Ln 2022 Métropole de Lyon) et îlots de chaleur (Diaclimap/Copernicus) : sources identifiées, à brancher en v0.6.
+
 ## Résultats v0.3 — EQIS air (Villeurbanne, 163 684 hab)
 
 | Source PM2,5 | C (µg/m³) | Décès attribuables/an |
@@ -93,7 +105,7 @@ Seuils de référence : UE 2024 = 20, UE 2030 = 10, OMS 2021 = 5 µg/m³.
 
 ## Feuille de route
 
-- v0.5 : AirQ+ (OMS) en moteur EQIS complet, bruit/ICU (cartes stratégiques, Diaclimap), Géodes/ARS croisés, export DOCX/PDF, gabarits personnalisables.
+- v0.6 : AirQ+ (OMS) en moteur EQIS complet, bruit Lden/Ln branché, ICU Diaclimap, plus d'indicateurs Odissé/Géodes, gabarits personnalisables, version web (GeoNode/MapStore + plugin QGIS).
 - v1.0 : version web (GeoNode/PostGIS + MapStore, hébergement souverain UE) + plugin QGIS, pour le Club UFS AURA.
 
 ## Licence

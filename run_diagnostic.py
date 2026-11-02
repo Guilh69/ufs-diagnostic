@@ -28,6 +28,7 @@ from ufsdiag.mapview import write_map
 from ufsdiag import network as net
 from ufsdiag.eqis import compute_eqis_block, compute_scenario_marche
 from ufsdiag import zone as zonemod
+from ufsdiag.docx import html_to_docx
 
 
 def main():
@@ -200,6 +201,8 @@ def main():
                            scenario=scenario_marche, zone_info=zone_info, point_info=point_info)
     with open(os.path.join(args.out, "report.html"), "w", encoding="utf-8") as f:
         f.write(report)
+    html_to_docx(report, os.path.join(args.out, "rapport.docx"))
+    print("[docx] rapport.docx exporté")
 
     print(f"[ok] {len(cells)} mailles analysées, rayon {radius} m")
     for cat_id, s in summary.items():

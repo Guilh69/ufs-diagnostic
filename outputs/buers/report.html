@@ -106,18 +106,24 @@ Bbox WGS84 : sud 45.768, ouest 4.868, nord 45.782, est 4.893 — maillage de 150
 </table>
 
 
-<h2>6. Évaluation quantitative (EQIS-lite PM2,5) et scénarios</h2>
+<h2>6. Évaluation quantitative (EQIS multi-polluants PM2,5 / NO2) et scénarios</h2>
 <p>Commune : <strong>Villeurbanne</strong> (69266) — population 163,684 hab (geo.api.gouv.fr/INSEE).
-Méthode EQIS-PA OMS/SPF : décès attribuables = D × (1 − e<sup>−β(C−C<sub>ref</sub>)</sup>), β = ln(1.062)/10, C<sub>ref</sub> = 5 µg/m³, taux de mortalité brut 9.2 ‰ (référence nationale INSEE).</p>
-<table><tr><th>Source de concentration PM2,5</th><th>C (µg/m³)</th><th>PAF</th><th>Décès attribuables/an</th></tr>
-<tr><td>modele_commune_2016_2018</td><td>14.799672373679 µg/m³</td><td>5.72 %</td><td><strong>86.2</strong></td></tr><tr><td>stations_2024_moyenne</td><td>8.23 µg/m³</td><td>1.92 %</td><td><strong>29.0</strong></td></tr>
+Méthode EQIS OMS/SPF (guide EQIS-PA 2019) : décès attribuables = D × (1 − e<sup>−β(C−C<sub>ref</sub>)</sup>), β = ln(RR)/10 ;
+RR PM2,5 = 1.062/10 µg/m³ (C<sub>ref</sub> = 5.0 µg/m³), RR NO2 = 1.03/10 µg/m³ (C<sub>ref</sub> = 10.0 µg/m³, OMS 2021) ;
+taux de mortalité brut 9.2 ‰ (référence nationale INSEE). En production : AirQ+ (OMS).</p>
+<table><tr><th>Polluant</th><th>Source de concentration</th><th>C (µg/m³)</th><th>PAF</th><th>Décès attribuables/an</th></tr>
+<tr><td>PM2.5</td><td>PM2.5 - modèle communal Atmo AURA 2016-2018</td><td>14.799672373679 µg/m³</td><td>5.72 %</td><td><strong>86.2</strong></td></tr><tr><td>PM2.5</td><td>PM2.5 - moyenne stations 2024</td><td>8.23 µg/m³</td><td>1.92 %</td><td><strong>29.0</strong></td></tr><tr><td>NO2</td><td>NO2 - stations fond 2024</td><td>15.93 µg/m³</td><td>1.74 %</td><td><strong>26.2</strong></td></tr><tr><td>NO2</td><td>NO2 - stations trafic 2024</td><td>32.58 µg/m³</td><td>6.46 %</td><td><strong>97.2</strong></td></tr>
 </table>
+<p>Indicateur santé croisé (Odissé/SPF, département 69 Rhône, 2020-2024) : mortalité infantile <strong>3.643 ‰</strong> naissances vivantes. Source : <a href="https://odisse.santepubliquefrance.fr">Odissé</a> (Odissé (SPF) perinatalite-mortalite-infantile-et-mortinatalite-departement).</p>
 <p>Indice communal air-santé modélisé (Atmo AURA 2016-2018) : PM2,5 = <strong>14.799672373679 µg/m³</strong>.
 Mesures 2024 des stations proches (moyenne 8.23 µg/m³) :</p>
 <table><tr><th>Station</th><th>Commune</th><th>Année</th><th>Valeur</th><th>Type</th><th>Dist.</th></tr>
-<tr><td>Lyon Centre</td><td>Lyon</td><td>2024</td><td>9.5 µg/m³</td><td>Urbain/fond</td><td>2796 m</td></tr><tr><td>Est Lyonnais Vaulx-en-Velin</td><td>Vaulx-en-Velin</td><td>2024</td><td>5.2 µg/m³</td><td>Urbain/fond</td><td>3455 m</td></tr><tr><td>Lyon Gerland</td><td>Lyon</td><td>2024</td><td>10 µg/m³</td><td>Urbain/fond</td><td>5914 m</td></tr>
+<tr><td>Lyon Centre</td><td>Lyon</td><td>2024</td><td>9.5 µg/m³</td><td>Urbain/fond</td><td>2796 m</td></tr><tr><td>Est Lyonnais Vaulx-en-Velin</td><td>Vaulx-en-Velin</td><td>2024</td><td>5.2 µg/m³</td><td>Urbain/fond</td><td>3455 m</td></tr><tr><td>Lyon Gerland</td><td>Lyon</td><td>2024</td><td>10 µg/m³</td><td>Urbain/fond</td><td>5914 m</td></tr><tr><td>Lyon Périphérique</td><td>Villeurbanne</td><td>2024</td><td>39.5 µg/m³</td><td>Urbain/trafic</td><td>1402 m</td></tr><tr><td>Villeurbanne Place Grand-Clément</td><td>Villeurbanne</td><td>2022</td><td>30.6 µg/m³</td><td>Urbain/trafic</td><td>1902 m</td></tr><tr><td>Lyon Centre</td><td>Lyon</td><td>2024</td><td>17.7 µg/m³</td><td>Urbain/fond</td><td>2796 m</td></tr><tr><td>Lyon Tunnel Croix-Rousse Sortie Rhône</td><td>Lyon</td><td>2025</td><td>35.6 µg/m³</td><td>Urbain/trafic</td><td>3390 m</td></tr><tr><td>Est Lyonnais Vaulx-en-Velin</td><td>Vaulx-en-Velin</td><td>2024</td><td>15 µg/m³</td><td>Urbain/fond</td><td>3455 m</td></tr><tr><td>Lyon Trafic Jaurès</td><td>Lyon</td><td>2024</td><td>24.6 µg/m³</td><td>Urbain/trafic</td><td>3970 m</td></tr><tr><td>Lyon Gerland</td><td>Lyon</td><td>2024</td><td>15.1 µg/m³</td><td>Urbain/fond</td><td>5914 m</td></tr>
 </table>
-<p>Seuils de référence : valeur limite UE 2024 = 20 µg/m³, UE 2030 = 10 µg/m³, ligne directrice OMS 2021 = 5 µg/m³.</p>
+<p>Seuils de référence PM2,5 : valeur limite UE 2024 = 20 µg/m³, UE 2030 = 10 µg/m³, OMS 2021 = 5 µg/m³. NO2 : UE 2030 = 20 µg/m³, OMS 2021 = 10 µg/m³.
+Référence nationale : 48 000 décès prématurés/an attribuables aux PM2,5 en France (EQIS SPF 2016).
+Bruit : cartes stratégiques Lden/Ln 2022 de la Métropole de Lyon (DataGrandLyon, plan bruit routier/ferroviaire/aérien) — à brancher en v0.6.
+Îlots de chaleur : Diaclimap (Cerema) / Copernicus — à brancher en v0.6.</p>
 <ul><li>Atteindre la ligne directrice OMS (5 µg/m³) : <strong>86.2 décès/an évités</strong> à Villeurbanne.</li><li>+30 min de marche par jour pour les 18-64 ans du périmètre : <strong>82.8 décès/an évités</strong> (population cible 90026, HEAT-lite (hypothèses éditables dans config/scenarios.json) ; remplacer par HEAT officiel (OMS) en production).</li></ul>
 <p><small>EQIS simplifiée (AirQ+ OMS en production ; guide SPF 2019). Données agrégées uniquement — jamais de données individuelles (RGPD).</small></p>
 

@@ -458,5 +458,84 @@
     "GlobalID": "f084ff79-edae-4b93-b735-4e1694d42d87"
    }
   }
+ ],
+ "stations_no2": [
+  {
+   "code_station": "FR20069",
+   "nom_station": "Lyon Périphérique",
+   "nom_com": "Villeurbanne",
+   "annee": 2024,
+   "valeur": 39.5,
+   "unite": "µg/m³",
+   "typologie": "Urbain",
+   "influence": "trafic",
+   "dist_m": 1402
+  },
+  {
+   "code_station": "FR20019",
+   "nom_station": "Villeurbanne Place Grand-Clément",
+   "nom_com": "Villeurbanne",
+   "annee": 2022,
+   "valeur": 30.6,
+   "unite": "µg/m³",
+   "typologie": "Urbain",
+   "influence": "trafic",
+   "dist_m": 1902
+  },
+  {
+   "code_station": "FR20062",
+   "nom_station": "Lyon Centre",
+   "nom_com": "Lyon",
+   "annee": 2024,
+   "valeur": 17.7,
+   "unite": "µg/m³",
+   "typologie": "Urbain",
+   "influence": "fond",
+   "dist_m": 2796
+  },
+  {
+   "code_station": "ET00906",
+   "nom_station": "Lyon Tunnel Croix-Rousse Sortie Rhône",
+   "nom_com": "Lyon",
+   "annee": 2025,
+   "valeur": 35.6,
+   "unite": "µg/m³",
+   "typologie": "Urbain",
+   "influence": "trafic",
+   "dist_m": 3390
+  },
+  {
+   "code_station": "FR20046",
+   "nom_station": "Est Lyonnais Vaulx-en-Velin",
+   "nom_com": "Vaulx-en-Velin",
+   "annee": 2024,
+   "valeur": 15,
+   "unite": "µg/m³",
+   "typologie": "Urbain",
+   "influence": "fond",
+   "dist_m": 3455
+  },
+  {
+   "code_station": "FR20070",
+   "nom_station": "Lyon Trafic Jaurès",
+   "nom_com": "Lyon",
+   "annee": 2024,
+   "valeur": 24.6,
+   "unite": "µg/m³",
+   "typologie": "Urbain",
+   "influence": "trafic",
+   "dist_m": 3970
+  },
+  {
+   "code_station": "FR20017",
+   "nom_station": "Lyon Gerland",
+   "nom_com": "Lyon",
+   "annee": 2024,
+   "valeur": 15.1,
+   "unite": "µg/m³",
+   "typologie": "Urbain",
+   "influence": "fond",
+   "dist_m": 5914
+  }
  ]
 }

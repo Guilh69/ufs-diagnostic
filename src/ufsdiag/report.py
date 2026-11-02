@@ -60,13 +60,20 @@ def render_eqis_html(eqis, scenario):
     ref = eqis["references"]
     res_rows = ""
     for label, r in eqis["resultats"].items():
-        res_rows += (f"<tr><td>{label}</td><td>{r['concentration_ugm3']} µg/m³</td>"
+        res_rows += (f"<tr><td>{r['polluant']}</td><td>{label}</td><td>{r['concentration_ugm3']} µg/m³</td>"
                      f"<td>{r['paf']*100:.2f} %</td><td><strong>{r['deces_attribuables_an']}</strong></td></tr>")
     st_rows = "".join(
         f"<tr><td>{s['nom_station']}</td><td>{s['nom_com']}</td><td>{s['annee']}</td>"
         f"<td>{s['valeur']} µg/m³</td><td>{s['typologie']}/{s['influence']}</td><td>{s['dist_m']} m</td></tr>"
-        for s in eqis["stations_pm25"]
+        for s in eqis["stations_pm25"] + eqis.get("stations_no2", [])
     )
+    sante_html = ""
+    so = eqis.get("sante_odisse") or {}
+    if so.get("records"):
+        r0 = so["records"][0]
+        sante_html = (f"<p>Indicateur santé croisé (Odissé/SPF, département {so.get('dep')} {r0.get('libgeo')}, {r0.get('annees')}) : "
+                      f"mortalité infantile <strong>{r0.get('tx1000_mortalite_infantile')} ‰</strong> naissances vivantes. "
+                      f"Source : <a href=\"https://odisse.santepubliquefrance.fr\">Odissé</a> ({so.get('dataset')}).</p>")
     sc_html = ""
     if eqis.get("scenario_oms"):
         s = eqis["scenario_oms"]
@@ -75,18 +82,24 @@ def render_eqis_html(eqis, scenario):
         sc_html += (f"<li>{esc(scenario['libelle'])} : <strong>{scenario['deces_evites_an']} décès/an évités</strong> "
                     f"(population cible {scenario['population_cible']}, {esc(scenario['note'])}).</li>")
     return f"""
-<h2>6. Évaluation quantitative (EQIS-lite PM2,5) et scénarios</h2>
+<h2>6. Évaluation quantitative (EQIS multi-polluants PM2,5 / NO2) et scénarios</h2>
 <p>Commune : <strong>{esc(eqis['commune'])}</strong> ({eqis['code_insee']}) — population {eqis['population']:,} hab (geo.api.gouv.fr/INSEE).
-Méthode EQIS-PA OMS/SPF : décès attribuables = D × (1 − e<sup>−β(C−C<sub>ref</sub>)</sup>), β = ln({eqis['rr_pm25_par_10ugm3']})/10, C<sub>ref</sub> = {eqis['contrefactuel_ugm3']} µg/m³, taux de mortalité brut {eqis['taux_mortalite_brut']*1000:.1f} ‰ (référence nationale INSEE).</p>
-<table><tr><th>Source de concentration PM2,5</th><th>C (µg/m³)</th><th>PAF</th><th>Décès attribuables/an</th></tr>
+Méthode EQIS OMS/SPF (guide EQIS-PA 2019) : décès attribuables = D × (1 − e<sup>−β(C−C<sub>ref</sub>)</sup>), β = ln(RR)/10 ;
+RR PM2,5 = {eqis['rr']['PM2.5']}/10 µg/m³ (C<sub>ref</sub> = {eqis['contrefactuels']['PM2.5']} µg/m³), RR NO2 = {eqis['rr']['NO2']}/10 µg/m³ (C<sub>ref</sub> = {eqis['contrefactuels']['NO2']} µg/m³, OMS 2021) ;
+taux de mortalité brut {eqis['taux_mortalite_brut']*1000:.1f} ‰ (référence nationale INSEE). En production : AirQ+ (OMS).</p>
+<table><tr><th>Polluant</th><th>Source de concentration</th><th>C (µg/m³)</th><th>PAF</th><th>Décès attribuables/an</th></tr>
 {res_rows}
 </table>
+{sante_html}
 <p>Indice communal air-santé modélisé (Atmo AURA 2016-2018) : PM2,5 = <strong>{eqis['indice_communal_pm25']} µg/m³</strong>.
 Mesures 2024 des stations proches (moyenne {eqis['moyenne_stations_pm25']} µg/m³) :</p>
 <table><tr><th>Station</th><th>Commune</th><th>Année</th><th>Valeur</th><th>Type</th><th>Dist.</th></tr>
 {st_rows}
 </table>
-<p>Seuils de référence : valeur limite UE 2024 = {ref['valeur_limite_ue_2024']} µg/m³, UE 2030 = {ref['valeur_limite_ue_2030']} µg/m³, ligne directrice OMS 2021 = {ref['ligne_directrice_oms_2021']} µg/m³.</p>
+<p>Seuils de référence PM2,5 : valeur limite UE 2024 = {ref['valeur_limite_ue_2024_pm25']} µg/m³, UE 2030 = {ref['valeur_limite_ue_2030_pm25']} µg/m³, OMS 2021 = {ref['ligne_directrice_oms_2021_pm25']} µg/m³. NO2 : UE 2030 = {ref['valeur_limite_ue_no2_2030']} µg/m³, OMS 2021 = {ref['ligne_directrice_oms_2021_no2']} µg/m³.
+Référence nationale : {esc(ref['reference_spf_eqis_nationale'])}.
+Bruit : cartes stratégiques Lden/Ln 2022 de la Métropole de Lyon (DataGrandLyon, plan bruit routier/ferroviaire/aérien) — à brancher en v0.6.
+Îlots de chaleur : Diaclimap (Cerema) / Copernicus — à brancher en v0.6.</p>
 <ul>{sc_html}</ul>
 <p><small>EQIS simplifiée (AirQ+ OMS en production ; guide SPF 2019). Données agrégées uniquement — jamais de données individuelles (RGPD).</small></p>
 """

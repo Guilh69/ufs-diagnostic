@@ -4,8 +4,14 @@
     "code_insee": "69266",
     "population": 163684,
     "taux_mortalite_brut": 0.0092,
-    "contrefactuel_ugm3": 5,
-    "rr_pm25_par_10ugm3": 1.062,
+    "rr": {
+      "PM2.5": 1.062,
+      "NO2": 1.03
+    },
+    "contrefactuels": {
+      "PM2.5": 5.0,
+      "NO2": 10.0
+    },
     "indice_communal_pm25": 14.799672373679,
     "stations_pm25": [
       {
@@ -42,28 +48,174 @@
         "dist_m": 5914
       }
     ],
+    "stations_no2": [
+      {
+        "code_station": "FR20069",
+        "nom_station": "Lyon Périphérique",
+        "nom_com": "Villeurbanne",
+        "annee": 2024,
+        "valeur": 39.5,
+        "unite": "µg/m³",
+        "typologie": "Urbain",
+        "influence": "trafic",
+        "dist_m": 1402
+      },
+      {
+        "code_station": "FR20019",
+        "nom_station": "Villeurbanne Place Grand-Clément",
+        "nom_com": "Villeurbanne",
+        "annee": 2022,
+        "valeur": 30.6,
+        "unite": "µg/m³",
+        "typologie": "Urbain",
+        "influence": "trafic",
+        "dist_m": 1902
+      },
+      {
+        "code_station": "FR20062",
+        "nom_station": "Lyon Centre",
+        "nom_com": "Lyon",
+        "annee": 2024,
+        "valeur": 17.7,
+        "unite": "µg/m³",
+        "typologie": "Urbain",
+        "influence": "fond",
+        "dist_m": 2796
+      },
+      {
+        "code_station": "ET00906",
+        "nom_station": "Lyon Tunnel Croix-Rousse Sortie Rhône",
+        "nom_com": "Lyon",
+        "annee": 2025,
+        "valeur": 35.6,
+        "unite": "µg/m³",
+        "typologie": "Urbain",
+        "influence": "trafic",
+        "dist_m": 3390
+      },
+      {
+        "code_station": "FR20046",
+        "nom_station": "Est Lyonnais Vaulx-en-Velin",
+        "nom_com": "Vaulx-en-Velin",
+        "annee": 2024,
+        "valeur": 15,
+        "unite": "µg/m³",
+        "typologie": "Urbain",
+        "influence": "fond",
+        "dist_m": 3455
+      },
+      {
+        "code_station": "FR20070",
+        "nom_station": "Lyon Trafic Jaurès",
+        "nom_com": "Lyon",
+        "annee": 2024,
+        "valeur": 24.6,
+        "unite": "µg/m³",
+        "typologie": "Urbain",
+        "influence": "trafic",
+        "dist_m": 3970
+      },
+      {
+        "code_station": "FR20017",
+        "nom_station": "Lyon Gerland",
+        "nom_com": "Lyon",
+        "annee": 2024,
+        "valeur": 15.1,
+        "unite": "µg/m³",
+        "typologie": "Urbain",
+        "influence": "fond",
+        "dist_m": 5914
+      }
+    ],
     "moyenne_stations_pm25": 8.23,
+    "moyenne_no2_fond": 15.93,
+    "moyenne_no2_trafic": 32.58,
     "resultats": {
-      "modele_commune_2016_2018": {
+      "PM2.5 - modèle communal Atmo AURA 2016-2018": {
+        "polluant": "PM2.5",
         "concentration_ugm3": 14.799672373679,
         "deces_attribuables_an": 86.2,
         "paf": 0.0572
       },
-      "stations_2024_moyenne": {
+      "PM2.5 - moyenne stations 2024": {
+        "polluant": "PM2.5",
         "concentration_ugm3": 8.23,
         "deces_attribuables_an": 29.0,
         "paf": 0.0192
+      },
+      "NO2 - stations fond 2024": {
+        "polluant": "NO2",
+        "concentration_ugm3": 15.93,
+        "deces_attribuables_an": 26.2,
+        "paf": 0.0174
+      },
+      "NO2 - stations trafic 2024": {
+        "polluant": "NO2",
+        "concentration_ugm3": 32.58,
+        "deces_attribuables_an": 97.2,
+        "paf": 0.0646
       }
     },
     "scenario_oms": {
-      "cible_ugm3": 5,
-      "deces_evites_an": 86.2,
-      "note": "si la commune atteignait 5 µg/m³ (OMS 2021), tous les décès attribuables au-dessus de ce seuil seraient évités"
+      "cible_ugm3": 5.0,
+      "deces_evites_an": 86.2
+    },
+    "sante_odisse": {
+      "dataset": "Odissé (SPF) perinatalite-mortalite-infantile-et-mortinatalite-departement",
+      "source": "https://odisse.santepubliquefrance.fr",
+      "dep": "69",
+      "records": [
+        {
+          "annees": "2020-2024",
+          "libgeo": "Rhône",
+          "dep": "69",
+          "mortinatalite_globale": 891,
+          "tx1000_mortinatalite_globale": 7.789,
+          "mortinatalite_induite": 340,
+          "tx1000_mortinatalite_induite": 2.972,
+          "mortinatalite_spontanee": 551,
+          "tx1000_mortinatalite_spontanee": 4.817,
+          "mortalite_perinatale": 1082,
+          "tx1000_mortalite_perinatale": 9.459,
+          "mortalite_infantile": 416,
+          "tx1000_mortalite_infantile": 3.643,
+          "mortalite_neonatale_precoce": 191,
+          "tx1000_mortalite_neonatale_precoce": 1.673,
+          "mortalite_neonatale_tardive": 112,
+          "tx1000_mortalite_neonatale_tardive": 0.981,
+          "mortalite_post_neonatale": 113,
+          "tx1000_mortalite_post_neonatale": 0.99
+        },
+        {
+          "annees": "2015-2019",
+          "libgeo": "Rhône",
+          "dep": "69",
+          "mortinatalite_globale": 987,
+          "tx1000_mortinatalite_globale": 7.619,
+          "mortinatalite_induite": 398,
+          "tx1000_mortinatalite_induite": 3.072,
+          "mortinatalite_spontanee": 589,
+          "tx1000_mortinatalite_spontanee": 4.547,
+          "mortalite_perinatale": 1218,
+          "tx1000_mortalite_perinatale": 9.402,
+          "mortalite_infantile": 436,
+          "tx1000_mortalite_infantile": 3.38,
+          "mortalite_neonatale_precoce": 221,
+          "tx1000_mortalite_neonatale_precoce": 1.713,
+          "mortalite_neonatale_tardive": 96,
+          "tx1000_mortalite_neonatale_tardive": 0.744,
+          "mortalite_post_neonatale": 119,
+          "tx1000_mortalite_post_neonatale": 0.922
+        }
+      ]
     },
     "references": {
-      "valeur_limite_ue_2024": 20,
-      "valeur_limite_ue_2030": 10,
-      "ligne_directrice_oms_2021": 5
+      "valeur_limite_ue_2024_pm25": 20,
+      "valeur_limite_ue_2030_pm25": 10,
+      "ligne_directrice_oms_2021_pm25": 5,
+      "valeur_limite_ue_no2_2030": 20,
+      "ligne_directrice_oms_2021_no2": 10,
+      "reference_spf_eqis_nationale": "48 000 décès prématurés/an attribuables aux PM2,5 en France (EQIS SPF 2016)"
     }
   },
   "scenario_marche": {
