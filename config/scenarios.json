@@ -1,0 +1,15 @@
+{
+  "commentaire": "Scénarios HEAT-lite (méthodologie OMS HEAT, version simplifiée). Paramètres éditables. En production : lancer HEAT officiel (OMS) ou ITHIM.",
+  "scenario_marche": {
+    "libelle": "+30 min de marche par jour pour les 18-64 ans du périmètre",
+    "part_population_cible": 0.55,
+    "part_note": "hypothèse éditable : part des 18-64 ans dans la commune (à remplacer par la pyramide des âges INSEE)",
+    "rr_mortalite_marche": 0.9,
+    "rr_note": "risque relatif de mortalité toutes causes pour une activité physique régulière (HEAT/OMS, ordre de grandeur ~0,90) — à remplacer par HEAT officiel",
+    "min_semaine_note": "HEAT exprime l'activité en MET-min/semaine ; 30 min/jour de marche rapide ≈ 168 MET-min/semaine (seuil OMS)"
+  },
+  "scenario_pm25": {
+    "libelle": "Baisse des PM2.5 du niveau actuel à la ligne directrice OMS 2021 (5 µg/m³)",
+    "note": "décès évités = EQIS actuelle - EQIS au contrefactuel (déjà le contrefactuel, donc = EQIS totale si C actuel > 5)"
+  }
+}

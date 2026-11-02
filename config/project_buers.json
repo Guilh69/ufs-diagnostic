@@ -1,0 +1,34 @@
+{
+  "nom_projet": "Diagnostic UFS du quartier des Buers (Villeurbanne, 69)",
+  "commande": "Prototype de démonstration pour le Club UFS Auvergne-Rhône-Alpes",
+  "reponses": {
+    "cadrage": [
+      "Éclairer la rénovation urbaine du quartier des Buers (quartier prioritaire, politique de la ville) : une EIS y a déjà été menée (revue Pollution Atmosphérique).",
+      "Priorités retenues pour le prototype : alimentation de proximité/bio, espaces verts, eau potable, accès aux soins (pharmacies) ; à compléter par air/bruit/chaleur (EQIS) en v0.3.",
+      "Quartier prioritaire de la politique de la ville : publics potentiellement vulnérables ; inégalités de santé à croiser avec Filosofi (IRIS) et Géodes.",
+      "ISadOrA (EHESP/a-urba 2020), guide EHESP/DGS 2014, OMS/ONU-Habitat 2020, Barton & Grant 2006, EQIS SPF, HCSP 2018, ADEME Expé URBA SanTé."
+    ],
+    "perimetre": [
+      "Périmètre : bbox 45.768-45.782 N / 4.868-4.893 E (quartier des Buers), maille d'analyse 150 m (130 mailles).",
+      "Influence : rayon d'accès piéton 800 m (~10 min) autour de chaque maille, calculé à vol d'oiseau puis par le réseau routier (isochrone).",
+      "État initial uniquement pour le prototype ; scénarios prévus en v0.3."
+    ],
+    "donnees_acteurs": [
+      "WFS Métropole de Lyon (data.grandlyon.com/geoserver) : bornes-fontaines, producteurs locaux, parcs de Villeurbanne, réseau routier CRITER, Sirene. magOSM (data.gouv.fr) : pharmacies OSM.",
+      "Manquent : qualité de l'air modélisée (AASQA/Atmo AURA), bruit (cartes stratégiques), ICU (Diaclimap/Copernicus), données santé fines (Géodes SPF, ARS AURA).",
+      "Acteurs : Ville de Villeurbanne, Métropole de Lyon, ARS AURA, ADEME, Cerema, Club UFS AURA ; habitants via démarche participative (clef 3).",
+      "Participation : à construire (ex. questionnaire « Votre territoire favorise-t-il votre santé ? » comme dans Expé URBA SanTé au Grand Pau)."
+    ],
+    "methode_livrables": [
+      "Indicateurs de proximité (vol d'oiseau + réseau Dijkstra), isochrone 10 min piéton, checklist 15 clefs ISadOrA, EQIS AirQ+/HEAT listés pour la suite.",
+      "Livrables : report.html (imprimable PDF), map.html, GeoJSON/JSON (indicators, pois, isochrone, checklist).",
+      "Évaluation : diagnostic (clef 2 ISadOrA) ; EIS complète à mener avec l'ARS."
+    ],
+    "moyens": [
+      "Budget prototype : nul (données ouvertes, code libre). Aides mobilisables ensuite : ADEME Expé URBA SanTé, INCA, programmes européens.",
+      "Compétences : urbanisme/aménagement + SIG + santé publique (profil EHESP/DE SPAT).",
+      "Cadre : PLU de Villeurbanne, PCAET Métropole de Lyon, PPA, évaluation environnementale (avis ARS), ZAN.",
+      "Leviers : quartier déjà engagé en politique de la ville avec EIS documentée. Contraintes : données santé agrégées uniquement (RGPD), recouper OSM sur le terrain."
+    ]
+  }
+}

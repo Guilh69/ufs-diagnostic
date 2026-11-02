@@ -1,0 +1,20 @@
+{
+  "source": "Guide ISadOrA (EHESP / a-urba, mars 2020, avec le soutien de l'ADEME, DGALN, DGS, FNAU) - liste des 15 clefs opérationnelles vérifiée sur https://www.aurba.org/productions/isadora-un-outil-daide-a-lintegration-de-la-sante-dans-les-operations-damenagement/",
+  "keys": [
+    { "id": 1, "type": "processus", "title": "Gouvernance et santé", "desc": "Mettre en place une instance santé pour impulser et accompagner la prise en compte de la santé tout au long de l'élaboration de l'opération d'aménagement." },
+    { "id": 2, "type": "processus", "title": "Portrait de santé et de l'environnement", "desc": "Réaliser un portrait de santé et de l'environnement du quartier et/ou du territoire, notamment en vue de ne pas aggraver voire réduire d'éventuelles inégalités de santé." },
+    { "id": 3, "type": "processus", "title": "Démarches participatives", "desc": "Mettre en place une démarche participative en précisant ses objectifs et ses modalités." },
+    { "id": 4, "type": "conception", "title": "Exposition des populations", "desc": "Proposer une implantation des espaces bâtis et des espaces de vie limitant l'exposition des populations, notamment les publics vulnérables et défavorisés, aux polluants et nuisances." },
+    { "id": 5, "type": "conception", "title": "Qualité des logements", "desc": "Travailler sur la qualité des logements, autant du point de vue de leur conception que de l'impact de l'environnement extérieur sur les conditions d'habitat intérieur." },
+    { "id": 6, "type": "conception", "title": "Mobilités actives et PMR", "desc": "Concevoir un projet favorable aux mobilités actives et aux personnes à mobilité réduite (PMR)." },
+    { "id": 7, "type": "conception", "title": "Accessibilité, emplois, commerces, équipements, services", "desc": "Favoriser l'accessibilité à l'emploi, aux commerces, équipements et services, notamment en programmant une partie de cette offre au sein du projet." },
+    { "id": 8, "type": "conception", "title": "Cohésion sociale", "desc": "Proposer une programmation et une répartition des logements et des espaces publics qui favorisent la cohésion sociale." },
+    { "id": 9, "type": "conception", "title": "Cinq sens et identité du lieu", "desc": "Prendre en compte les 5 sens et l'identité du lieu dans la conception des différents espaces du projet et leurs usages." },
+    { "id": 10, "type": "conception", "title": "Fonctions sociales des interfaces et des espaces communs", "desc": "Valoriser la fonction sociale des espaces d'interface et des espaces communs au sein de l'îlot et du bâtiment." },
+    { "id": 11, "type": "conception", "title": "Fonctions des espaces publics", "desc": "Aménager les espaces publics pour assurer une diversité et une complémentarité des fonctions (sociale, circulatoire, stimulation de l'appareil perceptif, environnementale) génératrices de santé et de bien-être." },
+    { "id": 12, "type": "conception", "title": "Espaces verts", "desc": "Intégrer une multiplicité d'espaces verts à différentes échelles du projet en préservant et valorisant au maximum les espaces à caractère naturel et les sols de qualité déjà présents sur le site et en assurant une complémentarité et une continuité entre ces espaces." },
+    { "id": 13, "type": "conception", "title": "Agriculture urbaine", "desc": "Réserver des espaces pour promouvoir différentes formes d'agriculture urbaine, en adéquation avec la qualité des sols." },
+    { "id": 14, "type": "conception", "title": "Îlots de chaleur urbains", "desc": "Lutter contre les îlots de chaleur urbains à l'échelle du projet, en créant notamment des îlots de fraîcheur refuges." },
+    { "id": 15, "type": "conception", "title": "Gestion des eaux pluviales", "desc": "Favoriser une récupération de l'eau de pluie et une gestion des eaux pluviales en surface, par la mise en place de techniques alternatives, permettant une diversité des fonctions dont la gestion du risque inondation." }
+  ]
+}

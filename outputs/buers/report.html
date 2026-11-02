@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Diagnostic UFS — Quartier des Buers, Villeurbanne (Métropole de Lyon)</title>
+<style>
+ body { font-family: 'Segoe UI', Arial, sans-serif; margin: 2rem auto; max-width: 1100px; color: #1a1a1a; line-height: 1.5; }
+ h1 { color: #0b5d3b; border-bottom: 3px solid #0b5d3b; padding-bottom: .3rem; }
+ h2 { color: #0b5d3b; margin-top: 2rem; }
+ h3 { color: #14724c; margin-top: 1.4rem; }
+ table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+ th, td { border: 1px solid #ccc; padding: .45rem .6rem; text-align: left; vertical-align: top; font-size: .92rem; }
+ th { background: #e8f3ec; }
+ .badge { background: #0b5d3b; color: #fff; border-radius: 4px; padding: .1rem .5rem; font-size: .85rem; }
+ .warn { background: #fff8e1; border-left: 4px solid #f0a500; padding: .8rem 1rem; }
+ iframe { width: 100%; height: 520px; border: 1px solid #ccc; }
+ footer { margin-top: 3rem; font-size: .8rem; color: #666; border-top: 1px solid #ccc; padding-top: 1rem; }
+</style>
+</head>
+<body>
+<h1>Diagnostic territorial — Urbanisme Favorable à la Santé</h1>
+<p><span class="badge">PROTOTYPE v0.2</span> <strong>Quartier des Buers, Villeurbanne (Métropole de Lyon)</strong> — généré le 2026-11-02 par <code>ufs-diagnostic</code> (logiciel libre, licence EUPL-1.2).</p>
+
+
+<h2>0. Fiche de démarrage du projet</h2>
+<p><strong>Diagnostic UFS du quartier des Buers (Villeurbanne, 69)</strong> — Prototype de démonstration pour le Club UFS Auvergne-Rhône-Alpes<br>
+<small>Avant le livrable, le projet répond à ces questions de cadrage (modèle dans <code>config/kickoff.json</code>, réponses dans <code>config/project_buers.json</code>).</small></p>
+<h3>1. Cadrage et objectifs</h3><table><tr><th>Question de cadrage</th><th>Réponse du projet</th></tr><tr><td>Quel est le projet / la décision à éclairer (PLU, ZAC, espace public, équipements) ?</td><td>Éclairer la rénovation urbaine du quartier des Buers (quartier prioritaire, politique de la ville) : une EIS y a déjà été menée (revue Pollution Atmosphérique).</td></tr>
+<tr><td>Quels sont les objectifs de santé prioritaires (air, bruit, chaleur, mobilités actives, alimentation, accès aux soins, cohésion sociale) ?</td><td>Priorités retenues pour le prototype : alimentation de proximité/bio, espaces verts, eau potable, accès aux soins (pharmacies) ; à compléter par air/bruit/chaleur (EQIS) en v0.3.</td></tr>
+<tr><td>Quels publics sont concernés, y a-t-il des publics vulnérables ou des inégalités de santé connues ?</td><td>Quartier prioritaire de la politique de la ville : publics potentiellement vulnérables ; inégalités de santé à croiser avec Filosofi (IRIS) et Géodes.</td></tr>
+<tr><td>Quelle bibliographie de référence mobilise-t-on (ISadOrA, EHESP 2014, guides OMS/ONU-Habitat, EQIS SPF, rapports HCSP) ?</td><td>ISadOrA (EHESP/a-urba 2020), guide EHESP/DGS 2014, OMS/ONU-Habitat 2020, Barton &amp; Grant 2006, EQIS SPF, HCSP 2018, ADEME Expé URBA SanTé.</td></tr></table><h3>2. Périmètre et champ de l&#x27;analyse</h3><table><tr><th>Question de cadrage</th><th>Réponse du projet</th></tr><tr><td>Quel périmètre exact (quartier, rue, ZAC, commune) et quelle maille d&#x27;analyse ?</td><td>Périmètre : bbox 45.768-45.782 N / 4.868-4.893 E (quartier des Buers), maille d&#x27;analyse 150 m (130 mailles).</td></tr>
+<tr><td>Jusqu&#x27;où s&#x27;étend l&#x27;influence du projet (bassin de vie, déplacements, exposition air/bruit) ?</td><td>Influence : rayon d&#x27;accès piéton 800 m (~10 min) autour de chaque maille, calculé à vol d&#x27;oiseau puis par le réseau routier (isochrone).</td></tr>
+<tr><td>Quelle échelle de temps (état initial, scénarios, suivi) ?</td><td>État initial uniquement pour le prototype ; scénarios prévus en v0.3.</td></tr></table><h3>3. Données et acteurs</h3><table><tr><th>Question de cadrage</th><th>Réponse du projet</th></tr><tr><td>Quelles données ouvertes souveraines mobilise-t-on (WFS collectivités, data.gouv.fr, Géodes SPF, INSEE, OSM) ?</td><td>WFS Métropole de Lyon (data.grandlyon.com/geoserver) : bornes-fontaines, producteurs locaux, parcs de Villeurbanne, réseau routier CRITER, Sirene. magOSM (data.gouv.fr) : pharmacies OSM.</td></tr>
+<tr><td>Quelles données manquent et comment les produire (terrain, capteurs citoyens, EIS) ?</td><td>Manquent : qualité de l&#x27;air modélisée (AASQA/Atmo AURA), bruit (cartes stratégiques), ICU (Diaclimap/Copernicus), données santé fines (Géodes SPF, ARS AURA).</td></tr>
+<tr><td>Qui sont les acteurs à mobiliser (collectivité, ARS, ADEME, Cerema, habitants, professionnels de santé) — clef 1 ISadOrA (instance santé) ?</td><td>Acteurs : Ville de Villeurbanne, Métropole de Lyon, ARS AURA, ADEME, Cerema, Club UFS AURA ; habitants via démarche participative (clef 3).</td></tr>
+<tr><td>Y a-t-il une démarche participative prévue — clef 3 ISadOrA ?</td><td>Participation : à construire (ex. questionnaire « Votre territoire favorise-t-il votre santé ? » comme dans Expé URBA SanTé au Grand Pau).</td></tr></table><h3>4. Méthode et livrables</h3><table><tr><th>Question de cadrage</th><th>Réponse du projet</th></tr><tr><td>Quels indicateurs et traitements (proximité, isochrones, EQIS AirQ+/HEAT, scénarios) ?</td><td>Indicateurs de proximité (vol d&#x27;oiseau + réseau Dijkstra), isochrone 10 min piéton, checklist 15 clefs ISadOrA, EQIS AirQ+/HEAT listés pour la suite.</td></tr>
+<tr><td>Quel gabarit de rapport et quels rendus (cartes, fiches par clef ISadOrA) ?</td><td>Livrables : report.html (imprimable PDF), map.html, GeoJSON/JSON (indicators, pois, isochrone, checklist).</td></tr>
+<tr><td>Quelle évaluation de l&#x27;impact (EIS globale, EQIS quantitatives) ?</td><td>Évaluation : diagnostic (clef 2 ISadOrA) ; EIS complète à mener avec l&#x27;ARS.</td></tr></table><h3>5. Moyens, compétences et contraintes</h3><table><tr><th>Question de cadrage</th><th>Réponse du projet</th></tr><tr><td>Quel budget et quelles aides (ADEME Expé URBA SanTé, INCA, fonds européens) ?</td><td>Budget prototype : nul (données ouvertes, code libre). Aides mobilisables ensuite : ADEME Expé URBA SanTé, INCA, programmes européens.</td></tr>
+<tr><td>Quelles compétences internes / externes (urbanisme, santé publique, SIG, donnée) ?</td><td>Compétences : urbanisme/aménagement + SIG + santé publique (profil EHESP/DE SPAT).</td></tr>
+<tr><td>Quel cadre réglementaire (PLU/PLUi, PCAET, PPA, évaluation environnementale, avis ARS) ?</td><td>Cadre : PLU de Villeurbanne, PCAET Métropole de Lyon, PPA, évaluation environnementale (avis ARS), ZAN.</td></tr>
+<tr><td>Quels leviers et quelles contraintes identifiés (foncier, calendrier, acceptabilité) ?</td><td>Leviers : quartier déjà engagé en politique de la ville avec EIS documentée. Contraintes : données santé agrégées uniquement (RGPD), recouper OSM sur le terrain.</td></tr></table>
+
+
+<div class="warn"><strong>Limites du prototype :</strong> maillage régulier de 150 m ; distances à vol d'oiseau ET par le réseau routier (Dijkstra sur tronçons CRITER) ; isochrone = tronçons atteignables à pied en ~800 m. Les données OSM/collectivités sont collaboratives : vérifier sur le terrain (clef 2 ISadOrA).</div>
+
+
+<h2>1. Où se trouve-t-on ? Périmètre et zone d'étude</h2>
+<iframe src="map_zone.html" style="width:100%;height:480px;border:1px solid #ccc;"></iframe>
+<p><small>Carte d'identification : en rouge le périmètre de la zone d'étude, en bleu foncé le point d'ancrage, en vert les équipements recensés.</small></p>
+<p>Quartier prioritaire de la politique de la ville (QPV &#x27;Les Buers&#x27;, code QN06921M, ANCT 26/04/2024) ; EIS documentée dans la littérature (revue Pollution Atmosphérique).<br>
+Bbox WGS84 : sud 45.768, ouest 4.868, nord 45.782, est 4.893 — maillage de 150 m.</p>
+
+<p><strong>Zone d'étude :</strong> QPV Les Buers (QN06921M), Villeurbanne — 0.156 km² (6 mailles de 150 m), population 1,718 hab (estimation = population communale × (surface zone / surface commune)).<br>
+<small>Source : ANCT 26/04/2024, Feature Service national ArcGIS, Licence Ouverte. Les indicateurs ci-dessous sont calculés DANS cette zone (effectifs et densités), pas à partir de l'extérieur.</small></p>
+<table><tr><th>Catégorie</th><th>Nb dans la zone</th><th>Densité</th><th>Pour 10 000 hab</th><th>Distance moyenne au plus proche (réseau)</th></tr>
+<tr><td>Alimentation locale / bio (producteurs, AMAP, magasins de producteurs)</td><td><strong>1</strong></td><td>6.4/km²</td><td>5.8/10 000 hab</td><td>~658 m en moyenne (réseau), médiane 731 m ; 83.3% des mailles à ≤800 m</td></tr><tr><td>Espaces verts / parcs et jardins</td><td><strong>0</strong></td><td>0.0/km²</td><td>—/10 000 hab</td><td>~389 m en moyenne (réseau), médiane 377 m ; 100.0% des mailles à ≤800 m</td></tr><tr><td>Points d&#x27;eau potable (bornes-fontaines)</td><td><strong>0</strong></td><td>0.0/km²</td><td>—/10 000 hab</td><td>~3765 m en moyenne (réseau), médiane 3518 m ; 0.0% des mailles à ≤800 m</td></tr><tr><td>Accès aux soins de proximité (pharmacies)</td><td><strong>0</strong></td><td>0.0/km²</td><td>—/10 000 hab</td><td>~515 m en moyenne (réseau), médiane 468 m ; 83.3% des mailles à ≤800 m</td></tr>
+</table>
+
+<p><strong>Point d'ancrage</strong> (mise en situation d'une personne) : 130 rue Anatole France, 69100 Villeurbanne
+— coordonnées 4.8823724, 45.7686273 (géocodage Photon/BAN, Métropole de Lyon).</p>
+<table><tr><th>Catégorie</th><th>Distance à vol d'oiseau</th><th>Distance par le réseau</th><th>Équipement le plus proche</th></tr>
+<tr><td>Alimentation locale / bio (producteurs, AMAP, magasins de producteurs)</td><td>0 m</td><td>147 m (réseau)</td><td>Les paniers du DD</td></tr><tr><td>Espaces verts / parcs et jardins</td><td>25 m</td><td>540 m (réseau)</td><td>Square Henri Bertrand</td></tr><tr><td>Points d&#x27;eau potable (bornes-fontaines)</td><td>432 m</td><td>518 m (réseau)</td><td>Villeurbanne</td></tr><tr><td>Accès aux soins de proximité (pharmacies)</td><td>170 m</td><td>401 m (réseau)</td><td>Pharmacie Daviet</td></tr>
+</table>
+<p><strong>Proxy îlot de fraîcheur (ICU)</strong> : 16.7% des mailles de la zone ont un espace vert à ≤ 300 m à pied (réseau). <small>proxy îlot de fraîcheur : part de la zone avec un espace vert à ≤ 300 m à pied (réseau). Source ICU officielle : Diaclimap (Cerema) / LST Copernicus — à brancher en v0.7.</small></p><p><strong>Exposition au bruit routier</strong> (proxy voies à trafic) : 25 voies recensées ; 81.5% des mailles à ≤800 m d'une voie à trafic à vol d'oiseau ; par le réseau : 26.9% des mailles à ≤800 m, médiane 1460 m. <small>proxy : distance aux voies à trafic (infotrafic=1, réseau CRITER). Source Lden/Ln 2022 officielle : raster GL_Rte_Lden (DataGrandLyon, cartes stratégiques de bruit) — à brancher en v0.7. Seuils UE : Lden &gt; 68 dB(A), Ln &gt; 62 dB(A) = dépassement.</small></p><p><strong>Bruit routier Lden 2022 (mesuré/modélisé, dB(A))</strong> : sur 6 points de la zone, Lden moyen <strong>62.3 dB(A)</strong>, max 67.0 dB(A) ; 0.0% des points > 68 dB(A) (valeur limite UE), 100.0% > 53 dB(A) (recommandation OMS 2018). Au point d'ancrage (130 rue Anatole France, 69100 Villeurbanne) : <strong>71.0 dB(A)</strong>. <small>Source : WMS DataGrandLyon grandlyon:road_lden_p (cartes stratégiques de bruit routier 2022, Lden dB(A)).</small></p>
+<p>Soit 130 mailles de 150 m au total. Score moyen d'accès aux équipements de santé/bien-être (vol d'oiseau) : <strong>0.972</strong> / 1.</p>
+
+<h2>2. Données mobilisées et sources (open data souveraines)</h2>
+<table><tr><th>Donnée</th><th>Source (WFS / portail)</th><th>Licence</th></tr>
+<tr><td>Points d&#x27;eau potable (bornes-fontaines)</td><td>Métropole de Lyon via data.gouv.fr, WFS metropole-de-lyon:adr_voie_lieu.adrbornefontaine_latest</td><td>ODbL (OSM + communes)</td></tr>
+<tr><td>Producteurs locaux / alimentation bio</td><td>DataGrandLyon, WFS metropole-de-lyon:eco_economie.ecomangerlocal_latest</td><td>Licence Ouverte 2.0</td></tr>
+<tr><td>Parcs et jardins</td><td>Ville de Villeurbanne via DataGrandLyon, WFS ville-de-villeurbanne:villeurbanne.parcjardin</td><td>Licence Ouverte 2.0</td></tr>
+<tr><td>Pharmacies (accès aux soins)</td><td>magOSM / data.gouv.fr, WFS magosm:pharmacies_point (extrait OSM quotidien)</td><td>ODbL</td></tr>
+<tr><td>Réseau routier (isochrones)</td><td>DataGrandLyon, WFS pvo_patrimoine_voirie.pvotronconwebcriter (tronçons CRITER, longueur en m)</td><td>Licence Ouverte 2.0</td></tr>
+<tr><td>Commerces bio (NAF 4729Z)</td><td>Base Sirene géolocalisée Métropole de Lyon, filtre activitenaf=&#x27;4729Z&#x27;</td><td>Licence Ouverte 2.0 - 0 objet géocodé dans le périmètre test, catégorie non retenue</td></tr>
+</table>
+
+<h2>3. Indicateurs de proximité par maille (rayon 800 m ≈ 10 min à pied)</h2>
+<table><tr><th>Catégorie</th><th>Nb objets</th><th>Mailles desservies</th><th>% mailles</th><th>Dist. médiane au plus proche (vol d'oiseau + réseau)</th></tr>
+<tr><td>Alimentation locale / bio (producteurs, AMAP, magasins de producteurs)</td><td>9</td><td>130 / 130</td><td>100.0%</td><td>365 m<br>Réseau : 32.3% des mailles à ≤800 m, médiane 1372 m</td></tr>
+<tr><td>Commerces de détail de produits bio (NAF 4729Z)</td><td colspan='4'><em>donnée non disponible dans le périmètre</em></td></tr>
+<tr><td>Espaces verts / parcs et jardins</td><td>26</td><td>130 / 130</td><td>100.0%</td><td>160 m<br>Réseau : 85.4% des mailles à ≤800 m, médiane 457 m</td></tr>
+<tr><td>Points d&#x27;eau potable (bornes-fontaines)</td><td>6</td><td>123 / 130</td><td>94.6%</td><td>450 m<br>Réseau : 30.8% des mailles à ≤800 m, médiane 1649 m</td></tr>
+<tr><td>Accès aux soins de proximité (pharmacies)</td><td>20</td><td>130 / 130</td><td>100.0%</td><td>232 m<br>Réseau : 70.0% des mailles à ≤800 m, médiane 567 m</td></tr>
+</table>
+<p>Isochrone piéton ~800 m calculée sur le réseau routier (34 tronçons) et affichée sur la carte (<code>isochrone.geojson</code>).</p>
+<p>Détail par maille : <code>indicators.geojson</code> (score d'accès par catégorie, distances vol d'oiseau et réseau).</p>
+
+<h2>4. Carte</h2>
+<iframe src="map.html"></iframe>
+
+<h2>5. Checklist ISadOrA — 15 clefs opérationnelles</h2>
+<table><tr><th>Clef</th><th>Objectif</th><th>Statut</th><th>Éléments chiffrés disponibles</th></tr>
+<tr><td>1</td><td><strong>Gouvernance et santé</strong><br><small>Mettre en place une instance santé pour impulser et accompagner la prise en compte de la santé tout au long de l&#x27;élaboration de l&#x27;opération d&#x27;aménagement.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>2</td><td><strong>Portrait de santé et de l&#x27;environnement</strong><br><small>Réaliser un portrait de santé et de l&#x27;environnement du quartier et/ou du territoire, notamment en vue de ne pas aggraver voire réduire d&#x27;éventuelles inégalités de santé.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>3</td><td><strong>Démarches participatives</strong><br><small>Mettre en place une démarche participative en précisant ses objectifs et ses modalités.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>4</td><td><strong>Exposition des populations</strong><br><small>Proposer une implantation des espaces bâtis et des espaces de vie limitant l&#x27;exposition des populations, notamment les publics vulnérables et défavorisés, aux polluants et nuisances.</small></td><td>Données favorables disponibles</td><td><small>• exposition_bruit_routier : 25 objets recensés, 81.5% des mailles à moins de 800 m à vol d&#x27;oiseau (médiane 470 m) ; par le réseau : 26.9% à ≤800 m (médiane 1460 m)</small></td></tr>
+<tr><td>5</td><td><strong>Qualité des logements</strong><br><small>Travailler sur la qualité des logements, autant du point de vue de leur conception que de l&#x27;impact de l&#x27;environnement extérieur sur les conditions d&#x27;habitat intérieur.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>6</td><td><strong>Mobilités actives et PMR</strong><br><small>Concevoir un projet favorable aux mobilités actives et aux personnes à mobilité réduite (PMR).</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>7</td><td><strong>Accessibilité, emplois, commerces, équipements, services</strong><br><small>Favoriser l&#x27;accessibilité à l&#x27;emploi, aux commerces, équipements et services, notamment en programmant une partie de cette offre au sein du projet.</small></td><td>Données favorables disponibles</td><td><small>• alimentation_locale_bio : 9 objets recensés, 100.0% des mailles à moins de 800 m à vol d&#x27;oiseau (médiane 365 m) ; par le réseau : 32.3% à ≤800 m (médiane 1372 m)<br>• acces_soins_pharmacies : 20 objets recensés, 100.0% des mailles à moins de 800 m à vol d&#x27;oiseau (médiane 232 m) ; par le réseau : 70.0% à ≤800 m (médiane 567 m)</small></td></tr>
+<tr><td>8</td><td><strong>Cohésion sociale</strong><br><small>Proposer une programmation et une répartition des logements et des espaces publics qui favorisent la cohésion sociale.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>9</td><td><strong>Cinq sens et identité du lieu</strong><br><small>Prendre en compte les 5 sens et l&#x27;identité du lieu dans la conception des différents espaces du projet et leurs usages.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>10</td><td><strong>Fonctions sociales des interfaces et des espaces communs</strong><br><small>Valoriser la fonction sociale des espaces d&#x27;interface et des espaces communs au sein de l&#x27;îlot et du bâtiment.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>11</td><td><strong>Fonctions des espaces publics</strong><br><small>Aménager les espaces publics pour assurer une diversité et une complémentarité des fonctions (sociale, circulatoire, stimulation de l&#x27;appareil perceptif, environnementale) génératrices de santé et de bien-être.</small></td><td>Données favorables disponibles</td><td><small>• eau_potable : 6 objets recensés, 94.6% des mailles à moins de 800 m à vol d&#x27;oiseau (médiane 450 m) ; par le réseau : 30.8% à ≤800 m (médiane 1649 m)</small></td></tr>
+<tr><td>12</td><td><strong>Espaces verts</strong><br><small>Intégrer une multiplicité d&#x27;espaces verts à différentes échelles du projet en préservant et valorisant au maximum les espaces à caractère naturel et les sols de qualité déjà présents sur le site et en assurant une complémentarité et une continuité entre ces espaces.</small></td><td>Données favorables disponibles</td><td><small>• espaces_verts : 26 objets recensés, 100.0% des mailles à moins de 800 m à vol d&#x27;oiseau (médiane 160 m) ; par le réseau : 85.4% à ≤800 m (médiane 457 m)</small></td></tr>
+<tr><td>13</td><td><strong>Agriculture urbaine</strong><br><small>Réserver des espaces pour promouvoir différentes formes d&#x27;agriculture urbaine, en adéquation avec la qualité des sols.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>14</td><td><strong>Îlots de chaleur urbains</strong><br><small>Lutter contre les îlots de chaleur urbains à l&#x27;échelle du projet, en créant notamment des îlots de fraîcheur refuges.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+<tr><td>15</td><td><strong>Gestion des eaux pluviales</strong><br><small>Favoriser une récupération de l&#x27;eau de pluie et une gestion des eaux pluviales en surface, par la mise en place de techniques alternatives, permettant une diversité des fonctions dont la gestion du risque inondation.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
+</table>
+
+
+<h2>6. Évaluation quantitative (EQIS multi-polluants PM2,5 / NO2) et scénarios</h2>
+<p>Commune : <strong>Villeurbanne</strong> (69266) — population 163,684 hab (geo.api.gouv.fr/INSEE).
+Méthode EQIS OMS/SPF (guide EQIS-PA 2019) : décès attribuables = D × (1 − e<sup>−β(C−C<sub>ref</sub>)</sup>), β = ln(RR)/10 ;
+RR PM2,5 = 1.062/10 µg/m³ (C<sub>ref</sub> = 5.0 µg/m³), RR NO2 = 1.03/10 µg/m³ (C<sub>ref</sub> = 10.0 µg/m³, OMS 2021) ;
+taux de mortalité brut 9.2 ‰ (référence nationale INSEE). En production : AirQ+ (OMS).</p>
+<table><tr><th>Polluant</th><th>Source de concentration</th><th>C (µg/m³)</th><th>PAF</th><th>Décès attribuables/an</th></tr>
+<tr><td>PM2.5</td><td>PM2.5 - modèle communal Atmo AURA 2016-2018</td><td>14.799672373679 µg/m³</td><td>5.72 %</td><td><strong>86.2</strong></td></tr><tr><td>PM2.5</td><td>PM2.5 - moyenne stations 2024</td><td>8.23 µg/m³</td><td>1.92 %</td><td><strong>29.0</strong></td></tr><tr><td>NO2</td><td>NO2 - stations fond 2024</td><td>15.93 µg/m³</td><td>1.74 %</td><td><strong>26.2</strong></td></tr><tr><td>NO2</td><td>NO2 - stations trafic 2024</td><td>32.58 µg/m³</td><td>6.46 %</td><td><strong>97.2</strong></td></tr>
+</table>
+<p>Indicateur santé croisé (Odissé/SPF, département 69 Rhône, 2020-2024) : mortalité infantile <strong>3.643 ‰</strong> naissances vivantes. Source : <a href="https://odisse.santepubliquefrance.fr">Odissé</a> (Odissé (SPF) perinatalite-mortalite-infantile-et-mortinatalite-departement).</p>
+<p>Indice communal air-santé modélisé (Atmo AURA 2016-2018) : PM2,5 = <strong>14.799672373679 µg/m³</strong>.
+Mesures 2024 des stations proches (moyenne 8.23 µg/m³) :</p>
+<table><tr><th>Station</th><th>Commune</th><th>Année</th><th>Valeur</th><th>Type</th><th>Dist.</th></tr>
+<tr><td>Lyon Centre</td><td>Lyon</td><td>2024</td><td>9.5 µg/m³</td><td>Urbain/fond</td><td>2796 m</td></tr><tr><td>Est Lyonnais Vaulx-en-Velin</td><td>Vaulx-en-Velin</td><td>2024</td><td>5.2 µg/m³</td><td>Urbain/fond</td><td>3455 m</td></tr><tr><td>Lyon Gerland</td><td>Lyon</td><td>2024</td><td>10 µg/m³</td><td>Urbain/fond</td><td>5914 m</td></tr><tr><td>Lyon Périphérique</td><td>Villeurbanne</td><td>2024</td><td>39.5 µg/m³</td><td>Urbain/trafic</td><td>1402 m</td></tr><tr><td>Villeurbanne Place Grand-Clément</td><td>Villeurbanne</td><td>2022</td><td>30.6 µg/m³</td><td>Urbain/trafic</td><td>1902 m</td></tr><tr><td>Lyon Centre</td><td>Lyon</td><td>2024</td><td>17.7 µg/m³</td><td>Urbain/fond</td><td>2796 m</td></tr><tr><td>Lyon Tunnel Croix-Rousse Sortie Rhône</td><td>Lyon</td><td>2025</td><td>35.6 µg/m³</td><td>Urbain/trafic</td><td>3390 m</td></tr><tr><td>Est Lyonnais Vaulx-en-Velin</td><td>Vaulx-en-Velin</td><td>2024</td><td>15 µg/m³</td><td>Urbain/fond</td><td>3455 m</td></tr><tr><td>Lyon Trafic Jaurès</td><td>Lyon</td><td>2024</td><td>24.6 µg/m³</td><td>Urbain/trafic</td><td>3970 m</td></tr><tr><td>Lyon Gerland</td><td>Lyon</td><td>2024</td><td>15.1 µg/m³</td><td>Urbain/fond</td><td>5914 m</td></tr>
+</table>
+<p>Seuils de référence PM2,5 : valeur limite UE 2024 = 20 µg/m³, UE 2030 = 10 µg/m³, OMS 2021 = 5 µg/m³. NO2 : UE 2030 = 20 µg/m³, OMS 2021 = 10 µg/m³.
+Référence nationale : 48 000 décès prématurés/an attribuables aux PM2,5 en France (EQIS SPF 2016).
+Bruit : cartes stratégiques Lden/Ln 2022 de la Métropole de Lyon (DataGrandLyon, plan bruit routier/ferroviaire/aérien) — à brancher en v0.6.
+Îlots de chaleur : Diaclimap (Cerema) / Copernicus — à brancher en v0.6.</p>
+<ul><li>Atteindre la ligne directrice OMS (5 µg/m³) : <strong>86.2 décès/an évités</strong> à Villeurbanne.</li><li>+30 min de marche par jour pour les 18-64 ans du périmètre : <strong>82.8 décès/an évités</strong> (population cible 90026, HEAT-lite (hypothèses éditables dans config/scenarios.json) ; remplacer par HEAT officiel (OMS) en production).</li></ul>
+<p><small>EQIS simplifiée (AirQ+ OMS en production ; guide SPF 2019). Données agrégées uniquement — jamais de données individuelles (RGPD).</small></p>
+
+<h2>7. Pistes EQIS avancées à brancher</h2>
+<ul>
+<li>Qualité de l'air : EQIS-PA selon le guide Santé publique France avec <a href="https://www.who.int/europe/fr/tools-and-toolkits/airq---software-tool-for-health-risk-assessment-of-air-pollution">AirQ+ (OMS)</a> (PM2,5, NO2, O3) sur le périmètre.</li>
+<li>Mobilités actives : <a href="https://www.who.int/europe/tools-and-toolkits/health-economic-assessment-tool-for-walking-and-cycling">HEAT (OMS)</a> pour chiffrer les bénéfices sanitaires de la marche/du vélo.</li>
+<li>Scénarios : ITHIM / UTOPHIA (ISGlobal) pour comparer des variantes d'aménagement.</li>
+<li>Données santé : <a href="https://geodes.santepubliquefrance.fr/">Géodes (SPF)</a>, <a href="https://odisse.santepubliquefrance.fr/pages/accueil/">Odissé</a>, ARS AURA (DatARA), INSEE Filosofi (IRIS).</li>
+</ul>
+
+<h2>8. Bibliographie et référentiels</h2>
+<ul>
+<li><a href="https://www.aurba.org/productions/isadora-un-outil-daide-a-lintegration-de-la-sante-dans-les-operations-damenagement/">Guide ISadOrA (EHESP / a-urba, 2020) - 15 clefs opérationnelles</a></li>
+<li><a href="https://www.ecoquartiers.logement.gouv.fr/assets/articles/documents/guide-isadora-partie-1.pdf">Guide ISadOrA, partie 1 (PDF officiel)</a></li>
+<li><a href="https://www.ecoquartiers.logement.gouv.fr/assets/articles/documents/guide-isadora-partie-2.pdf">Guide ISadOrA, partie 2 (PDF officiel)</a></li>
+<li><a href="https://www.ehesp.fr/wp-content/uploads/2014/09/guide-agir-urbanisme-sante-2014-v2-opt.pdf">EHESP/DGS, Agir pour un urbanisme favorable à la santé (2014)</a></li>
+<li><a href="https://agirpourlatransition.ademe.fr/collectivites/conseils/urbanisme/ufs">ADEME, page Urbanisme favorable à la santé (UFS)</a></li>
+<li><a href="https://agirpourlatransition.ademe.fr/collectivites/aides-financieres/catalogue-rex/retours-experience-urbanisme-favorable-sante">ADEME / CGDD, Expé URBA SanTé (8 territoires, 2024-2025)</a></li>
+<li><a href="https://www.cerema.fr/fr/centre-ressources/boutique/nature-ville-serie-fiches">Cerema, fiches Nature en ville (fiche 3 : santé)</a></li>
+<li><a href="https://www.cerema.fr/fr/actualites/ilots-chaleur-agir-territoires-adapter-villes-au-changement">Cerema, îlots de chaleur urbains / Diaclimap</a></li>
+<li><a href="https://www.hcsp.fr/explore.cgi/avisrapportsdomaine?clefr=638">HCSP, intégration de la santé dans les documents de planification (2018)</a></li>
+<li><a href="https://www.santepubliquefrance.fr/content/download/233580/2517739">Santé publique France, guide EQIS pollution de l&#x27;air (2019)</a></li>
+<li><a href="https://www.who.int/europe/fr/tools-and-toolkits/airq---software-tool-for-health-risk-assessment-of-air-pollution">OMS/Europe, AirQ+ (logiciel libre de quantification)</a></li>
+<li><a href="https://www.who.int/europe/publications/i/item/9789289058377">OMS/Europe, HEAT marche et vélo (mise à jour 2024)</a></li>
+<li><a href="https://unhabitat.org/sites/default/files/2022/03/21235_french_integrating_health_in_urban_and_territorial_planning_2_1.pdf">ONU-Habitat &amp; OMS, Integrating health in urban and territorial planning (2020)</a></li>
+<li><a href="https://journals.sagepub.com/doi/10.1177/1466424006070466">Barton &amp; Grant, A health map for the local human habitat (2006)</a></li>
+<li><a href="https://www.peren-revues.fr/pollutionatmospherique/6681">Revue Pollution Atmosphérique, EIS des quartiers des Buers (Villeurbanne) et Parc Zénith (Lyon 3)</a></li>
+<li><a href="https://geodes.santepubliquefrance.fr/">Géodes, observatoire cartographique SPF (&gt;300 indicateurs)</a></li>
+<li><a href="https://www.data.gouv.fr/datasets/bornes-fontaine-de-la-metropole-de-lyon">data.gouv.fr, Bornes fontaine de la Métropole de Lyon</a></li>
+<li><a href="https://www.data.gouv.fr/datasets/producteurs-locaux-geolocalises-de-la-metropole-de-lyon">DataGrandLyon, Producteurs locaux géolocalisés</a></li>
+<li><a href="https://www.data.gouv.fr/datasets/base-sirene-de-la-metropole-de-lyon">DataGrandLyon, Base Sirene de la Métropole de Lyon</a></li>
+<li><a href="https://www.data.gouv.fr/datasets/localisation-des-pharmacies-dans-openstreetmap/">data.gouv.fr / magOSM, Localisation des pharmacies dans OSM (extrait quotidien)</a></li>
+</ul>
+
+<footer>ufs-diagnostic v0.2 — prototype open source (EUPL-1.2). Données : voir section 2 (ODbL / Licence Ouverte). Ce rapport est un appui au diagnostic (clef 2 ISadOrA), pas un avis sanitaire réglementaire (EIS ARS).</footer>
+</body>
+</html>

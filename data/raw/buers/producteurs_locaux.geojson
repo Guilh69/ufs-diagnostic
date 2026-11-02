@@ -1,0 +1,15 @@
+{
+  "type": "FeatureCollection",
+  "name": "Producteurs locaux géolocalisés - Buers (source: DataGrandLyon, couche metropole-de-lyon:eco_economie.ecomangerlocal_latest, Licence Ouverte, requête WFS bbox=45.768,4.868,45.782,4.893)",
+  "features": [
+    {"type": "Feature", "properties": {"nom": "À La Bonne Franckette", "adresse": "17a Rue Pierre-Joseph Proudhon", "commune": "Villeurbanne", "type": "AMAP", "produits": ["Fruits", "Légumes", "Viande", "Boissons", "Miel"], "label": []}, "geometry": {"type": "Point", "coordinates": [4.891065, 45.774826]}},
+    {"type": "Feature", "properties": {"nom": "AMAP Croix Luizet", "adresse": "67 Rue Octavie", "commune": "Villeurbanne", "type": "AMAP", "produits": ["Fruits", "Légumes", "Viande", "Boissons", "Miel", "Boulangerie", "Oeufs"], "label": []}, "geometry": {"type": "Point", "coordinates": [4.889492, 45.777934]}},
+    {"type": "Feature", "properties": {"nom": "Les paniers du DD", "adresse": "130 Rue Anatole France", "commune": "Villeurbanne", "type": "AMAP", "produits": ["Fromage et produits laitiers", "Légumes", "Viande"], "label": []}, "geometry": {"type": "Point", "coordinates": [4.882372, 45.768627]}},
+    {"type": "Feature", "properties": {"nom": "AGORAé Lyon 1 - la Doua", "adresse": "Rue Raphaël Dubois", "commune": "Villeurbanne", "type": "Epicerie sociale et solidaire", "produits": ["Epicerie"], "label": []}, "geometry": {"type": "Point", "coordinates": [4.869207, 45.78084]}},
+    {"type": "Feature", "properties": {"nom": "EARL Gontel", "adresse": "Place du Chanoine Boursier", "commune": "Villeurbanne", "type": "Producteur du marché", "produits": ["Légumes"], "label": ["AB - agriculture biologique"]}, "geometry": {"type": "Point", "coordinates": [4.878384, 45.768834]}},
+    {"type": "Feature", "properties": {"nom": "Gaec Les Biquettes des Orlets", "adresse": "Place du Chanoine Boursier", "commune": "Villeurbanne", "type": "Producteur du marché", "produits": ["Fromage et produits laitiers", "Oeufs"], "label": ["Autres labels"]}, "geometry": {"type": "Point", "coordinates": [4.878384, 45.768834]}},
+    {"type": "Feature", "properties": {"nom": "Claron Père et Fils", "adresse": "Place du Chanoine Boursier", "commune": "Villeurbanne", "type": "Producteur du marché", "produits": ["Fruits", "Légumes", "Boissons"], "label": []}, "geometry": {"type": "Point", "coordinates": [4.878384, 45.768834]}},
+    {"type": "Feature", "properties": {"nom": "ZolAMAP", "adresse": "120 Cours Emile Zola", "commune": "Villeurbanne", "type": "AMAP", "produits": ["Fromage et produits laitiers", "Fruits", "Légumes", "Viande", "Boissons", "Miel", "Boulangerie", "Oeufs"], "label": []}, "geometry": {"type": "Point", "coordinates": [4.874711, 45.77031]}},
+    {"type": "Feature", "properties": {"nom": "Domaine des Pierrières", "adresse": "Square René Pellet", "commune": "Villeurbanne", "type": "Producteur du marché", "produits": ["Boissons"], "label": []}, "geometry": {"type": "Point", "coordinates": [4.870409, 45.7708]}}
+  ]
+}

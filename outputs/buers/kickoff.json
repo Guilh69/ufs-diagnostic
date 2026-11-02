@@ -1,0 +1,108 @@
+{
+  "nom_projet": "Diagnostic UFS du quartier des Buers (Villeurbanne, 69)",
+  "commande": "Prototype de démonstration pour le Club UFS Auvergne-Rhône-Alpes",
+  "blocs": [
+    {
+      "id": "cadrage",
+      "titre": "1. Cadrage et objectifs",
+      "items": [
+        {
+          "question": "Quel est le projet / la décision à éclairer (PLU, ZAC, espace public, équipements) ?",
+          "reponse": "Éclairer la rénovation urbaine du quartier des Buers (quartier prioritaire, politique de la ville) : une EIS y a déjà été menée (revue Pollution Atmosphérique)."
+        },
+        {
+          "question": "Quels sont les objectifs de santé prioritaires (air, bruit, chaleur, mobilités actives, alimentation, accès aux soins, cohésion sociale) ?",
+          "reponse": "Priorités retenues pour le prototype : alimentation de proximité/bio, espaces verts, eau potable, accès aux soins (pharmacies) ; à compléter par air/bruit/chaleur (EQIS) en v0.3."
+        },
+        {
+          "question": "Quels publics sont concernés, y a-t-il des publics vulnérables ou des inégalités de santé connues ?",
+          "reponse": "Quartier prioritaire de la politique de la ville : publics potentiellement vulnérables ; inégalités de santé à croiser avec Filosofi (IRIS) et Géodes."
+        },
+        {
+          "question": "Quelle bibliographie de référence mobilise-t-on (ISadOrA, EHESP 2014, guides OMS/ONU-Habitat, EQIS SPF, rapports HCSP) ?",
+          "reponse": "ISadOrA (EHESP/a-urba 2020), guide EHESP/DGS 2014, OMS/ONU-Habitat 2020, Barton & Grant 2006, EQIS SPF, HCSP 2018, ADEME Expé URBA SanTé."
+        }
+      ]
+    },
+    {
+      "id": "perimetre",
+      "titre": "2. Périmètre et champ de l'analyse",
+      "items": [
+        {
+          "question": "Quel périmètre exact (quartier, rue, ZAC, commune) et quelle maille d'analyse ?",
+          "reponse": "Périmètre : bbox 45.768-45.782 N / 4.868-4.893 E (quartier des Buers), maille d'analyse 150 m (130 mailles)."
+        },
+        {
+          "question": "Jusqu'où s'étend l'influence du projet (bassin de vie, déplacements, exposition air/bruit) ?",
+          "reponse": "Influence : rayon d'accès piéton 800 m (~10 min) autour de chaque maille, calculé à vol d'oiseau puis par le réseau routier (isochrone)."
+        },
+        {
+          "question": "Quelle échelle de temps (état initial, scénarios, suivi) ?",
+          "reponse": "État initial uniquement pour le prototype ; scénarios prévus en v0.3."
+        }
+      ]
+    },
+    {
+      "id": "donnees_acteurs",
+      "titre": "3. Données et acteurs",
+      "items": [
+        {
+          "question": "Quelles données ouvertes souveraines mobilise-t-on (WFS collectivités, data.gouv.fr, Géodes SPF, INSEE, OSM) ?",
+          "reponse": "WFS Métropole de Lyon (data.grandlyon.com/geoserver) : bornes-fontaines, producteurs locaux, parcs de Villeurbanne, réseau routier CRITER, Sirene. magOSM (data.gouv.fr) : pharmacies OSM."
+        },
+        {
+          "question": "Quelles données manquent et comment les produire (terrain, capteurs citoyens, EIS) ?",
+          "reponse": "Manquent : qualité de l'air modélisée (AASQA/Atmo AURA), bruit (cartes stratégiques), ICU (Diaclimap/Copernicus), données santé fines (Géodes SPF, ARS AURA)."
+        },
+        {
+          "question": "Qui sont les acteurs à mobiliser (collectivité, ARS, ADEME, Cerema, habitants, professionnels de santé) — clef 1 ISadOrA (instance santé) ?",
+          "reponse": "Acteurs : Ville de Villeurbanne, Métropole de Lyon, ARS AURA, ADEME, Cerema, Club UFS AURA ; habitants via démarche participative (clef 3)."
+        },
+        {
+          "question": "Y a-t-il une démarche participative prévue — clef 3 ISadOrA ?",
+          "reponse": "Participation : à construire (ex. questionnaire « Votre territoire favorise-t-il votre santé ? » comme dans Expé URBA SanTé au Grand Pau)."
+        }
+      ]
+    },
+    {
+      "id": "methode_livrables",
+      "titre": "4. Méthode et livrables",
+      "items": [
+        {
+          "question": "Quels indicateurs et traitements (proximité, isochrones, EQIS AirQ+/HEAT, scénarios) ?",
+          "reponse": "Indicateurs de proximité (vol d'oiseau + réseau Dijkstra), isochrone 10 min piéton, checklist 15 clefs ISadOrA, EQIS AirQ+/HEAT listés pour la suite."
+        },
+        {
+          "question": "Quel gabarit de rapport et quels rendus (cartes, fiches par clef ISadOrA) ?",
+          "reponse": "Livrables : report.html (imprimable PDF), map.html, GeoJSON/JSON (indicators, pois, isochrone, checklist)."
+        },
+        {
+          "question": "Quelle évaluation de l'impact (EIS globale, EQIS quantitatives) ?",
+          "reponse": "Évaluation : diagnostic (clef 2 ISadOrA) ; EIS complète à mener avec l'ARS."
+        }
+      ]
+    },
+    {
+      "id": "moyens",
+      "titre": "5. Moyens, compétences et contraintes",
+      "items": [
+        {
+          "question": "Quel budget et quelles aides (ADEME Expé URBA SanTé, INCA, fonds européens) ?",
+          "reponse": "Budget prototype : nul (données ouvertes, code libre). Aides mobilisables ensuite : ADEME Expé URBA SanTé, INCA, programmes européens."
+        },
+        {
+          "question": "Quelles compétences internes / externes (urbanisme, santé publique, SIG, donnée) ?",
+          "reponse": "Compétences : urbanisme/aménagement + SIG + santé publique (profil EHESP/DE SPAT)."
+        },
+        {
+          "question": "Quel cadre réglementaire (PLU/PLUi, PCAET, PPA, évaluation environnementale, avis ARS) ?",
+          "reponse": "Cadre : PLU de Villeurbanne, PCAET Métropole de Lyon, PPA, évaluation environnementale (avis ARS), ZAN."
+        },
+        {
+          "question": "Quels leviers et quelles contraintes identifiés (foncier, calendrier, acceptabilité) ?",
+          "reponse": "Leviers : quartier déjà engagé en politique de la ville avec EIS documentée. Contraintes : données santé agrégées uniquement (RGPD), recouper OSM sur le terrain."
+        }
+      ]
+    }
+  ]
+}

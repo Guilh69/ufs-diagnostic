@@ -1,0 +1,65 @@
+# Stack ufs-diagnostic (déploiement souverain, UE) — v1.0
+# Services : PostGIS + GeoServer + API ufs-diagnostic + MapStore (interface web)
+# Lancer : docker compose up -d
+# Données : montées depuis ../data (open data déjà téléchargées) et ../outputs (rapports)
+version: "3.8"
+
+services:
+  postgis:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_DB: ufs
+      POSTGRES_USER: ufs
+      POSTGRES_PASSWORD: ufs        # à changer en production (secret docker)
+    volumes:
+      - postgis_data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"       # loopback uniquement
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ufs"]
+      interval: 10s
+      retries: 5
+
+  geoserver:
+    image: kartoza/geoserver:2.24
+    depends_on:
+      postgis:
+        condition: service_healthy
+    environment:
+      GEOSERVER_ADMIN_PASSWORD: admin  # à changer en production
+      POSTGRES_HOST: postgis
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ufs
+      POSTGRES_USER: ufs
+      POSTGRES_PASS: ufs
+      INSTALL_EXTENSIONS: "true"
+    ports:
+      - "127.0.0.1:8081:8080"
+    volumes:
+      - geoserver_data:/opt/geoserver/data_dir
+
+  api:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.api
+    depends_on:
+      - postgis
+    environment:
+      UFS_DATA_DIR: /data
+    volumes:
+      - ../data:/data:ro
+      - ../config:/app/config:ro
+      - ../outputs:/app/outputs:ro
+    ports:
+      - "127.0.0.1:8080:8080"
+
+  mapstore:
+    image: geosolutionsit/mapstore2:latest
+    ports:
+      - "127.0.0.1:8082:8080"
+    volumes:
+      - ./mapstore-config:/usr/share/nginx/html/configs:ro
+
+volumes:
+  postgis_data:
+  geoserver_data:

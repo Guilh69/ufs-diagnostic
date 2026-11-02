@@ -1,0 +1,16 @@
+{
+  "commentaire": "EQIS simplifiée PM2.5 (méthode OMS/SPF, guide EQIS-PA 2019 ; à remplacer par AirQ+ en production). Formule : décès attribuables = D * (1 - exp(-beta*(C - Cref))) avec D = population x taux de mortalité brut, beta = ln(RR)/10.",
+  "polluant": "PM2.5",
+  "rr_pm25_par_10ugm3": 1.062,
+  "contrefactuel_ugm3": 5,
+  "contrefactuel_note": "5 µg/m³ = ligne directrice OMS 2021 (AirQ+ v2 utilise aussi 5 µg/m³ par défaut)",
+  "taux_mortalite_brut": 0.0092,
+  "taux_mortalite_note": "taux brut national France ~9,2 pour mille (INSEE, bilan démographique 2022) — AirQ+ utilise aussi des taux nationaux par défaut ; à affiner avec décès communaux INSEE",
+  "valeur_limite_ue_2024_pm25": 20,
+  "valeur_limite_ue_2030_pm25": 10,
+  "ligne_directrice_oms_2021_pm25": 5,
+  "sources_pm25": {
+    "indice_communal_atmo_aura": "data/raw/buers/air_sante_69266.json -> indice_pm25 (modélisation 2016-2018, indice communal air-santé Atmo AURA)",
+    "stations_mesures_2024": "mêmes fichier -> stations_pm25 (Atmo AURA, mesures annuelles 2024 : Lyon Centre 9,5 ; Lyon Gerland 10,0 ; Vaulx-en-Velin 5,2 µg/m³)"
+  }
+}
