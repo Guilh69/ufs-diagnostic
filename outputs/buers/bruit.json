@@ -1,0 +1,17 @@
+{
+  "nb_points_echantillonnes": 6,
+  "nb_avec_valeur": 6,
+  "lden_moyen": 62.3,
+  "lden_max": 67.0,
+  "pct_points_depassement_ue_68": 0.0,
+  "pct_points_depassement_oms_53": 100.0,
+  "seuils": {
+    "UE_Lden_68": 68.0,
+    "OMS_Lden_53": 53.0
+  },
+  "source": "WMS DataGrandLyon grandlyon:road_lden_p (cartes stratégiques de bruit routier 2022, Lden dB(A))",
+  "point_ancrage": {
+    "adresse": "130 rue Anatole France, 69100 Villeurbanne",
+    "lden_dba": 71.0
+  }
+}

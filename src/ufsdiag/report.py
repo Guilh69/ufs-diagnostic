@@ -151,7 +151,7 @@ Bbox WGS84 : sud {bbox['south']}, ouest {bbox['west']}, nord {bbox['north']}, es
 """
 
 
-def render_report(perimeter, cells, summary, checklist, cats, kickoff=None, eqis=None, scenario=None, zone_info=None, point_info=None, bruit_info=None, out_map="map.html"):
+def render_report(perimeter, cells, summary, checklist, cats, kickoff=None, eqis=None, scenario=None, zone_info=None, point_info=None, bruit_info=None, bruit_reel=None, out_map="map.html"):
     n_cells = len(cells)
     bbox = perimeter["bbox"]
     radius = perimeter["walk_radius_m"]
@@ -199,9 +199,17 @@ def render_report(perimeter, cells, summary, checklist, cats, kickoff=None, eqis
         extra = ""
         if s and "pct_cells_reseau" in s:
             extra = f" ; par le réseau : {s['pct_cells_reseau']}% des mailles à ≤{radius} m, médiane {s['median_min_dist_reseau_m']} m"
-        zone_html += (f"<p><strong>Exposition au bruit routier</strong> (proxy) : {bruit_info['nb_troncons_infotrafic']} voies à trafic recensées ; "
+        zone_html += (f"<p><strong>Exposition au bruit routier</strong> (proxy voies à trafic) : {bruit_info['nb_troncons_infotrafic']} voies recensées ; "
                       f"{s['pct_cells']}% des mailles à ≤{radius} m d'une voie à trafic à vol d'oiseau{extra}. "
                       f"<small>{esc(bruit_info['note'])}</small></p>")
+    if bruit_reel:
+        pa = bruit_reel.get("point_ancrage") or {}
+        zone_html += (f"<p><strong>Bruit routier Lden 2022 (mesuré/modélisé, dB(A))</strong> : sur {bruit_reel['nb_avec_valeur']} points de la zone, "
+                      f"Lden moyen <strong>{bruit_reel['lden_moyen']} dB(A)</strong>, max {bruit_reel['lden_max']} dB(A) ; "
+                      f"{bruit_reel['pct_points_depassement_ue_68']}% des points > 68 dB(A) (valeur limite UE), "
+                      f"{bruit_reel['pct_points_depassement_oms_53']}% > 53 dB(A) (recommandation OMS 2018). "
+                      f"Au point d'ancrage ({esc(pa.get('adresse') or '')}) : <strong>{pa.get('lden_dba')} dB(A)</strong>. "
+                      f"<small>Source : {esc(bruit_reel['source'])}.</small></p>")
     iso_note = (f"Isochrone piéton ~{iso_m} m calculée sur le réseau routier ({perimeter.get('network',{}).get('nb_troncons','?')} tronçons) "
                 f"et affichée sur la carte (<code>isochrone.geojson</code>).") if iso_m else ""
 

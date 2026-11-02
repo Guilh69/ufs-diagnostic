@@ -29,6 +29,7 @@ from ufsdiag import network as net
 from ufsdiag.eqis import compute_eqis_block, compute_scenario_marche
 from ufsdiag import zone as zonemod
 from ufsdiag.docx import html_to_docx
+from ufsdiag import bruit as bruitmod
 
 
 def main():
@@ -228,6 +229,21 @@ def main():
         with open(os.path.join(args.out, "eqis.json"), "w", encoding="utf-8") as f:
             json.dump({"eqis": eqis_block, "scenario_marche": scenario_marche}, f, ensure_ascii=False, indent=2)
 
+    # --- v0.7 : Lden 2022 réel (WMS GetFeatureInfo) sur la zone + point d'ancrage ---
+    bruit_reel = None
+    if zone_file and os.path.exists(zone_file):
+        polygons, _, _ = zonemod.load_zone(zone_file)
+        zcells = [c for c in cells if zonemod.point_in_polygons(c["lon"], c["lat"], polygons)]
+        try:
+            bruit_reel = bruitmod.bruit_zone(zcells, point=pa)
+            print(f"[bruit-Lden2022] {bruit_reel['nb_avec_valeur']} pts, Lden moyen {bruit_reel['lden_moyen']} dB(A), max {bruit_reel['lden_max']}, "
+                  f">{bruitmod.SEUIL_UE_LDEN} dB : {bruit_reel['pct_points_depassement_ue_68']}% | point ancrage: {bruit_reel.get('point_ancrage',{}).get('lden_dba')} dB(A)")
+        except Exception as e:
+            print(f"[bruit-Lden2022] échec WMS: {e}")
+        if bruit_reel:
+            with open(os.path.join(args.out, "bruit.json"), "w", encoding="utf-8") as f:
+                json.dump(bruit_reel, f, ensure_ascii=False, indent=2)
+
     # proxy ICU : part des mailles de la zone avec un espace vert à <= 300 m réseau
     if zone_info and net_min_by_cat.get("espaces_verts"):
         idx = {c["id"]: i for i, c in enumerate(cells)}
@@ -240,7 +256,8 @@ def main():
         print(f"[icu-proxy] {zone_info['pct_mailles_avec_espace_vert_300m']}% des mailles de la zone avec espace vert à ≤300 m")
 
     report = render_report(perimeter, cells, summary, checklist, cats, kickoff=kickoff, eqis=eqis_block,
-                           scenario=scenario_marche, zone_info=zone_info, point_info=point_info, bruit_info=bruit_info)
+                           scenario=scenario_marche, zone_info=zone_info, point_info=point_info,
+                           bruit_info=bruit_info, bruit_reel=bruit_reel)
     with open(os.path.join(args.out, "report.html"), "w", encoding="utf-8") as f:
         f.write(report)
     html_to_docx(report, os.path.join(args.out, "rapport.docx"))
