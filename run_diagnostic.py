@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
-"""Point d'entrée du prototype ufs-diagnostic.
+"""Point d'entrée du prototype ufs-diagnostic (v0.2).
 
 Usage :
     python3 run_diagnostic.py --perimeter config/perimeter_buers.json \
         --indicators config/indicators.json --keys config/isadora_keys.json \
+        --kickoff config/kickoff.json --project config/project_buers.json \
         --data data/raw/buers --out outputs/buers
+
+Données réseau optionnelles : si data/raw/<cas>/reseau_routier.geojson existe,
+les distances réseau (Dijkstra) et l'isochrone sont calculées.
+Pour (re)télécharger les données ouvertes : python3 tools/fetch_data.py buers
 """
 import argparse
 import json
@@ -14,11 +19,13 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "src"))
 
 from ufsdiag.geo import make_grid
-from ufsdiag.loaders import build_pois
-from ufsdiag.indicators import compute_indicators, summarize
+from ufsdiag.loaders import build_pois, load_geojson
+from ufsdiag.indicators import compute_indicators, attach_network, summarize
 from ufsdiag.isadora import build_checklist
+from ufsdiag.kickoff import build_kickoff
 from ufsdiag.report import render_report
 from ufsdiag.mapview import write_map
+from ufsdiag import network as net
 
 
 def main():
@@ -26,6 +33,8 @@ def main():
     ap.add_argument("--perimeter", required=True)
     ap.add_argument("--indicators", required=True)
     ap.add_argument("--keys", required=True)
+    ap.add_argument("--kickoff", default=None)
+    ap.add_argument("--project", default=None)
     ap.add_argument("--data", required=True)
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
@@ -33,7 +42,8 @@ def main():
     with open(args.perimeter, encoding="utf-8") as f:
         perimeter = json.load(f)
     with open(args.indicators, encoding="utf-8") as f:
-        cats = json.load(f)["categories"]
+        indicators_cfg = json.load(f)
+    cats = indicators_cfg["categories"]
 
     os.makedirs(args.out, exist_ok=True)
 
@@ -49,8 +59,36 @@ def main():
         print(f"[data] {cat['id']}: {len(pois)} objets")
 
     cells = compute_indicators(cells, pois_by_cat, radius)
-    summary = summarize(cells, pois_by_cat, radius)
+
+    # --- v0.2 : distances réseau + isochrone ---
+    net_cfg = indicators_cfg.get("reseau", {})
+    net_file = os.path.join(args.data, net_cfg.get("file", "reseau_routier.geojson"))
+    net_min_by_cat = {}
+    iso_fc = None
+    if os.path.exists(net_file):
+        features = load_geojson(net_file)
+        adj, edges = net.build_graph(features)
+        print(f"[reseau] {len(features)} tronçons, {len(adj)} nœuds")
+        for cat_id, pois in pois_by_cat.items():
+            if pois:
+                net_min_by_cat[cat_id] = net.network_distances_to_pois(adj, edges, cells, pois)
+        cells = attach_network(cells, net_min_by_cat, radius)
+        iso_m = round(radius)  # 800 m ≈ 10 min à 4,8 km/h
+        # origine de l'isochrone : nœud le plus connecté (centre réel du réseau)
+        hub = max(adj, key=lambda n: len(adj[n]))
+        keep, _dist = net.isochrone_edges(adj, edges, hub, iso_m)
+        iso_fc = net.isochrone_geojson(keep, iso_m)
+        perimeter["network"] = {"isochrone_m": iso_m, "nb_troncons": len(keep),
+                                "hub": [round(hub[0], 6), round(hub[1], 6)]}
+        with open(os.path.join(args.out, "isochrone.geojson"), "w", encoding="utf-8") as f:
+            json.dump(iso_fc, f, ensure_ascii=False)
+        print(f"[isochrone] {len(keep)} tronçons atteignables à ~{iso_m} m à pied depuis le centre du périmètre")
+    else:
+        print("[reseau] pas de reseau_routier.geojson : distances réseau ignorées (voir tools/fetch_data.py)")
+
+    summary = summarize(cells, pois_by_cat, radius, net_min_by_cat)
     checklist = build_checklist(args.keys, summary, cat_to_key)
+    kickoff = build_kickoff(args.kickoff, args.project) if args.kickoff and args.project else None
 
     indicators_fc = {
         "type": "FeatureCollection",
@@ -87,17 +125,21 @@ def main():
         json.dump(summary, f, ensure_ascii=False, indent=2)
     with open(os.path.join(args.out, "checklist.json"), "w", encoding="utf-8") as f:
         json.dump(checklist, f, ensure_ascii=False, indent=2)
+    if kickoff:
+        with open(os.path.join(args.out, "kickoff.json"), "w", encoding="utf-8") as f:
+            json.dump(kickoff, f, ensure_ascii=False, indent=2)
 
     write_map(args.out)
 
-    report = render_report(perimeter, cells, summary, checklist, cats)
+    report = render_report(perimeter, cells, summary, checklist, cats, kickoff=kickoff)
     with open(os.path.join(args.out, "report.html"), "w", encoding="utf-8") as f:
         f.write(report)
 
     print(f"[ok] {len(cells)} mailles analysées, rayon {radius} m")
     for cat_id, s in summary.items():
-        print(f"[indicateur] {cat_id}: {s['nb_pois']} objets, {s['pct_cells']}% des mailles à <={radius} m, médiane {s['median_min_dist_m']} m")
-    print(f"[sorties] {args.out}/ (report.html, map.html, indicators.geojson, pois.geojson, summary.json, checklist.json)")
+        net_txt = f", réseau {s['pct_cells_reseau']}% ≤{radius} m (médiane {s['median_min_dist_reseau_m']} m)" if "pct_cells_reseau" in s else ""
+        print(f"[indicateur] {cat_id}: {s['nb_pois']} objets, {s['pct_cells']}% des mailles à <={radius} m (médiane {s['median_min_dist_m']} m){net_txt}")
+    print(f"[sorties] {args.out}/ (report.html, map.html, indicators.geojson, pois.geojson, isochrone.geojson, summary.json, checklist.json, kickoff.json)")
 
 
 if __name__ == "__main__":

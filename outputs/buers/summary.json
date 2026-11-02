@@ -4,20 +4,39 @@
     "cells_within_radius": 130,
     "pct_cells": 100.0,
     "median_min_dist_m": 365,
-    "radius_m": 800
+    "radius_m": 800,
+    "median_min_dist_reseau_m": 1372,
+    "cells_within_radius_reseau": 42,
+    "pct_cells_reseau": 32.3
   },
   "espaces_verts": {
     "nb_pois": 26,
     "cells_within_radius": 130,
     "pct_cells": 100.0,
     "median_min_dist_m": 160,
-    "radius_m": 800
+    "radius_m": 800,
+    "median_min_dist_reseau_m": 457,
+    "cells_within_radius_reseau": 111,
+    "pct_cells_reseau": 85.4
   },
   "eau_potable": {
     "nb_pois": 6,
     "cells_within_radius": 123,
     "pct_cells": 94.6,
     "median_min_dist_m": 450,
-    "radius_m": 800
+    "radius_m": 800,
+    "median_min_dist_reseau_m": 1649,
+    "cells_within_radius_reseau": 40,
+    "pct_cells_reseau": 30.8
+  },
+  "acces_soins_pharmacies": {
+    "nb_pois": 20,
+    "cells_within_radius": 130,
+    "pct_cells": 100.0,
+    "median_min_dist_m": 232,
+    "radius_m": 800,
+    "median_min_dist_reseau_m": 567,
+    "cells_within_radius_reseau": 91,
+    "pct_cells_reseau": 70.0
   }
 }

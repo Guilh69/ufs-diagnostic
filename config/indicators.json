@@ -17,7 +17,7 @@
       "name_field": "enseigne",
       "isadora_key": 7,
       "optional": true,
-      "note": "Source : Base Sirene géolocalisée de la Métropole de Lyon, couche metropole-de-lyon:insee.sirene, filtre CQL activitenaf='4729Z' (Licence Ouverte 2.0)."
+      "note": "Source : Base Sirene géolocalisée de la Métropole de Lyon, filtre activitenaf='4729Z' (Licence Ouverte 2.0). 0 objet géocodé dans le périmètre test : catégorie non retenue."
     },
     {
       "id": "espaces_verts",
@@ -36,7 +36,22 @@
       "geometry": "point",
       "name_field": "commune",
       "isadora_key": 11,
-      "note": "Source : Métropole de Lyon via data.gouv.fr (bornes-fontaine-de-la-metropole-de-lyon), couche metropole-de-lyon:adr_voie_lieu.adrbornefontaine_latest (ODbL - OSM + communes)."
+      "note": "Source : Métropole de Lyon via data.gouv.fr (bornes-fontaine-de-la-metropole-de-lyon), couche metropole-de-lyon:adr_voie_lieu.adrbornefontaine_latest (ODbL)."
+    },
+    {
+      "id": "acces_soins_pharmacies",
+      "label": "Accès aux soins de proximité (pharmacies)",
+      "file": "pharmacies.geojson",
+      "geometry": "point",
+      "name_field": "name",
+      "isadora_key": 7,
+      "note": "Source : extrait OSM quotidien magOSM (data.gouv.fr 'localisation-des-pharmacies-dans-openstreetmap'), couche magosm:pharmacies_point (ODbL)."
     }
-  ]
+  ],
+  "reseau": {
+    "file": "reseau_routier.geojson",
+    "source": "WFS DataGrandLyon, couche pvo_patrimoine_voirie.pvotronconwebcriter (tronçons CRITER, attribut longueur en m), Licence Ouverte",
+    "vitesse_pieton_kmh": 4.8,
+    "isochrone_min": 10
+  }
 }

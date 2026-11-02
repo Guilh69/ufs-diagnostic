@@ -1,0 +1,54 @@
+{
+  "titre": "Fiche de démarrage d'un diagnostic UFS",
+  "principe": "Avant tout livrable, on répond à ces questions. Elles cadrent le périmètre, les acteurs, les données, la méthode et les moyens. Les réponses alimentent le rapport final (rubrique 0).",
+  "blocs": [
+    {
+      "id": "cadrage",
+      "titre": "1. Cadrage et objectifs",
+      "questions": [
+        "Quel est le projet / la décision à éclairer (PLU, ZAC, espace public, équipements) ?",
+        "Quels sont les objectifs de santé prioritaires (air, bruit, chaleur, mobilités actives, alimentation, accès aux soins, cohésion sociale) ?",
+        "Quels publics sont concernés, y a-t-il des publics vulnérables ou des inégalités de santé connues ?",
+        "Quelle bibliographie de référence mobilise-t-on (ISadOrA, EHESP 2014, guides OMS/ONU-Habitat, EQIS SPF, rapports HCSP) ?"
+      ]
+    },
+    {
+      "id": "perimetre",
+      "titre": "2. Périmètre et champ de l'analyse",
+      "questions": [
+        "Quel périmètre exact (quartier, rue, ZAC, commune) et quelle maille d'analyse ?",
+        "Jusqu'où s'étend l'influence du projet (bassin de vie, déplacements, exposition air/bruit) ?",
+        "Quelle échelle de temps (état initial, scénarios, suivi) ?"
+      ]
+    },
+    {
+      "id": "donnees_acteurs",
+      "titre": "3. Données et acteurs",
+      "questions": [
+        "Quelles données ouvertes souveraines mobilise-t-on (WFS collectivités, data.gouv.fr, Géodes SPF, INSEE, OSM) ?",
+        "Quelles données manquent et comment les produire (terrain, capteurs citoyens, EIS) ?",
+        "Qui sont les acteurs à mobiliser (collectivité, ARS, ADEME, Cerema, habitants, professionnels de santé) — clef 1 ISadOrA (instance santé) ?",
+        "Y a-t-il une démarche participative prévue — clef 3 ISadOrA ?"
+      ]
+    },
+    {
+      "id": "methode_livrables",
+      "titre": "4. Méthode et livrables",
+      "questions": [
+        "Quels indicateurs et traitements (proximité, isochrones, EQIS AirQ+/HEAT, scénarios) ?",
+        "Quel gabarit de rapport et quels rendus (cartes, fiches par clef ISadOrA) ?",
+        "Quelle évaluation de l'impact (EIS globale, EQIS quantitatives) ?"
+      ]
+    },
+    {
+      "id": "moyens",
+      "titre": "5. Moyens, compétences et contraintes",
+      "questions": [
+        "Quel budget et quelles aides (ADEME Expé URBA SanTé, INCA, fonds européens) ?",
+        "Quelles compétences internes / externes (urbanisme, santé publique, SIG, donnée) ?",
+        "Quel cadre réglementaire (PLU/PLUi, PCAET, PPA, évaluation environnementale, avis ARS) ?",
+        "Quels leviers et quelles contraintes identifiés (foncier, calendrier, acceptabilité) ?"
+      ]
+    }
+  ]
+}

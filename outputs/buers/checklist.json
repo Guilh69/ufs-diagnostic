@@ -54,7 +54,8 @@
     "desc": "Favoriser l'accessibilité à l'emploi, aux commerces, équipements et services, notamment en programmant une partie de cette offre au sein du projet.",
     "status": "Données favorables disponibles",
     "evidence": [
-      "alimentation_locale_bio : 9 objets recensés, 100.0% des mailles à moins de 800 m (distance médiane au plus proche : 365 m)"
+      "alimentation_locale_bio : 9 objets recensés, 100.0% des mailles à moins de 800 m à vol d'oiseau (médiane 365 m) ; par le réseau : 32.3% à ≤800 m (médiane 1372 m)",
+      "acces_soins_pharmacies : 20 objets recensés, 100.0% des mailles à moins de 800 m à vol d'oiseau (médiane 232 m) ; par le réseau : 70.0% à ≤800 m (médiane 567 m)"
     ]
   },
   {
@@ -88,7 +89,7 @@
     "desc": "Aménager les espaces publics pour assurer une diversité et une complémentarité des fonctions (sociale, circulatoire, stimulation de l'appareil perceptif, environnementale) génératrices de santé et de bien-être.",
     "status": "Données favorables disponibles",
     "evidence": [
-      "eau_potable : 6 objets recensés, 94.6% des mailles à moins de 800 m (distance médiane au plus proche : 450 m)"
+      "eau_potable : 6 objets recensés, 94.6% des mailles à moins de 800 m à vol d'oiseau (médiane 450 m) ; par le réseau : 30.8% à ≤800 m (médiane 1649 m)"
     ]
   },
   {
@@ -98,7 +99,7 @@
     "desc": "Intégrer une multiplicité d'espaces verts à différentes échelles du projet en préservant et valorisant au maximum les espaces à caractère naturel et les sols de qualité déjà présents sur le site et en assurant une complémentarité et une continuité entre ces espaces.",
     "status": "Données favorables disponibles",
     "evidence": [
-      "espaces_verts : 26 objets recensés, 100.0% des mailles à moins de 800 m (distance médiane au plus proche : 160 m)"
+      "espaces_verts : 26 objets recensés, 100.0% des mailles à moins de 800 m à vol d'oiseau (médiane 160 m) ; par le réseau : 85.4% à ≤800 m (médiane 457 m)"
     ]
   },
   {

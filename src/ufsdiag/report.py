@@ -25,10 +25,12 @@ BIBLIO = [
 ]
 
 DATA_SOURCES = [
-    ("Points d'eau potable (bornes-fontaines)", "Métropole de Lyon via data.gouv.fr, couche WFS metropole-de-lyon:adr_voie_lieu.adrbornefontaine_latest", "ODbL (OSM + communes)"),
-    ("Producteurs locaux / alimentation bio", "DataGrandLyon, couche WFS metropole-de-lyon:eco_economie.ecomangerlocal_latest", "Licence Ouverte 2.0"),
-    ("Parcs et jardins", "Ville de Villeurbanne via DataGrandLyon, couche WFS ville-de-villeurbanne:villeurbanne.parcjardin", "Licence Ouverte 2.0"),
-    ("Commerces bio (NAF 4729Z)", "Base Sirene géolocalisée Métropole de Lyon, couche WFS metropole-de-lyon:insee.sirene (filtre activitenaf='4729Z')", "Licence Ouverte 2.0 - non retenu ici (0 objet géocodé dans le périmètre test)"),
+    ("Points d'eau potable (bornes-fontaines)", "Métropole de Lyon via data.gouv.fr, WFS metropole-de-lyon:adr_voie_lieu.adrbornefontaine_latest", "ODbL (OSM + communes)"),
+    ("Producteurs locaux / alimentation bio", "DataGrandLyon, WFS metropole-de-lyon:eco_economie.ecomangerlocal_latest", "Licence Ouverte 2.0"),
+    ("Parcs et jardins", "Ville de Villeurbanne via DataGrandLyon, WFS ville-de-villeurbanne:villeurbanne.parcjardin", "Licence Ouverte 2.0"),
+    ("Pharmacies (accès aux soins)", "magOSM / data.gouv.fr, WFS magosm:pharmacies_point (extrait OSM quotidien)", "ODbL"),
+    ("Réseau routier (isochrones)", "DataGrandLyon, WFS pvo_patrimoine_voirie.pvotronconwebcriter (tronçons CRITER, longueur en m)", "Licence Ouverte 2.0"),
+    ("Commerces bio (NAF 4729Z)", "Base Sirene géolocalisée Métropole de Lyon, filtre activitenaf='4729Z'", "Licence Ouverte 2.0 - 0 objet géocodé dans le périmètre test, catégorie non retenue"),
 ]
 
 
@@ -36,18 +38,39 @@ def esc(s):
     return html.escape(str(s))
 
 
-def render_report(perimeter, cells, summary, checklist, cats, out_map="map.html"):
+def render_kickoff_html(kickoff):
+    blocs = []
+    for b in kickoff["blocs"]:
+        items = "\n".join(
+            f"<tr><td>{esc(it['question'])}</td><td>{esc(it['reponse']) if it['reponse'] else '<em>à compléter</em>'}</td></tr>"
+            for it in b["items"]
+        )
+        blocs.append(f"<h3>{esc(b['titre'])}</h3><table><tr><th>Question de cadrage</th><th>Réponse du projet</th></tr>{items}</table>")
+    return f"""
+<h2>0. Fiche de démarrage du projet</h2>
+<p><strong>{esc(kickoff['nom_projet'])}</strong> — {esc(kickoff['commande'])}<br>
+<small>Avant le livrable, le projet répond à ces questions de cadrage (modèle dans <code>config/kickoff.json</code>, réponses dans <code>config/project_buers.json</code>).</small></p>
+{''.join(blocs)}
+"""
+
+
+def render_report(perimeter, cells, summary, checklist, cats, kickoff=None, out_map="map.html"):
     n_cells = len(cells)
     bbox = perimeter["bbox"]
     radius = perimeter["walk_radius_m"]
+    net = perimeter.get("network", {})
+    iso_m = net.get("isochrone_m")
 
     sum_rows = []
     for cat in cats:
         s = summary.get(cat["id"])
         if s:
+            extra = ""
+            if "pct_cells_reseau" in s:
+                extra = f"<br>Réseau : {s['pct_cells_reseau']}% des mailles à ≤{radius} m, médiane {s['median_min_dist_reseau_m']} m"
             sum_rows.append(
                 f"<tr><td>{esc(cat['label'])}</td><td>{s['nb_pois']}</td><td>{s['cells_within_radius']} / {n_cells}</td>"
-                f"<td>{s['pct_cells']}%</td><td>{s['median_min_dist_m']} m</td></tr>"
+                f"<td>{s['pct_cells']}%</td><td>{s['median_min_dist_m']} m{extra}</td></tr>"
             )
         else:
             sum_rows.append(f"<tr><td>{esc(cat['label'])}</td><td colspan='4'><em>donnée non disponible dans le périmètre</em></td></tr>")
@@ -68,6 +91,10 @@ def render_report(perimeter, cells, summary, checklist, cats, out_map="map.html"
     scores = [c["score"] for c in cells if c["score"] is not None]
     mean_score = round(sum(scores) / len(scores), 3) if scores else None
 
+    kickoff_html = render_kickoff_html(kickoff) if kickoff else ""
+    iso_note = (f"Isochrone piéton ~{iso_m} m calculée sur le réseau routier ({perimeter.get('network',{}).get('nb_troncons','?')} tronçons) "
+                f"et affichée sur la carte (<code>isochrone.geojson</code>).") if iso_m else ""
+
     return f"""<!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -77,6 +104,7 @@ def render_report(perimeter, cells, summary, checklist, cats, out_map="map.html"
  body {{ font-family: 'Segoe UI', Arial, sans-serif; margin: 2rem auto; max-width: 1100px; color: #1a1a1a; line-height: 1.5; }}
  h1 {{ color: #0b5d3b; border-bottom: 3px solid #0b5d3b; padding-bottom: .3rem; }}
  h2 {{ color: #0b5d3b; margin-top: 2rem; }}
+ h3 {{ color: #14724c; margin-top: 1.4rem; }}
  table {{ border-collapse: collapse; width: 100%; margin: 1rem 0; }}
  th, td {{ border: 1px solid #ccc; padding: .45rem .6rem; text-align: left; vertical-align: top; font-size: .92rem; }}
  th {{ background: #e8f3ec; }}
@@ -88,25 +116,28 @@ def render_report(perimeter, cells, summary, checklist, cats, out_map="map.html"
 </head>
 <body>
 <h1>Diagnostic territorial — Urbanisme Favorable à la Santé</h1>
-<p><span class="badge">PROTOTYPE</span> <strong>{esc(perimeter['name'])}</strong> — généré le {date.today().isoformat()} par <code>ufs-diagnostic</code> (logiciel libre, licence EUPL-1.2).</p>
+<p><span class="badge">PROTOTYPE v0.2</span> <strong>{esc(perimeter['name'])}</strong> — généré le {date.today().isoformat()} par <code>ufs-diagnostic</code> (logiciel libre, licence EUPL-1.2).</p>
 
-<div class="warn"><strong>Limites du prototype :</strong> distances à vol d'oiseau (pas d'isochrones réseau — voir Valhalla/pgRouting en v2), maillage régulier de {perimeter['grid_cell_m']} m, rayon de marche de {radius} m (~10 min), parcs réduits à leur centroïde. Les données OSM/collectivités sont collaboratives : vérifier sur le terrain (clef 2 ISadOrA).</div>
+{kickoff_html}
+
+<div class="warn"><strong>Limites du prototype :</strong> maillage régulier de {perimeter['grid_cell_m']} m ; distances à vol d'oiseau ET par le réseau routier (Dijkstra sur tronçons CRITER) ; isochrone = tronçons atteignables à pied en ~{iso_m} m. Les données OSM/collectivités sont collaboratives : vérifier sur le terrain (clef 2 ISadOrA).</div>
 
 <h2>1. Périmètre d'étude</h2>
 <p>{esc(perimeter.get('description', ''))}<br>
 Bbox WGS84 : sud {bbox['south']}, ouest {bbox['west']}, nord {bbox['north']}, est {bbox['east']} — soit {n_cells} mailles de {perimeter['grid_cell_m']} m.
-Score moyen d'accès aux équipements de santé/bien-être : <strong>{mean_score}</strong> / 1.</p>
+Score moyen d'accès aux équipements de santé/bien-être (vol d'oiseau) : <strong>{mean_score}</strong> / 1.</p>
 
 <h2>2. Données mobilisées et sources (open data souveraines)</h2>
 <table><tr><th>Donnée</th><th>Source (WFS / portail)</th><th>Licence</th></tr>
 {src_rows}
 </table>
 
-<h2>3. Indicateurs de proximité (rayon {radius} m)</h2>
-<table><tr><th>Catégorie</th><th>Nb objets</th><th>Mailles desservies</th><th>% mailles</th><th>Dist. médiane au plus proche</th></tr>
+<h2>3. Indicateurs de proximité (rayon {radius} m ≈ 10 min à pied)</h2>
+<table><tr><th>Catégorie</th><th>Nb objets</th><th>Mailles desservies</th><th>% mailles</th><th>Dist. médiane au plus proche (vol d'oiseau + réseau)</th></tr>
 {summary_table}
 </table>
-<p>Détail par maille : <code>indicators.geojson</code> (score d'accès par catégorie, 0–1).</p>
+<p>{iso_note}</p>
+<p>Détail par maille : <code>indicators.geojson</code> (score d'accès par catégorie, distances vol d'oiseau et réseau).</p>
 
 <h2>4. Carte</h2>
 <iframe src="{out_map}"></iframe>
@@ -129,7 +160,7 @@ Score moyen d'accès aux équipements de santé/bien-être : <strong>{mean_score
 {biblio_items}
 </ul>
 
-<footer>ufs-diagnostic v0.1 — prototype open source (EUPL-1.2). Données : voir section 2 (ODbL / Licence Ouverte). Ce rapport est un appui au diagnostic (clef 2 ISadOrA), pas un avis sanitaire réglementaire (EIS ARS).</footer>
+<footer>ufs-diagnostic v0.2 — prototype open source (EUPL-1.2). Données : voir section 2 (ODbL / Licence Ouverte). Ce rapport est un appui au diagnostic (clef 2 ISadOrA), pas un avis sanitaire réglementaire (EIS ARS).</footer>
 </body>
 </html>
 """
