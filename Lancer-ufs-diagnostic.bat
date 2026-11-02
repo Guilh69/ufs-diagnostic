@@ -6,10 +6,15 @@ cd /d "%~dp0"
 set PYEXE=
 where python >nul 2>nul && set PYEXE=python
 if not defined PYEXE where py >nul 2>nul && set PYEXE=py
-if not defined PYEXE if exist "%LOCALAPPDATA%\Programs\Python\Python312\python.exe" set PYEXE="%LOCALAPPDATA%\Programs\Python\Python312\python.exe"
-if not defined PYEXE if exist "%LOCALAPPDATA%\Programs\Python\Python313\python.exe" set PYEXE="%LOCALAPPDATA%\Programs\Python\Python313\python.exe"
-if not defined PYEXE if exist "%ProgramFiles%\Python312\python.exe" set PYEXE="%ProgramFiles%\Python312\python.exe"
+rem recherche generique dans les dossiers Python3xx installes pour l'utilisateur
+if not defined PYEXE (
+  for /d %%D in ("%LOCALAPPDATA%\Programs\Python\Python3*") do (
+    if exist "%%D\python.exe" set PYEXE="%%D\python.exe"
+  )
+)
+if not defined PYEXE if exist "%ProgramFiles%\Python314\python.exe" set PYEXE="%ProgramFiles%\Python314\python.exe"
 if not defined PYEXE if exist "%ProgramFiles%\Python313\python.exe" set PYEXE="%ProgramFiles%\Python313\python.exe"
+if not defined PYEXE if exist "%ProgramFiles%\Python312\python.exe" set PYEXE="%ProgramFiles%\Python312\python.exe"
 
 if not defined PYEXE (
   echo.
@@ -21,5 +26,6 @@ if not defined PYEXE (
   exit /b 1
 )
 
+echo Lancement avec : %PYEXE%
 %PYEXE% desktop\app.py
 pause
