@@ -54,7 +54,45 @@ def render_kickoff_html(kickoff):
 """
 
 
-def render_report(perimeter, cells, summary, checklist, cats, kickoff=None, out_map="map.html"):
+def render_eqis_html(eqis, scenario):
+    if not eqis:
+        return ""
+    ref = eqis["references"]
+    res_rows = ""
+    for label, r in eqis["resultats"].items():
+        res_rows += (f"<tr><td>{label}</td><td>{r['concentration_ugm3']} µg/m³</td>"
+                     f"<td>{r['paf']*100:.2f} %</td><td><strong>{r['deces_attribuables_an']}</strong></td></tr>")
+    st_rows = "".join(
+        f"<tr><td>{s['nom_station']}</td><td>{s['nom_com']}</td><td>{s['annee']}</td>"
+        f"<td>{s['valeur']} µg/m³</td><td>{s['typologie']}/{s['influence']}</td><td>{s['dist_m']} m</td></tr>"
+        for s in eqis["stations_pm25"]
+    )
+    sc_html = ""
+    if eqis.get("scenario_oms"):
+        s = eqis["scenario_oms"]
+        sc_html += f"<li>Atteindre la ligne directrice OMS (5 µg/m³) : <strong>{s['deces_evites_an']} décès/an évités</strong> à {eqis['commune']}.</li>"
+    if scenario:
+        sc_html += (f"<li>{esc(scenario['libelle'])} : <strong>{scenario['deces_evites_an']} décès/an évités</strong> "
+                    f"(population cible {scenario['population_cible']}, {esc(scenario['note'])}).</li>")
+    return f"""
+<h2>6. Évaluation quantitative (EQIS-lite PM2,5) et scénarios</h2>
+<p>Commune : <strong>{esc(eqis['commune'])}</strong> ({eqis['code_insee']}) — population {eqis['population']:,} hab (geo.api.gouv.fr/INSEE).
+Méthode EQIS-PA OMS/SPF : décès attribuables = D × (1 − e<sup>−β(C−C<sub>ref</sub>)</sup>), β = ln({eqis['rr_pm25_par_10ugm3']})/10, C<sub>ref</sub> = {eqis['contrefactuel_ugm3']} µg/m³, taux de mortalité brut {eqis['taux_mortalite_brut']*1000:.1f} ‰ (référence nationale INSEE).</p>
+<table><tr><th>Source de concentration PM2,5</th><th>C (µg/m³)</th><th>PAF</th><th>Décès attribuables/an</th></tr>
+{res_rows}
+</table>
+<p>Indice communal air-santé modélisé (Atmo AURA 2016-2018) : PM2,5 = <strong>{eqis['indice_communal_pm25']} µg/m³</strong>.
+Mesures 2024 des stations proches (moyenne {eqis['moyenne_stations_pm25']} µg/m³) :</p>
+<table><tr><th>Station</th><th>Commune</th><th>Année</th><th>Valeur</th><th>Type</th><th>Dist.</th></tr>
+{st_rows}
+</table>
+<p>Seuils de référence : valeur limite UE 2024 = {ref['valeur_limite_ue_2024']} µg/m³, UE 2030 = {ref['valeur_limite_ue_2030']} µg/m³, ligne directrice OMS 2021 = {ref['ligne_directrice_oms_2021']} µg/m³.</p>
+<ul>{sc_html}</ul>
+<p><small>EQIS simplifiée (AirQ+ OMS en production ; guide SPF 2019). Données agrégées uniquement — jamais de données individuelles (RGPD).</small></p>
+"""
+
+
+def render_report(perimeter, cells, summary, checklist, cats, kickoff=None, eqis=None, scenario=None, out_map="map.html"):
     n_cells = len(cells)
     bbox = perimeter["bbox"]
     radius = perimeter["walk_radius_m"]
@@ -92,6 +130,7 @@ def render_report(perimeter, cells, summary, checklist, cats, kickoff=None, out_
     mean_score = round(sum(scores) / len(scores), 3) if scores else None
 
     kickoff_html = render_kickoff_html(kickoff) if kickoff else ""
+    eqis_html = render_eqis_html(eqis, scenario) if eqis else ""
     iso_note = (f"Isochrone piéton ~{iso_m} m calculée sur le réseau routier ({perimeter.get('network',{}).get('nb_troncons','?')} tronçons) "
                 f"et affichée sur la carte (<code>isochrone.geojson</code>).") if iso_m else ""
 
@@ -147,7 +186,8 @@ Score moyen d'accès aux équipements de santé/bien-être (vol d'oiseau) : <str
 {checklist_table}
 </table>
 
-<h2>6. Pistes EQIS (évaluation quantitative) à brancher</h2>
+{eqis_html}
+<h2>7. Pistes EQIS avancées à brancher</h2>
 <ul>
 <li>Qualité de l'air : EQIS-PA selon le guide Santé publique France avec <a href="https://www.who.int/europe/fr/tools-and-toolkits/airq---software-tool-for-health-risk-assessment-of-air-pollution">AirQ+ (OMS)</a> (PM2,5, NO2, O3) sur le périmètre.</li>
 <li>Mobilités actives : <a href="https://www.who.int/europe/tools-and-toolkits/health-economic-assessment-tool-for-walking-and-cycling">HEAT (OMS)</a> pour chiffrer les bénéfices sanitaires de la marche/du vélo.</li>
@@ -155,7 +195,7 @@ Score moyen d'accès aux équipements de santé/bien-être (vol d'oiseau) : <str
 <li>Données santé : <a href="https://geodes.santepubliquefrance.fr/">Géodes (SPF)</a>, <a href="https://odisse.santepubliquefrance.fr/pages/accueil/">Odissé</a>, ARS AURA (DatARA), INSEE Filosofi (IRIS).</li>
 </ul>
 
-<h2>7. Bibliographie et référentiels</h2>
+<h2>8. Bibliographie et référentiels</h2>
 <ul>
 {biblio_items}
 </ul>

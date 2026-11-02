@@ -1,0 +1,77 @@
+{
+  "eqis": {
+    "commune": "Villeurbanne",
+    "code_insee": "69266",
+    "population": 163684,
+    "taux_mortalite_brut": 0.0092,
+    "contrefactuel_ugm3": 5,
+    "rr_pm25_par_10ugm3": 1.062,
+    "indice_communal_pm25": 14.799672373679,
+    "stations_pm25": [
+      {
+        "code_station": "FR20062",
+        "nom_station": "Lyon Centre",
+        "nom_com": "Lyon",
+        "annee": 2024,
+        "valeur": 9.5,
+        "unite": "µg/m³",
+        "typologie": "Urbain",
+        "influence": "fond",
+        "dist_m": 2796
+      },
+      {
+        "code_station": "FR20046",
+        "nom_station": "Est Lyonnais Vaulx-en-Velin",
+        "nom_com": "Vaulx-en-Velin",
+        "annee": 2024,
+        "valeur": 5.2,
+        "unite": "µg/m³",
+        "typologie": "Urbain",
+        "influence": "fond",
+        "dist_m": 3455
+      },
+      {
+        "code_station": "FR20017",
+        "nom_station": "Lyon Gerland",
+        "nom_com": "Lyon",
+        "annee": 2024,
+        "valeur": 10,
+        "unite": "µg/m³",
+        "typologie": "Urbain",
+        "influence": "fond",
+        "dist_m": 5914
+      }
+    ],
+    "moyenne_stations_pm25": 8.23,
+    "resultats": {
+      "modele_commune_2016_2018": {
+        "concentration_ugm3": 14.799672373679,
+        "deces_attribuables_an": 86.2,
+        "paf": 0.0572
+      },
+      "stations_2024_moyenne": {
+        "concentration_ugm3": 8.23,
+        "deces_attribuables_an": 29.0,
+        "paf": 0.0192
+      }
+    },
+    "scenario_oms": {
+      "cible_ugm3": 5,
+      "deces_evites_an": 86.2,
+      "note": "si la commune atteignait 5 µg/m³ (OMS 2021), tous les décès attribuables au-dessus de ce seuil seraient évités"
+    },
+    "references": {
+      "valeur_limite_ue_2024": 20,
+      "valeur_limite_ue_2030": 10,
+      "ligne_directrice_oms_2021": 5
+    }
+  },
+  "scenario_marche": {
+    "libelle": "+30 min de marche par jour pour les 18-64 ans du périmètre",
+    "population_cible": 90026,
+    "deces_base_an": 828.2,
+    "rr": 0.9,
+    "deces_evites_an": 82.8,
+    "note": "HEAT-lite (hypothèses éditables dans config/scenarios.json) ; remplacer par HEAT officiel (OMS) en production"
+  }
+}

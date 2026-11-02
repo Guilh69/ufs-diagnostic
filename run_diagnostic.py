@@ -26,6 +26,7 @@ from ufsdiag.kickoff import build_kickoff
 from ufsdiag.report import render_report
 from ufsdiag.mapview import write_map
 from ufsdiag import network as net
+from ufsdiag.eqis import compute_eqis_block, compute_scenario_marche
 
 
 def main():
@@ -35,6 +36,8 @@ def main():
     ap.add_argument("--keys", required=True)
     ap.add_argument("--kickoff", default=None)
     ap.add_argument("--project", default=None)
+    ap.add_argument("--eqis", default=None)
+    ap.add_argument("--scenarios", default=None)
     ap.add_argument("--data", required=True)
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
@@ -90,6 +93,25 @@ def main():
     checklist = build_checklist(args.keys, summary, cat_to_key)
     kickoff = build_kickoff(args.kickoff, args.project) if args.kickoff and args.project else None
 
+    # --- v0.3 : EQIS-lite PM2.5 + scénario marche (HEAT-lite) ---
+    eqis_block = None
+    scenario_marche = None
+    if args.eqis and os.path.exists(args.eqis):
+        with open(args.eqis, encoding="utf-8") as f:
+            eqis_cfg = json.load(f)
+        eqis_block = compute_eqis_block(args.data, eqis_cfg)
+        if eqis_block:
+            print(f"[eqis] {eqis_block['commune']}: pop {eqis_block['population']:,}, indice PM2.5 modélisé {eqis_block['indice_communal_pm25']} µg/m³, "
+                  f"stations 2024 moy {eqis_block['moyenne_stations_pm25']} µg/m³")
+            for label, r in eqis_block["resultats"].items():
+                print(f"[eqis] {label}: C={r['concentration_ugm3']} µg/m³ -> {r['deces_attribuables_an']} décès/an attribuables")
+        if args.scenarios and os.path.exists(args.scenarios):
+            with open(args.scenarios, encoding="utf-8") as f:
+                scenarios_cfg = json.load(f)
+            scenario_marche = compute_scenario_marche(args.data, eqis_block, scenarios_cfg)
+            if scenario_marche:
+                print(f"[scenario] {scenario_marche['libelle']}: {scenario_marche['deces_evites_an']} décès/an évités")
+
     indicators_fc = {
         "type": "FeatureCollection",
         "features": [
@@ -131,7 +153,11 @@ def main():
 
     write_map(args.out)
 
-    report = render_report(perimeter, cells, summary, checklist, cats, kickoff=kickoff)
+    if eqis_block:
+        with open(os.path.join(args.out, "eqis.json"), "w", encoding="utf-8") as f:
+            json.dump({"eqis": eqis_block, "scenario_marche": scenario_marche}, f, ensure_ascii=False, indent=2)
+
+    report = render_report(perimeter, cells, summary, checklist, cats, kickoff=kickoff, eqis=eqis_block, scenario=scenario_marche)
     with open(os.path.join(args.out, "report.html"), "w", encoding="utf-8") as f:
         f.write(report)
 

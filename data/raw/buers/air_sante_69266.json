@@ -1,0 +1,462 @@
+{
+ "indice_air_sante_pm25": {
+  "fields": [
+   "FID",
+   "id",
+   "nom_com",
+   "id_com",
+   "indicePM25",
+   "Shape__Area",
+   "Shape__Length"
+  ],
+  "features": [],
+  "count": 0
+ },
+ "indice_air_sante_no2": {
+  "fields": [
+   "FID",
+   "id",
+   "nom_com",
+   "nom_com_m",
+   "id_com",
+   "indiceNO2_",
+   "Shape__Area",
+   "Shape__Length",
+   "GlobalID"
+  ],
+  "features": [],
+  "count": 0
+ },
+ "stations_pm25_proches": [
+  [
+   2796,
+   {
+    "nom_dept": "Rhône",
+    "nom_com": "Lyon",
+    "id_com": "69123",
+    "date_debut": 1609459200000,
+    "date_fin": 1640995200000,
+    "nom_station": "Lyon Centre",
+    "code_station": "FR20062",
+    "typologie": "Urbain",
+    "influence": "fond",
+    "nom_poll": "particules PM2,5",
+    "id_poll_ue": "6001",
+    "unite": "µg/m³",
+    "valeur": 11.9,
+    "validite": "t",
+    "validation": "t",
+    "metrique": "annuelle",
+    "yl93": 6519269.007258005,
+    "xl93": 844121.9903292486,
+    "OBJECTID": 100
+   }
+  ],
+  [
+   2796,
+   {
+    "nom_dept": "Rhône",
+    "nom_com": "Lyon",
+    "id_com": "69123",
+    "date_debut": 1640995200000,
+    "date_fin": 1672531200000,
+    "nom_station": "Lyon Centre",
+    "code_station": "FR20062",
+    "typologie": "Urbain",
+    "influence": "fond",
+    "nom_poll": "particules PM2,5",
+    "id_poll_ue": "6001",
+    "unite": "µg/m³",
+    "valeur": 11.4,
+    "validite": "t",
+    "validation": "t",
+    "metrique": "annuelle",
+    "yl93": 6519269.007258005,
+    "xl93": 844121.9903292486,
+    "OBJECTID": 101
+   }
+  ],
+  [
+   2796,
+   {
+    "nom_dept": "Rhône",
+    "nom_com": "Lyon",
+    "id_com": "69123",
+    "date_debut": 1672531200000,
+    "date_fin": 1704067200000,
+    "nom_station": "Lyon Centre",
+    "code_station": "FR20062",
+    "typologie": "Urbain",
+    "influence": "fond",
+    "nom_poll": "particules PM2,5",
+    "id_poll_ue": "6001",
+    "unite": "µg/m³",
+    "valeur": 10.8,
+    "validite": "t",
+    "validation": "t",
+    "metrique": "annuelle",
+    "yl93": 6519269.007258005,
+    "xl93": 844121.9903292486,
+    "OBJECTID": 102
+   }
+  ],
+  [
+   2796,
+   {
+    "nom_dept": "Rhône",
+    "nom_com": "Lyon",
+    "id_com": "69123",
+    "date_debut": 1704067200000,
+    "date_fin": 1735689600000,
+    "nom_station": "Lyon Centre",
+    "code_station": "FR20062",
+    "typologie": "Urbain",
+    "influence": "fond",
+    "nom_poll": "particules PM2,5",
+    "id_poll_ue": "6001",
+    "unite": "µg/m³",
+    "valeur": 9.5,
+    "validite": "t",
+    "validation": "t",
+    "metrique": "annuelle",
+    "yl93": 6519269.007258005,
+    "xl93": 844121.9903292486,
+    "OBJECTID": 103
+   }
+  ],
+  [
+   2796,
+   {
+    "nom_dept": "Rhône",
+    "nom_com": "Lyon",
+    "id_com": "69123",
+    "date_debut": 1735689600000,
+    "date_fin": 1767225600000,
+    "nom_station": "Lyon Centre",
+    "code_station": "FR20062",
+    "typologie": "Urbain",
+    "influence": "fond",
+    "nom_poll": "particules PM2,5",
+    "id_poll_ue": "6001",
+    "unite": "µg/m³",
+    "valeur": null,
+    "validite": null,
+    "validation": null,
+    "metrique": "annuelle",
+    "yl93": 6519269.007258005,
+    "xl93": 844121.9903292486,
+    "OBJECTID": 104
+   }
+  ],
+  [
+   3455,
+   {
+    "nom_dept": "Rhône",
+    "nom_com": "Vaulx-en-Velin",
+    "id_com": "69256",
+    "date_debut": 1609459200000,
+    "date_fin": 1640995200000,
+    "nom_station": "Est Lyonnais Vaulx-en-Velin",
+    "code_station": "FR20046",
+    "typologie": "Urbain",
+    "influence": "fond",
+    "nom_poll": "particules PM2,5",
+    "id_poll_ue": "6001",
+    "unite": "µg/m³",
+    "valeur": 10.4,
+    "validite": "t",
+    "validation": "t",
+    "metrique": "annuelle",
+    "yl93": 6521743,
+    "xl93": 849541.875,
+    "OBJECTID": 90
+   }
+  ],
+  [
+   3455,
+   {
+    "nom_dept": "Rhône",
+    "nom_com": "Vaulx-en-Velin",
+    "id_com": "69256",
+    "date_debut": 1640995200000,
+    "date_fin": 1672531200000,
+    "nom_station": "Est Lyonnais Vaulx-en-Velin",
+    "code_station": "FR20046",
+    "typologie": "Urbain",
+    "influence": "fond",
+    "nom_poll": "particules PM2,5",
+    "id_poll_ue": "6001",
+    "unite": "µg/m³",
+    "valeur": 10.1,
+    "validite": "t",
+    "validation": "t",
+    "metrique": "annuelle",
+    "yl93": 6521743,
+    "xl93": 849541.875,
+    "OBJECTID": 91
+   }
+  ],
+  [
+   3455,
+   {
+    "nom_dept": "Rhône",
+    "nom_com": "Vaulx-en-Velin",
+    "id_com": "69256",
+    "date_debut": 1672531200000,
+    "date_fin": 1704067200000,
+    "nom_station": "Est Lyonnais Vaulx-en-Velin",
+    "code_station": "FR20046",
+    "typologie": "Urbain",
+    "influence": "fond",
+    "nom_poll": "particules PM2,5",
+    "id_poll_ue": "6001",
+    "unite": "µg/m³",
+    "valeur": 7.7,
+    "validite": "t",
+    "validation": "t",
+    "metrique": "annuelle",
+    "yl93": 6521743,
+    "xl93": 849541.875,
+    "OBJECTID": 92
+   }
+  ],
+  [
+   3455,
+   {
+    "nom_dept": "Rhône",
+    "nom_com": "Vaulx-en-Velin",
+    "id_com": "69256",
+    "date_debut": 1704067200000,
+    "date_fin": 1735689600000,
+    "nom_station": "Est Lyonnais Vaulx-en-Velin",
+    "code_station": "FR20046",
+    "typologie": "Urbain",
+    "influence": "fond",
+    "nom_poll": "particules PM2,5",
+    "id_poll_ue": "6001",
+    "unite": "µg/m³",
+    "valeur": 5.2,
+    "validite": "f",
+    "validation": "t",
+    "metrique": "annuelle",
+    "yl93": 6521743,
+    "xl93": 849541.875,
+    "OBJECTID": 93
+   }
+  ],
+  [
+   3455,
+   {
+    "nom_dept": "Rhône",
+    "nom_com": "Vaulx-en-Velin",
+    "id_com": "69256",
+    "date_debut": 1735689600000,
+    "date_fin": 1767225600000,
+    "nom_station": "Est Lyonnais Vaulx-en-Velin",
+    "code_station": "FR20046",
+    "typologie": "Urbain",
+    "influence": "fond",
+    "nom_poll": "particules PM2,5",
+    "id_poll_ue": "6001",
+    "unite": "µg/m³",
+    "valeur": null,
+    "validite": null,
+    "validation": null,
+    "metrique": "annuelle",
+    "yl93": 6521743,
+    "xl93": 849541.875,
+    "OBJECTID": 94
+   }
+  ],
+  [
+   5914,
+   {
+    "nom_dept": "Rhône",
+    "nom_com": "Lyon",
+    "id_com": "69123",
+    "date_debut": 1609459200000,
+    "date_fin": 1640995200000,
+    "nom_station": "Lyon Gerland",
+    "code_station": "FR20017",
+    "typologie": "Urbain",
+    "influence": "fond",
+    "nom_poll": "particules PM2,5",
+    "id_poll_ue": "6001",
+    "unite": "µg/m³",
+    "valeur": 11,
+    "validite": "t",
+    "validation": "t",
+    "metrique": "annuelle",
+    "yl93": 6516726.5,
+    "xl93": 842281.625,
+    "OBJECTID": 81
+   }
+  ],
+  [
+   5914,
+   {
+    "nom_dept": "Rhône",
+    "nom_com": "Lyon",
+    "id_com": "69123",
+    "date_debut": 1640995200000,
+    "date_fin": 1672531200000,
+    "nom_station": "Lyon Gerland",
+    "code_station": "FR20017",
+    "typologie": "Urbain",
+    "influence": "fond",
+    "nom_poll": "particules PM2,5",
+    "id_poll_ue": "6001",
+    "unite": "µg/m³",
+    "valeur": 11.5,
+    "validite": "t",
+    "validation": "t",
+    "metrique": "annuelle",
+    "yl93": 6516726.5,
+    "xl93": 842281.625,
+    "OBJECTID": 82
+   }
+  ],
+  [
+   5914,
+   {
+    "nom_dept": "Rhône",
+    "nom_com": "Lyon",
+    "id_com": "69123",
+    "date_debut": 1672531200000,
+    "date_fin": 1704067200000,
+    "nom_station": "Lyon Gerland",
+    "code_station": "FR20017",
+    "typologie": "Urbain",
+    "influence": "fond",
+    "nom_poll": "particules PM2,5",
+    "id_poll_ue": "6001",
+    "unite": "µg/m³",
+    "valeur": 9.3,
+    "validite": "t",
+    "validation": "t",
+    "metrique": "annuelle",
+    "yl93": 6516726.5,
+    "xl93": 842281.625,
+    "OBJECTID": 83
+   }
+  ],
+  [
+   5914,
+   {
+    "nom_dept": "Rhône",
+    "nom_com": "Lyon",
+    "id_com": "69123",
+    "date_debut": 1704067200000,
+    "date_fin": 1735689600000,
+    "nom_station": "Lyon Gerland",
+    "code_station": "FR20017",
+    "typologie": "Urbain",
+    "influence": "fond",
+    "nom_poll": "particules PM2,5",
+    "id_poll_ue": "6001",
+    "unite": "µg/m³",
+    "valeur": 10,
+    "validite": "t",
+    "validation": "t",
+    "metrique": "annuelle",
+    "yl93": 6516726.5,
+    "xl93": 842281.625,
+    "OBJECTID": 84
+   }
+  ],
+  [
+   5914,
+   {
+    "nom_dept": "Rhône",
+    "nom_com": "Lyon",
+    "id_com": "69123",
+    "date_debut": 1735689600000,
+    "date_fin": 1767225600000,
+    "nom_station": "Lyon Gerland",
+    "code_station": "FR20017",
+    "typologie": "Urbain",
+    "influence": "fond",
+    "nom_poll": "particules PM2,5",
+    "id_poll_ue": "6001",
+    "unite": "µg/m³",
+    "valeur": null,
+    "validite": null,
+    "validation": null,
+    "metrique": "annuelle",
+    "yl93": 6516726.5,
+    "xl93": 842281.625,
+    "OBJECTID": 85
+   }
+  ]
+ ],
+ "stations_pm25": [
+  {
+   "code_station": "FR20062",
+   "nom_station": "Lyon Centre",
+   "nom_com": "Lyon",
+   "annee": 2024,
+   "valeur": 9.5,
+   "unite": "µg/m³",
+   "typologie": "Urbain",
+   "influence": "fond",
+   "dist_m": 2796
+  },
+  {
+   "code_station": "FR20046",
+   "nom_station": "Est Lyonnais Vaulx-en-Velin",
+   "nom_com": "Vaulx-en-Velin",
+   "annee": 2024,
+   "valeur": 5.2,
+   "unite": "µg/m³",
+   "typologie": "Urbain",
+   "influence": "fond",
+   "dist_m": 3455
+  },
+  {
+   "code_station": "FR20017",
+   "nom_station": "Lyon Gerland",
+   "nom_com": "Lyon",
+   "annee": 2024,
+   "valeur": 10,
+   "unite": "µg/m³",
+   "typologie": "Urbain",
+   "influence": "fond",
+   "dist_m": 5914
+  }
+ ],
+ "commune_geoapi": {
+  "nom": "Villeurbanne",
+  "code": "69266",
+  "population": 163684,
+  "surface": 1490.12,
+  "source": "https://geo.api.gouv.fr/communes/69266 (API géo officielle, données INSEE)"
+ },
+ "indice_pm25": [
+  {
+   "attributes": {
+    "FID": 1370,
+    "id": "BDCSURCO0000000009605243",
+    "nom_com": "Villeurbanne",
+    "id_com": 69266,
+    "indicePM25": 14.799672373679,
+    "Shape__Area": 14857135.5,
+    "Shape__Length": 17706.532240029825
+   }
+  }
+ ],
+ "indice_no2": [
+  {
+   "attributes": {
+    "FID": 1372,
+    "id": "BDCSURCO0000000009605243",
+    "nom_com": "Villeurbanne",
+    "nom_com_m": "VILLEURBANNE",
+    "id_com": 69266,
+    "indiceNO2_": 2.46881051714236,
+    "Shape__Area": 14857135.5,
+    "Shape__Length": 17706.532240029825,
+    "GlobalID": "f084ff79-edae-4b93-b735-4e1694d42d87"
+   }
+  }
+ ]
+}

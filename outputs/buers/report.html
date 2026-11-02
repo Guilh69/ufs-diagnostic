@@ -91,7 +91,23 @@ Score moyen d'accès aux équipements de santé/bien-être (vol d'oiseau) : <str
 <tr><td>15</td><td><strong>Gestion des eaux pluviales</strong><br><small>Favoriser une récupération de l&#x27;eau de pluie et une gestion des eaux pluviales en surface, par la mise en place de techniques alternatives, permettant une diversité des fonctions dont la gestion du risque inondation.</small></td><td>À expertiser sur le terrain</td><td><small>—</small></td></tr>
 </table>
 
-<h2>6. Pistes EQIS (évaluation quantitative) à brancher</h2>
+
+<h2>6. Évaluation quantitative (EQIS-lite PM2,5) et scénarios</h2>
+<p>Commune : <strong>Villeurbanne</strong> (69266) — population 163,684 hab (geo.api.gouv.fr/INSEE).
+Méthode EQIS-PA OMS/SPF : décès attribuables = D × (1 − e<sup>−β(C−C<sub>ref</sub>)</sup>), β = ln(1.062)/10, C<sub>ref</sub> = 5 µg/m³, taux de mortalité brut 9.2 ‰ (référence nationale INSEE).</p>
+<table><tr><th>Source de concentration PM2,5</th><th>C (µg/m³)</th><th>PAF</th><th>Décès attribuables/an</th></tr>
+<tr><td>modele_commune_2016_2018</td><td>14.799672373679 µg/m³</td><td>5.72 %</td><td><strong>86.2</strong></td></tr><tr><td>stations_2024_moyenne</td><td>8.23 µg/m³</td><td>1.92 %</td><td><strong>29.0</strong></td></tr>
+</table>
+<p>Indice communal air-santé modélisé (Atmo AURA 2016-2018) : PM2,5 = <strong>14.799672373679 µg/m³</strong>.
+Mesures 2024 des stations proches (moyenne 8.23 µg/m³) :</p>
+<table><tr><th>Station</th><th>Commune</th><th>Année</th><th>Valeur</th><th>Type</th><th>Dist.</th></tr>
+<tr><td>Lyon Centre</td><td>Lyon</td><td>2024</td><td>9.5 µg/m³</td><td>Urbain/fond</td><td>2796 m</td></tr><tr><td>Est Lyonnais Vaulx-en-Velin</td><td>Vaulx-en-Velin</td><td>2024</td><td>5.2 µg/m³</td><td>Urbain/fond</td><td>3455 m</td></tr><tr><td>Lyon Gerland</td><td>Lyon</td><td>2024</td><td>10 µg/m³</td><td>Urbain/fond</td><td>5914 m</td></tr>
+</table>
+<p>Seuils de référence : valeur limite UE 2024 = 20 µg/m³, UE 2030 = 10 µg/m³, ligne directrice OMS 2021 = 5 µg/m³.</p>
+<ul><li>Atteindre la ligne directrice OMS (5 µg/m³) : <strong>86.2 décès/an évités</strong> à Villeurbanne.</li><li>+30 min de marche par jour pour les 18-64 ans du périmètre : <strong>82.8 décès/an évités</strong> (population cible 90026, HEAT-lite (hypothèses éditables dans config/scenarios.json) ; remplacer par HEAT officiel (OMS) en production).</li></ul>
+<p><small>EQIS simplifiée (AirQ+ OMS en production ; guide SPF 2019). Données agrégées uniquement — jamais de données individuelles (RGPD).</small></p>
+
+<h2>7. Pistes EQIS avancées à brancher</h2>
 <ul>
 <li>Qualité de l'air : EQIS-PA selon le guide Santé publique France avec <a href="https://www.who.int/europe/fr/tools-and-toolkits/airq---software-tool-for-health-risk-assessment-of-air-pollution">AirQ+ (OMS)</a> (PM2,5, NO2, O3) sur le périmètre.</li>
 <li>Mobilités actives : <a href="https://www.who.int/europe/tools-and-toolkits/health-economic-assessment-tool-for-walking-and-cycling">HEAT (OMS)</a> pour chiffrer les bénéfices sanitaires de la marche/du vélo.</li>
@@ -99,7 +115,7 @@ Score moyen d'accès aux équipements de santé/bien-être (vol d'oiseau) : <str
 <li>Données santé : <a href="https://geodes.santepubliquefrance.fr/">Géodes (SPF)</a>, <a href="https://odisse.santepubliquefrance.fr/pages/accueil/">Odissé</a>, ARS AURA (DatARA), INSEE Filosofi (IRIS).</li>
 </ul>
 
-<h2>7. Bibliographie et référentiels</h2>
+<h2>8. Bibliographie et référentiels</h2>
 <ul>
 <li><a href="https://www.aurba.org/productions/isadora-un-outil-daide-a-lintegration-de-la-sante-dans-les-operations-damenagement/">Guide ISadOrA (EHESP / a-urba, 2020) - 15 clefs opérationnelles</a></li>
 <li><a href="https://www.ecoquartiers.logement.gouv.fr/assets/articles/documents/guide-isadora-partie-1.pdf">Guide ISadOrA, partie 1 (PDF officiel)</a></li>
