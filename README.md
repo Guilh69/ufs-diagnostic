@@ -29,6 +29,13 @@ Données réelles (provenance + licence dans chaque fichier de `data/raw/buers/`
 - Réseau routier (tronçons CRITER, longueur en m) : `pvo_patrimoine_voirie.pvotronconwebcriter` (LO) ;
 - Commerces bio NAF 4729Z : Sirene géolocalisée `metropole-de-lyon:insee.sirene` (LO) — 0 objet géocodé dans le périmètre, catégorie optionnelle.
 
+## Application de bureau (installable sur ton PC)
+
+```
+python3 desktop/app.py
+```
+Fenêtre épurée : choisir un cas existant et lancer, ou créer un nouveau diagnostic (nom + adresse + rayon → géocodage automatique via l'API Adresse/BAN, téléchargement des données, rapport ouvert dans le navigateur). Aucun paquet à installer (tkinter inclus avec Python). Pour un vrai `.exe`/`.app` : `pip install pyinstaller && pyinstaller desktop/build.spec`.
+
 ## v1.0 — déploiement
 
 - **API** (stdlib, testée) : `cd src && python3 -m ufsdiag.api --port 8080` → `GET /perimeters`, `POST /diagnostic {"perimeter":"buers"}`, `GET /report/buers`
