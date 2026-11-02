@@ -1,0 +1,13 @@
+name=ufs-diagnostic
+qgisMinimumVersion=3.28
+description=Diagnostic territorial UFS (urbanisme favorable à la santé) : proximité, isochrones, EQIS, checklist ISadOrA. Appelle l'API ufs-diagnostic.
+version=0.7
+author=Guilh69 / Vibe
+email=
+tracker=https://github.com/Guilh69/ufs-diagnostic/issues
+repository=https://github.com/Guilh69/ufs-diagnostic
+homepage=https://github.com/Guilh69/ufs-diagnostic
+category=Plugins
+experimental=False
+deprecated=False
+hasProcessingProvider=no

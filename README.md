@@ -1,4 +1,4 @@
-# ufs-diagnostic — prototype de diagnostic territorial « Urbanisme Favorable à la Santé » (v0.7.1)
+# ufs-diagnostic — prototype de diagnostic territorial « Urbanisme Favorable à la Santé » (v1.0)
 
 Outil libre (EUPL-1.2) qui enchaîne, pour un périmètre donné (quartier, rue) :
 
@@ -28,6 +28,13 @@ Données réelles (provenance + licence dans chaque fichier de `data/raw/buers/`
 - Pharmacies : extrait OSM quotidien magOSM via data.gouv.fr (ODbL) ;
 - Réseau routier (tronçons CRITER, longueur en m) : `pvo_patrimoine_voirie.pvotronconwebcriter` (LO) ;
 - Commerces bio NAF 4729Z : Sirene géolocalisée `metropole-de-lyon:insee.sirene` (LO) — 0 objet géocodé dans le périmètre, catégorie optionnelle.
+
+## v1.0 — déploiement
+
+- **API** (stdlib, testée) : `cd src && python3 -m ufsdiag.api --port 8080` → `GET /perimeters`, `POST /diagnostic {"perimeter":"buers"}`, `GET /report/buers`
+- **Plugin QGIS** : copier `qgis-plugin/ufs_diagnostic/` dans le dossier plugins de QGIS (~/.local/share/QGIS/QGIS3/profiles/default/python/plugins/), activer « ufs-diagnostic » dans le gestionnaire d'extensions. Il appelle l'API et charge les mailles + ouvre le rapport.
+- **Stack web souveraine** : `cd deploy && docker compose up -d` → PostGIS + GeoServer + API + MapStore (ports loopback 5432/8081/8080/8082 ; mots de passe à changer en production)
+- **Gabarits de rapport** personnalisables : `config/report_template.json`
 
 ## Lancer
 

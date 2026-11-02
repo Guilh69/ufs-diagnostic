@@ -1,0 +1,14 @@
+{
+  "nom": "Gabarit standard Club UFS AURA",
+  "sections": [
+    { "id": "kickoff", "titre": "0. Fiche de démarrage du projet", "obligatoire": true },
+    { "id": "zone", "titre": "1. Où se trouve-t-on ? Périmètre, zone, point d'ancrage + carte", "obligatoire": true },
+    { "id": "data", "titre": "2. Données mobilisées (open data souveraines)", "obligatoire": true },
+    { "id": "indicators", "titre": "3. Indicateurs de proximité par maille", "obligatoire": true },
+    { "id": "map", "titre": "4. Carte", "obligatoire": true },
+    { "id": "eqis", "titre": "6. EQIS multi-polluants + Lden + scénarios", "obligatoire": false },
+    { "id": "checklist", "titre": "5. Checklist 15 clefs ISadOrA", "obligatoire": true },
+    { "id": "biblio", "titre": "8. Bibliographie et référentiels", "obligatoire": true }
+  ],
+  "note": "Pour personnaliser : copier ce fichier, modifier 'sections' (ordre, titres, obligatoires), et passer --template à run_diagnostic.py."
+}
