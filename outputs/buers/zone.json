@@ -1,0 +1,70 @@
+{
+  "zone": {
+    "area_m2": 156377,
+    "area_km2": 0.156,
+    "nb_mailles": 6,
+    "population_estimee": 1718,
+    "categories": {
+      "alimentation_locale_bio": {
+        "nb_dans_zone": 1,
+        "densite_par_km2": 6.4,
+        "pour_10000_hab": 5.8,
+        "dist_moyenne_reseau_m": 658,
+        "dist_mediane_reseau_m": 731,
+        "pct_mailles_zone_a_le_radius": 83.3
+      },
+      "espaces_verts": {
+        "nb_dans_zone": 0,
+        "densite_par_km2": 0.0,
+        "pour_10000_hab": 0.0,
+        "dist_moyenne_reseau_m": 389,
+        "dist_mediane_reseau_m": 377,
+        "pct_mailles_zone_a_le_radius": 100.0
+      },
+      "eau_potable": {
+        "nb_dans_zone": 0,
+        "densite_par_km2": 0.0,
+        "pour_10000_hab": 0.0,
+        "dist_moyenne_reseau_m": 3765,
+        "dist_mediane_reseau_m": 3518,
+        "pct_mailles_zone_a_le_radius": 0.0
+      },
+      "acces_soins_pharmacies": {
+        "nb_dans_zone": 0,
+        "densite_par_km2": 0.0,
+        "pour_10000_hab": 0.0,
+        "dist_moyenne_reseau_m": 515,
+        "dist_mediane_reseau_m": 468,
+        "pct_mailles_zone_a_le_radius": 83.3
+      }
+    },
+    "nom": "QPV Les Buers (QN06921M), Villeurbanne",
+    "source": "ANCT 26/04/2024, Feature Service national ArcGIS, Licence Ouverte",
+    "population_note": "estimation = population communale × (surface zone / surface commune)"
+  },
+  "point_ancrage": {
+    "alimentation_locale_bio": {
+      "min_dist_vol_m": 0,
+      "min_dist_reseau_m": 147,
+      "plus_proche": "Les paniers du DD"
+    },
+    "espaces_verts": {
+      "min_dist_vol_m": 25,
+      "min_dist_reseau_m": 540,
+      "plus_proche": "Square Henri Bertrand"
+    },
+    "eau_potable": {
+      "min_dist_vol_m": 432,
+      "min_dist_reseau_m": 518,
+      "plus_proche": "Villeurbanne"
+    },
+    "acces_soins_pharmacies": {
+      "min_dist_vol_m": 170,
+      "min_dist_reseau_m": 401,
+      "plus_proche": "Pharmacie Daviet"
+    },
+    "_adresse": "130 rue Anatole France, 69100 Villeurbanne",
+    "_lon": 4.8823724,
+    "_lat": 45.7686273
+  }
+}

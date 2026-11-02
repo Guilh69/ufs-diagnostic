@@ -92,7 +92,53 @@ Mesures 2024 des stations proches (moyenne {eqis['moyenne_stations_pm25']} µg/m
 """
 
 
-def render_report(perimeter, cells, summary, checklist, cats, kickoff=None, eqis=None, scenario=None, out_map="map.html"):
+def render_zone_html(perimeter, zone_info, point_info, cats):
+    if not zone_info and not point_info:
+        return ""
+    bbox = perimeter["bbox"]
+    zone_html = ""
+    if zone_info:
+        rows = ""
+        for cat in cats:
+            d = zone_info["categories"].get(cat["id"])
+            if d:
+                dist = ""
+                if d.get("dist_moyenne_reseau_m"):
+                    dist = f"~{d['dist_moyenne_reseau_m']} m en moyenne (réseau), médiane {d['dist_mediane_reseau_m']} m ; {d.get('pct_mailles_zone_a_le_radius')}% des mailles à ≤{perimeter['walk_radius_m']} m"
+                rows += (f"<tr><td>{esc(cat['label'])}</td><td><strong>{d['nb_dans_zone']}</strong></td>"
+                         f"<td>{d['densite_par_km2']}/km²</td><td>{d.get('pour_10000_hab') or '—'}/10 000 hab</td><td>{dist or '—'}</td></tr>")
+        pop = f"{zone_info['population_estimee']:,} hab ({esc(zone_info.get('population_note',''))})" if zone_info.get("population_estimee") else "non estimée"
+        zone_html = f"""
+<p><strong>Zone d'étude :</strong> {esc(zone_info.get('nom') or '—')} — {zone_info['area_km2']} km² ({zone_info['nb_mailles']} mailles de {perimeter['grid_cell_m']} m), population {pop}.<br>
+<small>Source : {esc(zone_info.get('source') or '')}. Les indicateurs ci-dessous sont calculés DANS cette zone (effectifs et densités), pas à partir de l'extérieur.</small></p>
+<table><tr><th>Catégorie</th><th>Nb dans la zone</th><th>Densité</th><th>Pour 10 000 hab</th><th>Distance moyenne au plus proche (réseau)</th></tr>
+{rows}
+</table>"""
+    point_html = ""
+    if point_info:
+        rows = ""
+        for cat in cats:
+            d = point_info.get(cat["id"])
+            if d:
+                net = f"{d.get('min_dist_reseau_m')} m (réseau)" if d.get("min_dist_reseau_m") is not None else "—"
+                rows += (f"<tr><td>{esc(cat['label'])}</td><td>{d['min_dist_vol_m']} m</td><td>{net}</td>"
+                         f"<td>{esc(d.get('plus_proche') or '')}</td></tr>")
+        point_html = f"""
+<p><strong>Point d'ancrage</strong> (mise en situation d'une personne) : {esc(point_info.get('_adresse',''))}
+— coordonnées {point_info.get('_lon')}, {point_info.get('_lat')} (géocodage Photon/BAN, Métropole de Lyon).</p>
+<table><tr><th>Catégorie</th><th>Distance à vol d'oiseau</th><th>Distance par le réseau</th><th>Équipement le plus proche</th></tr>
+{rows}
+</table>"""
+    return f"""
+<h2>1. Où se trouve-t-on ? Périmètre et zone d'étude</h2>
+<p>{esc(perimeter.get('description', ''))}<br>
+Bbox WGS84 : sud {bbox['south']}, ouest {bbox['west']}, nord {bbox['north']}, est {bbox['east']} — {len(zone_info['categories']) and '' or ''}maillage de {perimeter['grid_cell_m']} m.</p>
+{zone_html}
+{point_html}
+"""
+
+
+def render_report(perimeter, cells, summary, checklist, cats, kickoff=None, eqis=None, scenario=None, zone_info=None, point_info=None, out_map="map.html"):
     n_cells = len(cells)
     bbox = perimeter["bbox"]
     radius = perimeter["walk_radius_m"]
@@ -131,6 +177,7 @@ def render_report(perimeter, cells, summary, checklist, cats, kickoff=None, eqis
 
     kickoff_html = render_kickoff_html(kickoff) if kickoff else ""
     eqis_html = render_eqis_html(eqis, scenario) if eqis else ""
+    zone_html = render_zone_html(perimeter, zone_info, point_info, cats)
     iso_note = (f"Isochrone piéton ~{iso_m} m calculée sur le réseau routier ({perimeter.get('network',{}).get('nb_troncons','?')} tronçons) "
                 f"et affichée sur la carte (<code>isochrone.geojson</code>).") if iso_m else ""
 
@@ -161,17 +208,15 @@ def render_report(perimeter, cells, summary, checklist, cats, kickoff=None, eqis
 
 <div class="warn"><strong>Limites du prototype :</strong> maillage régulier de {perimeter['grid_cell_m']} m ; distances à vol d'oiseau ET par le réseau routier (Dijkstra sur tronçons CRITER) ; isochrone = tronçons atteignables à pied en ~{iso_m} m. Les données OSM/collectivités sont collaboratives : vérifier sur le terrain (clef 2 ISadOrA).</div>
 
-<h2>1. Périmètre d'étude</h2>
-<p>{esc(perimeter.get('description', ''))}<br>
-Bbox WGS84 : sud {bbox['south']}, ouest {bbox['west']}, nord {bbox['north']}, est {bbox['east']} — soit {n_cells} mailles de {perimeter['grid_cell_m']} m.
-Score moyen d'accès aux équipements de santé/bien-être (vol d'oiseau) : <strong>{mean_score}</strong> / 1.</p>
+{zone_html}
+<p>Soit {n_cells} mailles de {perimeter['grid_cell_m']} m au total. Score moyen d'accès aux équipements de santé/bien-être (vol d'oiseau) : <strong>{mean_score}</strong> / 1.</p>
 
 <h2>2. Données mobilisées et sources (open data souveraines)</h2>
 <table><tr><th>Donnée</th><th>Source (WFS / portail)</th><th>Licence</th></tr>
 {src_rows}
 </table>
 
-<h2>3. Indicateurs de proximité (rayon {radius} m ≈ 10 min à pied)</h2>
+<h2>3. Indicateurs de proximité par maille (rayon {radius} m ≈ 10 min à pied)</h2>
 <table><tr><th>Catégorie</th><th>Nb objets</th><th>Mailles desservies</th><th>% mailles</th><th>Dist. médiane au plus proche (vol d'oiseau + réseau)</th></tr>
 {summary_table}
 </table>

@@ -27,6 +27,7 @@ from ufsdiag.report import render_report
 from ufsdiag.mapview import write_map
 from ufsdiag import network as net
 from ufsdiag.eqis import compute_eqis_block, compute_scenario_marche
+from ufsdiag import zone as zonemod
 
 
 def main():
@@ -91,6 +92,44 @@ def main():
 
     summary = summarize(cells, pois_by_cat, radius, net_min_by_cat)
     checklist = build_checklist(args.keys, summary, cat_to_key)
+
+    # --- v0.4 : zone définie (ex. QPV) + point d'ancrage (adresse) ---
+    zone_info = None
+    point_info = None
+    zone_cfg = perimeter.get("zone")
+    zone_file = os.path.join(args.data, zone_cfg["file"]) if zone_cfg else None
+    adj = edges = None
+    if os.path.exists(net_file):
+        features = load_geojson(net_file)
+        adj, edges = net.build_graph(features)
+    if zone_file and os.path.exists(zone_file):
+        polygons, zprops, zname = zonemod.load_zone(zone_file)
+        area_m2 = zonemod.polygon_area_m2(polygons)
+        surf_com = perimeter.get("surface_commune_ha")
+        pop_com = perimeter.get("population_commune")
+        pop_zone = round(pop_com * (area_m2 / 1e4) / surf_com) if (surf_com and pop_com) else None
+        zone_info = zonemod.zone_indicators(polygons, cells, pois_by_cat, net_min_by_cat, radius, pop_zone)
+        zone_info["nom"] = zone_cfg.get("nom")
+        zone_info["source"] = zone_cfg.get("source")
+        zone_info["population_note"] = "estimation = population communale × (surface zone / surface commune)"
+        print(f"[zone] {zone_info['nom']}: {zone_info['area_km2']} km², {zone_info['nb_mailles']} mailles, pop estimée {pop_zone}")
+        for cat_id, d in zone_info["categories"].items():
+            extra = f", distance moyenne réseau {d.get('dist_moyenne_reseau_m')} m" if d.get("dist_moyenne_reseau_m") else ""
+            print(f"[zone] {cat_id}: {d['nb_dans_zone']} dans la zone, {d['densite_par_km2']}/km², {d.get('pour_10000_hab')}/10k hab{extra}")
+    pa = perimeter.get("point_ancrage")
+    if pa and adj is not None:
+        point_info = zonemod.point_distances(pa["lon"], pa["lat"], pois_by_cat, adj, edges)
+        point_info["_adresse"] = pa["adresse"]
+        point_info["_lon"] = pa["lon"]
+        point_info["_lat"] = pa["lat"]
+        print(f"[point] depuis {pa['adresse']} :")
+        for cat_id, d in point_info.items():
+            if cat_id.startswith("_"):
+                continue
+            print(f"  {cat_id}: vol d'oiseau {d['min_dist_vol_m']} m, réseau {d.get('min_dist_reseau_m')} m ({d.get('plus_proche')})")
+    if zone_info or point_info:
+        with open(os.path.join(args.out, "zone.json"), "w", encoding="utf-8") as f:
+            json.dump({"zone": zone_info, "point_ancrage": point_info}, f, ensure_ascii=False, indent=2)
     kickoff = build_kickoff(args.kickoff, args.project) if args.kickoff and args.project else None
 
     # --- v0.3 : EQIS-lite PM2.5 + scénario marche (HEAT-lite) ---
@@ -157,7 +196,8 @@ def main():
         with open(os.path.join(args.out, "eqis.json"), "w", encoding="utf-8") as f:
             json.dump({"eqis": eqis_block, "scenario_marche": scenario_marche}, f, ensure_ascii=False, indent=2)
 
-    report = render_report(perimeter, cells, summary, checklist, cats, kickoff=kickoff, eqis=eqis_block, scenario=scenario_marche)
+    report = render_report(perimeter, cells, summary, checklist, cats, kickoff=kickoff, eqis=eqis_block,
+                           scenario=scenario_marche, zone_info=zone_info, point_info=point_info)
     with open(os.path.join(args.out, "report.html"), "w", encoding="utf-8") as f:
         f.write(report)
 

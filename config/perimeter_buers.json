@@ -1,8 +1,22 @@
 {
   "name": "Quartier des Buers, Villeurbanne (Métropole de Lyon)",
-  "description": "Quartier en politique de la ville, périmètre test du prototype (EIS documentée dans la littérature : revue Pollution Atmosphérique).",
+  "description": "Quartier prioritaire de la politique de la ville (QPV 'Les Buers', code QN06921M, ANCT 26/04/2024) ; EIS documentée dans la littérature (revue Pollution Atmosphérique).",
   "bbox": { "south": 45.768, "west": 4.868, "north": 45.782, "east": 4.893 },
   "grid_cell_m": 150,
   "walk_radius_m": 800,
-  "note_walk_radius": "800 m ≈ 10 min de marche à 4,8 km/h (référence 15-min city / score de marchabilité)"
+  "note_walk_radius": "800 m ≈ 10 min de marche à 4,8 km/h (référence 15-min city / score de marchabilité)",
+  "zone": {
+    "file": "zone_qpv.geojson",
+    "nom": "QPV Les Buers (QN06921M), Villeurbanne",
+    "source": "ANCT 26/04/2024, Feature Service national ArcGIS, Licence Ouverte"
+  },
+  "point_ancrage": {
+    "adresse": "130 rue Anatole France, 69100 Villeurbanne",
+    "geocodeur": "https://download.data.grandlyon.com/geocoding/photon-bal/api (Photon, BAN, Métropole de Lyon)",
+    "lon": 4.8823724,
+    "lat": 45.7686273
+  },
+  "population_commune": 163684,
+  "population_commune_source": "geo.api.gouv.fr/communes/69266 (INSEE, population légale 2022)",
+  "surface_commune_ha": 1490.12
 }

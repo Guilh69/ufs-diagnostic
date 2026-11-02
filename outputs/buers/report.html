@@ -43,10 +43,24 @@
 
 <div class="warn"><strong>Limites du prototype :</strong> maillage régulier de 150 m ; distances à vol d'oiseau ET par le réseau routier (Dijkstra sur tronçons CRITER) ; isochrone = tronçons atteignables à pied en ~800 m. Les données OSM/collectivités sont collaboratives : vérifier sur le terrain (clef 2 ISadOrA).</div>
 
-<h2>1. Périmètre d'étude</h2>
-<p>Quartier en politique de la ville, périmètre test du prototype (EIS documentée dans la littérature : revue Pollution Atmosphérique).<br>
-Bbox WGS84 : sud 45.768, ouest 4.868, nord 45.782, est 4.893 — soit 130 mailles de 150 m.
-Score moyen d'accès aux équipements de santé/bien-être (vol d'oiseau) : <strong>0.993</strong> / 1.</p>
+
+<h2>1. Où se trouve-t-on ? Périmètre et zone d'étude</h2>
+<p>Quartier prioritaire de la politique de la ville (QPV &#x27;Les Buers&#x27;, code QN06921M, ANCT 26/04/2024) ; EIS documentée dans la littérature (revue Pollution Atmosphérique).<br>
+Bbox WGS84 : sud 45.768, ouest 4.868, nord 45.782, est 4.893 — maillage de 150 m.</p>
+
+<p><strong>Zone d'étude :</strong> QPV Les Buers (QN06921M), Villeurbanne — 0.156 km² (6 mailles de 150 m), population 1,718 hab (estimation = population communale × (surface zone / surface commune)).<br>
+<small>Source : ANCT 26/04/2024, Feature Service national ArcGIS, Licence Ouverte. Les indicateurs ci-dessous sont calculés DANS cette zone (effectifs et densités), pas à partir de l'extérieur.</small></p>
+<table><tr><th>Catégorie</th><th>Nb dans la zone</th><th>Densité</th><th>Pour 10 000 hab</th><th>Distance moyenne au plus proche (réseau)</th></tr>
+<tr><td>Alimentation locale / bio (producteurs, AMAP, magasins de producteurs)</td><td><strong>1</strong></td><td>6.4/km²</td><td>5.8/10 000 hab</td><td>~658 m en moyenne (réseau), médiane 731 m ; 83.3% des mailles à ≤800 m</td></tr><tr><td>Espaces verts / parcs et jardins</td><td><strong>0</strong></td><td>0.0/km²</td><td>—/10 000 hab</td><td>~389 m en moyenne (réseau), médiane 377 m ; 100.0% des mailles à ≤800 m</td></tr><tr><td>Points d&#x27;eau potable (bornes-fontaines)</td><td><strong>0</strong></td><td>0.0/km²</td><td>—/10 000 hab</td><td>~3765 m en moyenne (réseau), médiane 3518 m ; 0.0% des mailles à ≤800 m</td></tr><tr><td>Accès aux soins de proximité (pharmacies)</td><td><strong>0</strong></td><td>0.0/km²</td><td>—/10 000 hab</td><td>~515 m en moyenne (réseau), médiane 468 m ; 83.3% des mailles à ≤800 m</td></tr>
+</table>
+
+<p><strong>Point d'ancrage</strong> (mise en situation d'une personne) : 130 rue Anatole France, 69100 Villeurbanne
+— coordonnées 4.8823724, 45.7686273 (géocodage Photon/BAN, Métropole de Lyon).</p>
+<table><tr><th>Catégorie</th><th>Distance à vol d'oiseau</th><th>Distance par le réseau</th><th>Équipement le plus proche</th></tr>
+<tr><td>Alimentation locale / bio (producteurs, AMAP, magasins de producteurs)</td><td>0 m</td><td>147 m (réseau)</td><td>Les paniers du DD</td></tr><tr><td>Espaces verts / parcs et jardins</td><td>25 m</td><td>540 m (réseau)</td><td>Square Henri Bertrand</td></tr><tr><td>Points d&#x27;eau potable (bornes-fontaines)</td><td>432 m</td><td>518 m (réseau)</td><td>Villeurbanne</td></tr><tr><td>Accès aux soins de proximité (pharmacies)</td><td>170 m</td><td>401 m (réseau)</td><td>Pharmacie Daviet</td></tr>
+</table>
+
+<p>Soit 130 mailles de 150 m au total. Score moyen d'accès aux équipements de santé/bien-être (vol d'oiseau) : <strong>0.993</strong> / 1.</p>
 
 <h2>2. Données mobilisées et sources (open data souveraines)</h2>
 <table><tr><th>Donnée</th><th>Source (WFS / portail)</th><th>Licence</th></tr>
@@ -58,7 +72,7 @@ Score moyen d'accès aux équipements de santé/bien-être (vol d'oiseau) : <str
 <tr><td>Commerces bio (NAF 4729Z)</td><td>Base Sirene géolocalisée Métropole de Lyon, filtre activitenaf=&#x27;4729Z&#x27;</td><td>Licence Ouverte 2.0 - 0 objet géocodé dans le périmètre test, catégorie non retenue</td></tr>
 </table>
 
-<h2>3. Indicateurs de proximité (rayon 800 m ≈ 10 min à pied)</h2>
+<h2>3. Indicateurs de proximité par maille (rayon 800 m ≈ 10 min à pied)</h2>
 <table><tr><th>Catégorie</th><th>Nb objets</th><th>Mailles desservies</th><th>% mailles</th><th>Dist. médiane au plus proche (vol d'oiseau + réseau)</th></tr>
 <tr><td>Alimentation locale / bio (producteurs, AMAP, magasins de producteurs)</td><td>9</td><td>130 / 130</td><td>100.0%</td><td>365 m<br>Réseau : 32.3% des mailles à ≤800 m, médiane 1372 m</td></tr>
 <tr><td>Commerces de détail de produits bio (NAF 4729Z)</td><td colspan='4'><em>donnée non disponible dans le périmètre</em></td></tr>

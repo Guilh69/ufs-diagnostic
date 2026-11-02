@@ -1,11 +1,13 @@
-# ufs-diagnostic — prototype de diagnostic territorial « Urbanisme Favorable à la Santé » (v0.3)
+# ufs-diagnostic — prototype de diagnostic territorial « Urbanisme Favorable à la Santé » (v0.4)
 
 Outil libre (EUPL-1.2) qui enchaîne, pour un périmètre donné (quartier, rue) :
 
 0. **Fiche de démarrage du projet** — les questions de cadrage à se poser avant tout livrable
    (objectif, périmètre, données/acteurs, méthode/livrables, budget/compétences/cadre réglementaire/contraintes),
    avec réponses éditables dans `config/project_<cas>.json` ;
-1. **Périmètre d'étude** (bbox + maillage) ;
+1. **Où se trouve-t-on : périmètre + zone définie** (ex. QPV Les Buers, polygone ANCT) avec indicateurs calculés DANS la zone
+   (effectifs, densités /km² et /10 000 hab, distance moyenne au plus proche par le réseau) ; **point d'ancrage** (adresse géocodée)
+   pour les distances d'une personne précise ;
 2. **Données ouvertes souveraines** (WFS Métropole de Lyon / data.gouv.fr-magOSM) ;
 3. **Géotraitements de proximité** : distance au plus proche à vol d'oiseau **et par le réseau routier**
    (graphe + Dijkstra, tronçons CRITER avec longueur en m), **isochrone piéton ~10 min** ;
@@ -59,6 +61,19 @@ puis ouvrir `https://<ton-pseudo>.github.io/ufs-diagnostic/outputs/buers/report.
 Lecture : le quartier est très bien doté en espaces verts et pharmacies accessibles à pied par le réseau ;
 l'alimentation bio et les fontaines sont plus éloignées en distance réelle de marche — piste d'action concrète.
 
+## Résultats v0.4 — zone QPV « Les Buers » (0,156 km², ~1 700 hab estimés)
+
+| Catégorie | Nb dans la zone | Densité | Distance moyenne au plus proche (réseau) |
+|---|---|---|---|
+| Alimentation locale/bio | 1 | 6,4/km² | ~660 m |
+| Espaces verts | 0 (les plus proches sont en lisière) | — | ~390 m |
+| Eau potable | 0 | — | ~3,8 km (réseau voies principales) |
+| Pharmacies | 0 | — | ~515 m |
+
+Point d'ancrage « 130 rue Anatole France » : alimentation bio à 0 m (vol d'oiseau) / 147 m réseau ; pharmacie la plus proche à 170 m / 401 m (Pharmacie Daviet) ; espace vert à 25 m / 540 m.
+
+Lecture : dans le QPV strict, les équipements sont en lisière — la distance moyenne réseau est le bon indicateur pour dire « on trouve X à ~Y m en moyenne dans cette zone ».
+
 ## Résultats v0.3 — EQIS air (Villeurbanne, 163 684 hab)
 
 | Source PM2,5 | C (µg/m³) | Décès attribuables/an |
@@ -78,7 +93,7 @@ Seuils de référence : UE 2024 = 20, UE 2030 = 10, OMS 2021 = 5 µg/m³.
 
 ## Feuille de route
 
-- v0.4 : AirQ+ (OMS) en moteur EQIS complet, bruit/ICU (cartes stratégiques, Diaclimap), Géodes/ARS croisés, export DOCX/PDF, gabarits personnalisables.
+- v0.5 : AirQ+ (OMS) en moteur EQIS complet, bruit/ICU (cartes stratégiques, Diaclimap), Géodes/ARS croisés, export DOCX/PDF, gabarits personnalisables.
 - v1.0 : version web (GeoNode/PostGIS + MapStore, hébergement souverain UE) + plugin QGIS, pour le Club UFS AURA.
 
 ## Licence
