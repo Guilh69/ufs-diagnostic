@@ -22,6 +22,9 @@ Ou en terminal, dans le dossier du projet : `python3 desktop/app.py`
 - **Cas existant** : choisis `buers` → « Lancer le diagnostic » → le rapport s'ouvre dans le navigateur.
 - **Nouveau quartier** : nom + adresse + rayon → « Créer et lancer » (géocodage automatique, données téléchargées, rapport ouvert).
 
+## 4bis. Mises à jour (plus besoin de re-télécharger)
+Dans l'application, clique sur **🔄 Mise à jour** : elle vérifie la version en ligne et, si une nouvelle existe, la télécharge et se met à jour toute seule. **Tes diagnostics (quartiers, adresses, rapports) sont conservés automatiquement.**
+
 ## 5. (Optionnel) Fabriquer un .exe / .app autonome
 ```
 pip install pyinstaller
