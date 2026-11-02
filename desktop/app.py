@@ -16,7 +16,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(ROOT, "src"))
 
 import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
+from tkinter import messagebox, ttk
 
 CONFIG = os.path.join(ROOT, "config")
 DATA = os.path.join(ROOT, "data", "raw")
@@ -33,14 +33,33 @@ def list_cases():
 
 
 def geocode_ban(adresse):
+    """Géocode une adresse : API Adresse (BAN, officiel) d'abord, Nominatim (OSM) en secours."""
     import urllib.parse, urllib.request
-    q = urllib.parse.urlencode({"q": adresse, "limit": 1})
-    with urllib.request.urlopen(f"https://api-adresse.data.gouv.fr/search/?{q}", timeout=30) as r:
-        d = json.load(r)
-    if not d.get("features"):
-        raise ValueError("adresse introuvable")
-    c = d["features"][0]["geometry"]["coordinates"]
-    return c[0], c[1]
+    UA = {"User-Agent": "ufs-diagnostic/1.0 (projet perso UFS)"}
+    for q in (adresse, adresse + ", France"):
+        try:
+            req = urllib.request.Request(
+                f"https://api-adresse.data.gouv.fr/search/?{urllib.parse.urlencode({'q': q, 'limit': 3})}",
+                headers=UA)
+            with urllib.request.urlopen(req, timeout=30) as r:
+                d = json.load(r)
+            for f in d.get("features", []):
+                c = f["geometry"]["coordinates"]
+                if c and c[0] is not None:
+                    return c[0], c[1]
+        except Exception:
+            pass
+    try:
+        req = urllib.request.Request(
+            f"https://nominatim.openstreetmap.org/search?{urllib.parse.urlencode({'q': adresse, 'format': 'json', 'limit': 1, 'countrycodes': 'fr'})}",
+            headers=UA)
+        with urllib.request.urlopen(req, timeout=30) as r:
+            d = json.load(r)
+        if d:
+            return float(d[0]["lon"]), float(d[0]["lat"])
+    except Exception:
+        pass
+    raise ValueError(f"Adresse introuvable : « {adresse} ». Mets la ville + code postal (ex. « 4 rue Fénelon, 69003 Lyon »).")
 
 
 def bbox_autour(lon, lat, rayon_m=900):
@@ -52,12 +71,15 @@ def bbox_autour(lon, lat, rayon_m=900):
 
 def run_diagnostic(case, log):
     log(f"▶ Lancement du diagnostic pour « {case} »…")
+    proj = os.path.join(CONFIG, f"project_{case}.json")
+    if not os.path.exists(proj):
+        proj = os.path.join(CONFIG, "project_buers.json")
     cmd = [sys.executable, os.path.join(ROOT, "run_diagnostic.py"),
            "--perimeter", os.path.join(CONFIG, f"perimeter_{case}.json"),
            "--indicators", os.path.join(CONFIG, "indicators.json"),
            "--keys", os.path.join(CONFIG, "isadora_keys.json"),
            "--kickoff", os.path.join(CONFIG, "kickoff.json"),
-           "--project", os.path.join(CONFIG, f"project_{case}.json") if os.path.exists(os.path.join(CONFIG, f"project_{case}.json")) else os.path.join(CONFIG, "project_buers.json"),
+           "--project", proj,
            "--eqis", os.path.join(CONFIG, "eqis.json"),
            "--scenarios", os.path.join(CONFIG, "scenarios.json"),
            "--data", os.path.join(DATA, case),
@@ -91,7 +113,6 @@ class App(tk.Tk):
         ttk.Label(self, text="Diagnostic territorial — urbanisme favorable à la santé (open source, données souveraines)",
                   style="Sub.TLabel").pack(anchor="w", padx=20, pady=(0, 12))
 
-        # --- cas existant ---
         f1 = ttk.Frame(self)
         f1.pack(fill="x", padx=20, pady=4)
         ttk.Label(f1, text="Cas existant :").pack(side="left")
@@ -101,7 +122,6 @@ class App(tk.Tk):
         ttk.Button(f1, text="Lancer le diagnostic", command=self.on_run).pack(side="left", padx=8)
         ttk.Button(f1, text="Ouvrir le rapport", command=self.on_open).pack(side="left")
 
-        # --- nouveau cas ---
         ttk.Label(self, text="Nouveau diagnostic (quartier) :", style="Header.TLabel").pack(anchor="w", padx=20, pady=(18, 4))
         f2 = ttk.Frame(self)
         f2.pack(fill="x", padx=20, pady=2)
@@ -116,8 +136,9 @@ class App(tk.Tk):
         self.new_radius.insert(0, "900")
         self.new_radius.grid(row=2, column=1, padx=6, pady=3, sticky="w")
         ttk.Button(f2, text="Créer et lancer", command=self.on_new).grid(row=3, column=1, pady=8, sticky="w")
+        ttk.Label(f2, text="(si l'adresse n'est pas trouvée : mets la ville + code postal, ex. « 4 rue Fénelon, 69003 Lyon »)",
+                  style="Sub.TLabel").grid(row=4, column=1, sticky="w")
 
-        # --- progression + log ---
         self.progress = ttk.Progressbar(self, mode="indeterminate")
         self.progress.pack(fill="x", padx=20, pady=(14, 4))
         self.log = tk.Text(self, height=14, bg="#fff", fg="#222", font=("Consolas", 9), relief="flat")
@@ -157,9 +178,13 @@ class App(tk.Tk):
         try:
             lon, lat = geocode_ban(addr)
         except Exception as e:
-            messagebox.showerror("Géocodage", f"Adresse introuvable ({e}). Vérifie l'adresse.")
+            messagebox.showerror("Géocodage", str(e))
             return
-        radius = int(self.new_radius.get() or "900")
+        self.write_log(f"Adresse trouvée : lon={lon:.5f}, lat={lat:.5f}")
+        try:
+            radius = int(self.new_radius.get() or "900")
+        except ValueError:
+            radius = 900
         cfg = {
             "name": f"{cid} — {addr}",
             "description": "Cas créé depuis l'application de bureau.",
@@ -167,29 +192,27 @@ class App(tk.Tk):
             "grid_cell_m": 150,
             "walk_radius_m": radius,
             "point_ancrage": {"adresse": addr, "lon": lon, "lat": lat,
-                               "geocodeur": "api-adresse.data.gouv.fr (BAN)"},
+                               "geocodeur": "api-adresse.data.gouv.fr (BAN) + nominatim (secours)"},
         }
         os.makedirs(os.path.join(DATA, cid), exist_ok=True)
         with open(os.path.join(CONFIG, f"perimeter_{cid}.json"), "w", encoding="utf-8") as f:
             json.dump(cfg, f, ensure_ascii=False, indent=2)
         self.case_box["values"] = list_cases()
         self.case_var.set(cid)
-        self.write_log(f"Cas « {cid} » créé (lon={lon:.5f}, lat={lat:.5f}, rayon {radius} m). Téléchargement des données…")
+        self.write_log(f"Cas « {cid} » créé (rayon {radius} m). Téléchargement des données…")
         self.progress.start(10)
         threading.Thread(target=self._new_run, args=(cid,), daemon=True).start()
 
     def _new_run(self, cid):
-        # télécharge les données WFS autour de la bbox, puis lance le diagnostic
-        import urllib.parse, urllib.request
         with open(os.path.join(CONFIG, f"perimeter_{cid}.json"), encoding="utf-8") as f:
             bbox = json.load(f)["bbox"]
-        # réutilise fetch_data en ajustant CASES à la volée
+        m = 0.004
+        s, w, n, e = bbox["south"] - m, bbox["west"] - m, bbox["north"] + m, bbox["east"] + m
+        tiles = [(s, w, (s + n) / 2, (w + e) / 2), (s, (w + e) / 2, (s + n) / 2, e),
+                 ((s + n) / 2, w, n, (w + e) / 2), ((s + n) / 2, (w + e) / 2, n, e)]
         sys.path.insert(0, os.path.join(ROOT, "tools"))
         import fetch_data
-        fetch_data.CASES[cid] = {
-            "bbox_margin": (bbox["south"] - 0.002, bbox["west"] - 0.002, bbox["north"] + 0.002, bbox["east"] + 0.002),
-            "tiles": [(bbox["south"] - 0.002, bbox["west"] - 0.002, bbox["north"], bbox["east"] + 0.002)],
-        }
+        fetch_data.CASES[cid] = {"bbox_margin": (s, w, n, e), "tiles": tiles}
         try:
             fetch_data.fetch_network(cid, os.path.join(DATA, cid))
             fetch_data.fetch_pharmacies(cid, os.path.join(DATA, cid))

@@ -81,12 +81,16 @@ def main():
                 net_min_by_cat[cat_id] = net.network_distances_to_pois(adj, edges, cells, pois)
         cells = attach_network(cells, net_min_by_cat, radius)
         iso_m = round(radius)  # 800 m ≈ 10 min à 4,8 km/h
-        # origine de l'isochrone : nœud le plus connecté (centre réel du réseau)
-        hub = max(adj, key=lambda n: len(adj[n]))
-        keep, _dist = net.isochrone_edges(adj, edges, hub, iso_m)
+        if adj:
+            hub = max(adj, key=lambda n: len(adj[n]))
+            keep, _dist = net.isochrone_edges(adj, edges, hub, iso_m)
+        else:
+            hub = None
+            keep = []
+            print("[isochrone] graphe vide (réseau non téléchargé) : isochrone ignorée")
         iso_fc = net.isochrone_geojson(keep, iso_m)
         perimeter["network"] = {"isochrone_m": iso_m, "nb_troncons": len(keep),
-                                "hub": [round(hub[0], 6), round(hub[1], 6)]}
+                                "hub": [round(hub[0], 6), round(hub[1], 6)] if hub else None}
         with open(os.path.join(args.out, "isochrone.geojson"), "w", encoding="utf-8") as f:
             json.dump(iso_fc, f, ensure_ascii=False)
         print(f"[isochrone] {len(keep)} tronçons atteignables à ~{iso_m} m à pied depuis le centre du périmètre")
